@@ -1,6 +1,6 @@
 <?php
 // declare(strict_types = 1);
-namespace Nooper;
+namespace NooperShop;
 
 use DOMDocument;
 use DOMElement;

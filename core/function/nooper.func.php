@@ -10,7 +10,7 @@ namespace NooperShop;
  * void function set_config(string $key, mixed $value)
  */
 function set_config(string $key, $value): void {
-	if(is_underline_named_regular($key)) $GOLBALS['_nooper_configs'][$key] = $value;
+	if(is_underline_named_regular($key)) $GLOBALS['_nooper_configs'][$key] = $value;
 }
 
 /**
