@@ -35,7 +35,7 @@ function get_configs(array $keys = null): array {
 /**
  * boolean function is_underline_named_regular(string $data)
  */
-function is_underline_named_regular(string $data): bool {
+function is_underline_named_regular(?string $data): bool {
 	$pattern = '/^[a-z]+(_[a-z]+)*$/';
 	return preg_match($pattern, $data) ? true : false;
 }
@@ -43,9 +43,9 @@ function is_underline_named_regular(string $data): bool {
 /**
  * boolean function is_class_named_regular(string $data)
  */
-function is_class_named_regular(string $data):bool {
+function is_class_named_regular(string $data): bool {
 	$pattern = '/^[a-z]+(_[a-z]+)*\.class\.php$/';
-	return preg_match($pattern, $data)?true: false;
+	return preg_match($pattern, $data) ? true : false;
 }
 
 /**
@@ -60,5 +60,26 @@ function is_database_connect_params(array $datas): bool {
 		elseif(!is_string($value)) return false;
 	}
 	return true;
+}
+
+/**
+ * string function wrap_database_backquote(string $identifier)
+ */
+function wrap_database_backquote(string $identifier): string {
+	return '`' . $identifier . '`';
+}
+
+/**
+ * void function merge_key_to_data(string &$data, string $key)
+ */
+function merge_key_to_data(string &$data, string $key): void {
+	$data = $key . '=' . $data;
+}
+
+/**
+ * boolean function is_no_empty_str(?string $data)
+ */
+function is_no_empty_str(?string $data): bool {
+	return $data != '' ? true : false;
 }
 //

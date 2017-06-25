@@ -18,7 +18,7 @@ drop table if exists `access_token`;
 create table if not exists`access_token`(
 	`id` bigint unsigned auto_increment not null,
 	`string` varchar(2000) character set utf8 collate utf8_bin not null,
-	`add_time` timestamp default current_timestamp,
+	`add_time` timestamp default current_timestamp on update current_timestamp ,
 	primary key(`id`)	
 )
 	engine InnoDB
