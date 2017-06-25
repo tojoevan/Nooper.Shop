@@ -29,7 +29,7 @@ class Token {
 	/**
 	 * boolean public function write(void)
 	 */
-	public function write(): boolean {
+	public function write(): bool {
 		$datas = ['grant_type'=>'client_credential', 'appid'=>$this->app_id, 'secret'=>$this->app_secret];
 		$mm = new Mimicry();
 		$json_str = $mm->get($this->url, $datas);
@@ -39,7 +39,7 @@ class Token {
 			$mysql = new Mysql();
 			$sql = "select count(*) as `row_num` from `access_token`";
 			$datas = $mysql->query($sql);
-			$sql = $datas && $datas[0]['row_num'] > 0 ? "update `access_token` set `string`='".$ends['access_token']."'" : "insert into `access_token`(`string`) values('".$ends['access_token']."')";
+			$sql = $datas && $datas[0]['row_num'] > 0 ? "update `access_token` set `string`='" . $ends['access_token'] . "'" : "insert into `access_token`(`string`) values('" . $ends['access_token'] . "')";
 			$end = $mysql->cmd($sql);
 			return $end > 0 ? true : false;
 		}
@@ -47,9 +47,20 @@ class Token {
 	}
 	
 	/**
+	 * public string function read(void)
 	 */
-	public function read(): string {
+	public function read(): ?string 
+{
+	$mysql = new Mysql();
+	$sql = "select `string` from `access_token` limit 1";
+	$datas = $mysql->query($sql);
+	if($datas) return $datas[0]['string'];
+	else{
+		$end = $this->write();
+		if($end) return $this->read();
+		else return null;
 	}
+}
 	
 	/**
 	 * public string function cert(string $full_name)

@@ -21,7 +21,7 @@ class Mysql {
 	/**
 	 * void public function __construct(?array $connect_params = null)
 	 */
-	public function __construct(array $connect_params) {
+	public function __construct(array $connect_params = null) {
 		if(is_array($connect_params) && is_database_connect_params($connect_params)) $this->connect_params = $connect_params;
 		else $this->connect_params = get_config('database_connect_params', array());
 	}
@@ -40,12 +40,12 @@ class Mysql {
 		$this->sql = $sql;
 		$this->error = null;
 		if($this->link()){
-			$this->ds = $this->databaase->prepare($this->sql);
+			$this->ds = $this->database->prepare($this->sql);
 			if($this->ds){
 				if($this->ds->execute()) return $this->ds->rowCount();
 				else $this->error = implode(':', $this->ds->errorInfo());
 			}else
-				$this->error = implode(':', $this->writer->errorInfo());
+				$this->error = implode(':', $this->database->errorInfo());
 		}
 		return -1;
 	}
@@ -62,7 +62,7 @@ class Mysql {
 				if($this->ds->execute()) return $this->ds->fetchAll(PDO::FETCH_ASSOC);
 				else $this->error = implode(':', $this->ds->errorInfo());
 			}else
-				$this->error = implode(':', $this->reader->errorInfo());
+				$this->error = implode(':', $this->database->errorInfo());
 		}
 		return array();
 	}
@@ -70,7 +70,7 @@ class Mysql {
 	/**
 	 * ?string public function error(void)
 	 */
-	public function error(): string {
+	public function error(): ?string {
 		return $this->error;
 	}
 	

@@ -6,7 +6,7 @@ return array(
 		'app_secret'=>'3e9bbde7a45dfd1e56fa0e5da58bf820',
 	
 		/* database */
-		'data_connect_params'=>[
+		'database_connect_params'=>[
 				'type'=>'mysql',
 				'host'=>'127.0.0.1', 
 				'port'=>'3306', 

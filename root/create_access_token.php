@@ -3,5 +3,5 @@
 namespace NooperShop;
 
 require_once '../init/bootstrap.php';
-$token=new Token();
+$token = new Token();
 $token->write();
