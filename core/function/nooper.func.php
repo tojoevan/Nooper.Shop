@@ -77,6 +77,15 @@ function merge_key_to_data(string &$data, string $key): void {
 }
 
 /**
+ * string function camel_to_underline_named(string $data)
+ */
+function camel_to_underline_named(string $data): string {
+	$pattern = '/([A-Z])/';
+	$replace = '_$1';
+	return strtolower(preg_replace($pattern, $replace, $data));
+}
+
+/**
  * boolean function is_no_empty_str(?string $data)
  */
 function is_no_empty_str(?string $data): bool {
