@@ -27,47 +27,35 @@ class Token {
 	}
 	
 	/**
-	 * boolean public function write(void)
+	 * public boolean function write(void)
 	 */
 	public function write(): bool {
 		$datas = ['grant_type'=>'client_credential', 'appid'=>$this->app_id, 'secret'=>$this->app_secret];
-		$mm = new Mimicry();
-		$json_str = $mm->get($this->url, $datas);
+		$mmc = new Mimicry();
 		$helper = new Translator();
-		$ends = $helper->parseJSON($json_str);
-		if(isset($ends['access_token'])){
+		$json_datas = $helper->parseJSON($mmc->get($this->url, $datas));
+		$token=$json_datas['access_token'] ?? null;
+		if($token){
 			$mysql = new Mysql();
-			$sql = "select count(*) as `row_num` from `access_token`";
-			$datas = $mysql->query($sql);
-			$sql = $datas && $datas[0]['row_num'] > 0 ? "update `access_token` set `string`='" . $ends['access_token'] . "'" : "insert into `access_token`(`string`) values('" . $ends['access_token'] . "')";
-			$end = $mysql->cmd($sql);
+			$datas = $mysql->memory('access_token')->field('count(*) as `row_num`')->select();
+			$write_datas = ['string'=>$token];
+			$end = $datas && $datas[0]['row_num'] > 0 ? $mysql->modify($write_datas) : $mysql->add($write_datas);
 			return $end > 0 ? true : false;
 		}
 		return false;
 	}
 	
 	/**
-	 * public string function read(void)
+	 * public string function read(boolean $deep = true)
 	 */
-	public function read(): ?string 
-{
-	$mysql = new Mysql();
-	$sql = "select `string` from `access_token` limit 1";
-	$datas = $mysql->query($sql);
-	if($datas) return $datas[0]['string'];
-	else{
-		$end = $this->write();
-		if($end) return $this->read();
-		else return null;
-	}
-}
-	
-	/**
-	 * public string function cert(string $full_name)
-	 */
-	public function cert(string $full_name): string {
-		$this->cert = $full_name;
-		return $full_name;
+	public function read(bool $deep = true): string {
+		$mysql = new Mysql();
+		$datas = $mysql->memory('access_token')->limit(1)->field('`string`')->select();
+		if($datas) return $datas[0]['string'];
+		else{
+			if(!$deep) return null;
+			return $this->write() ? $this->read(false) : null;
+		}
 	}
 	//
 }

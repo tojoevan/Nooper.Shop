@@ -2,7 +2,7 @@
 // declare(strict_types = 1);
 namespace NooperShop;
 
-class Callback {
+class Service {
 	
 	/**
 	 * Properties
@@ -43,7 +43,7 @@ class Callback {
 		$mm = new Mimicry();
 		$json = $mm->post($url, $json);
 		$ends = $helper->parseJSON($json);
-		return isset($ends['errcode']) && '0' == $ends['errocde'] ? true : false;
+		return isset($ends['errcode']) && '0' == $ends['errocde'] ? true : false; 
 	}
 	
 	/**
