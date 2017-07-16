@@ -141,7 +141,7 @@ create table if not exists`user_text_message`(
 /**
  *
  */
-drop table if exists `product_type`
+drop table if exists `product_type`;
 create table if not exists `product_type`(
 
 	`id` bigint unsigned auto_increment not null,
@@ -149,7 +149,6 @@ create table if not exists `product_type`(
 	`up_id` bigint unsigned default 0,
 	`position` int unsigned default 0,
 	`add_time` timestamp default current_timestamp,
-	
 	unique(`name`),
 	primary key(`id`)
 )
@@ -170,7 +169,7 @@ create table if not exists `product`(
 	`tag_price` decimal(10, 4) not null,
 	`discount_price` decimal(10, 4) not null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum(‘prepare’, ‘online’, ‘offline’, ‘deleted’) not null,
+	`status` enum('prepare', 'online', 'offline', 'deleted') not null,
 	unique(`unique_id`),
 	unique(`code`),
 	primary key(`id`)
@@ -178,59 +177,8 @@ create table if not exists `product`(
 	engine InnoDB
 	default character set utf8
 	default collate utf8_bin; 
-
-/**
- *
- */
-drop table if exists `product_detail`;
-create table if not exists `product_detail`(
-	`id` bigint unsigned auto_increment not null,
-	`product_id` bigint unsigned not null,
-	`product_unique_id` char(22) character set utf8 collate utf8_bin not null,
-	`description` varchar(60000) character set utf8 collate utf8_bin not null,
-	`add_time` timestamp default current_timestamp,
-	unique(`product_unique_id`),
-	unique(`product_id`),
-	primary key(`id`)
-)
-	engine InnoDB
-	default character set utf8
-	default collate utf8_bin;
- 
- /**
-  *
-  */
- drop table if exists `product_feature`;
- create table if not exists `product_feature`(
-	`id` bigint unsigned auto_increment not null,
-	`name` varchar(100) character set utf8 collate utf8_bin not null,
-	`position` int unsigned default 0,
-	`add_time` timestamp default current_timestamp,
-	unique(`name`),
-	primary key(`id`)
-)
-	engine InnoDB
-	default character set utf8
-	default collate utf8_bin;
 	
- /**
-  *
-  */
- drop table if exists `product_feature_detail`;
- create table if not exists `product_feature_detail`(
-	`id` bigint unsigned auto_increment not null,
-	`feature_id` bigint unsigned not null,
-	`product_id` bigint unsigned not null,
-	`product_unique_id` char(22) character set utf8 collate utf8_bin not null,
-	`add_time` timestamp default current_timestamp,
-	unique(`feature_id`, `product_id`),
-	primary key(`id`)
-)
-	engine InnoDB
-	default character set utf8
-	default collate utf8_bin;
-  
- /**
+/**
  *
  */ 
  drop table if exists `product_summary`;
@@ -247,7 +195,97 @@ create table if not exists `product_detail`(
 	engine InnoDB
 	default character set utf8
 	default collate utf8_bin;
+
+/**
+ *
+ */
+drop table if exists `product_detail`;
+create table if not exists `product_detail`(
+	`id` bigint unsigned auto_increment not null,
+	`product_id` bigint unsigned not null,
+	`product_unique_id` char(22) character set utf8 collate utf8_bin not null,
+	`description` varchar(20000) character set utf8 collate utf8_bin not null,
+	`add_time` timestamp default current_timestamp,
+	unique(`product_unique_id`),
+	unique(`product_id`),
+	primary key(`id`)
+)
+	engine InnoDB
+	default character set utf8
+	default collate utf8_bin;
+	
+/**
+ *
+ */
+drop table if exists `product_picture`;
+create table if not exists `product_picture`(
+	`id` bigint unsigned auto_increment not null,
+	`product_id` bigint unsigned not null,
+	`product_unique_id` char(22) character set utf8 collate utf8_bin not null,
+	`name` varchar(100) character set utf8 collate utf8_bin not null,
+	`position` int unsigned default 0,
+	`is_primary` boolean default false,
+	`add_time` timestamp default current_timestamp,
+	unique(`product_id`, `name`),
+	primary key(`id`)
+)
+	engine InnoDB
+	default character set utf8
+	default collate utf8_bin;
+
+/**
+ *
+ */
+drop table if exists `product_picture_thumbnail`;
+create table if not exists `product_picture_thumbnail`(
+
+	`id` bigint unsigned auto_increment not null,
+	`product_id` bigint unsigned not null,
+	`product_unique_id` char(22) character set utf8 collate utf8_bin not null,
+	`name` varchar(100) character set utf8 collate utf8_bin not null,
+	`position` int unsigned default 0,
+	`is_primary` boolean default false,
+	`add_time` timestamp default current_timestamp,
+	unique(`product_id`, `name`),
+	primary key(`id`)
+)
+	engine InnoDB
+	default character set utf8
+	default collate utf8_bin;
  
+ /**
+  *
+  */
+ drop table if exists `product_set`;
+ create table if not exists `product_set`(
+	`id` bigint unsigned auto_increment not null,
+	`name` varchar(100) character set utf8 collate utf8_bin not null,
+	`position` int unsigned default 0,
+	`add_time` timestamp default current_timestamp,
+	unique(`name`),
+	primary key(`id`)
+)
+	engine InnoDB
+	default character set utf8
+	default collate utf8_bin;
+	
+ /**
+  *
+  */
+ drop table if exists `product_set_detail`;
+ create table if not exists `product_set_detail`(
+	`id` bigint unsigned auto_increment not null,
+	`set_id` bigint unsigned not null,
+	`product_id` bigint unsigned not null,
+	`product_unique_id` char(22) character set utf8 collate utf8_bin not null,
+	`add_time` timestamp default current_timestamp,
+	unique(`set_id`, `product_id`),
+	primary key(`id`)
+)
+	engine InnoDB
+	default character set utf8
+	default collate utf8_bin;
+  
  /**
  *
  */
@@ -258,7 +296,7 @@ create table if not exists `product_group`(
 	`name` varchar(100) character set utf8 collate utf8_bin not null,
 	`total_price` decimal(10, 4) not null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum(‘prepare’, ‘online’, ‘offline’, ‘deleted’) not null,
+	`status` enum('prepare', 'online', 'offline', 'deleted') not null,
 	unique(`name`),
 	unique(`unique_id`),
 	primary key(`id`)
@@ -270,7 +308,7 @@ create table if not exists `product_group`(
 /**
  *
  */
-drop table if exists `product_group_detail`
+drop table if exists `product_group_detail`;
 create table if not exists `product_group_detail`(
 	`id` bigint unsigned auto_increment not null,
 	`group_id` bigint unsigned not null,
@@ -279,56 +317,12 @@ create table if not exists `product_group_detail`(
 	`product_unique_id` char(22) character set utf8 collate utf8_bin not null,
 	`discount_price` decimal(10, 4) not null,
 	`add_time` timestamp default current_timestamp,
-	
 	unique(`group_id`, `product_id`),
 	primary key(`id`)
 )
 	engine InnoDB
 	default character set utf8
 	default collate utf8_bin;
-
-/**
- *
- */
-drop table if exists `product_picture`
-create table if not exists `product_picture`(
-	`id` bigint unsigned auto_increment not null,
-	`product_id` bigint unsigned not null,
-	`product_unique_id` char(22) character set utf8 collate utf8_bin not null,
-	`name` varchar(100) character set utf8 collate utf8_bin not null,
-	`position` int unsigned default 0,
-	`is_primary` boolean default false,
-	`add_time` timestamp default current_timestamp,
-	
-	unique(`product_id`, `name`),
-	primary key(`id`)
-)
-	engine InnoDB
-	default character set utf8
-	default collate utf8_bin;
-
-/**
- *
- */
-drop table if exists `product_picture_thumbnail`
-create table if not exists `product_picture_thumbnail`(
-
-	`id` bigint unsigned auto_increment not null,
-	`product_id` bigint unsigned not null,
-	`product_unique_id` char(22) character set utf8 collate utf8_bin not null,
-	`name` varchar(100) character set utf8 collate utf8_bin not null,
-	`position` int unsigned default 0,
-	`is_primary` boolean default false,
-	`add_time` timestamp default current_timestamp,
-	
-	unique(`product_id`, `name`),
-	primary key(`id`)
-)
-	engine InnoDB
-	default character set utf8
-	default collate utf8_bin;
-
-
  
 /**
  *
