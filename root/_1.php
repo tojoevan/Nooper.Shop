@@ -66,7 +66,7 @@ $end=$mysql->cmd($sql);
 
 
 $mysql=new Mysql();
-$mysql->field('id,name,sex')->memory('user')->where('id=12')->select();
+$mysql->field('id,name,sex')->table('user')->where('id=12')->select();
 
 // select distinct * from product_type order by id desc limit 20
 $mysql->distinct(true)->field('*')->memory('product_type')->order('id desc')->limit(20)->select();

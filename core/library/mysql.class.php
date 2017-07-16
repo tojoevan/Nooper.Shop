@@ -17,7 +17,7 @@ class Mysql {
 	protected $ds;
 	protected $driver_options = array(PDO::ATTR_CASE=>PDO::CASE_LOWER, PDO::ATTR_ERRMODE=>PDO::ERRMODE_SILENT, PDO::ATTR_ORACLE_NULLS=>PDO::NULL_NATURAL, PDO::ATTR_STRINGIFY_FETCHES=>false);
 	protected $connect_params = array();
-	protected $sql_cmds = array('distinct', 'field', 'memory', 'join', 'where', 'group', 'having', 'order', 'limit');
+	protected $sql_cmds = array('distinct', 'field', 'table', 'join', 'where', 'group', 'having', 'order', 'limit');
 	protected $sql_datas = array();
 	protected $memory;
 	
@@ -25,7 +25,7 @@ class Mysql {
 	 * public void function __construct(?string $memory = null, ?array $connect_params = null)
 	 */
 	public function __construct(string $memory = null, array $connect_params = null) {
-		if(is_underline_named_regular($memory)) $this->memory($this->memory = $memory);
+		if(is_underline_named_regular($memory)) $this->table($this->memory = $memory);
 		if(is_array($connect_params) && is_database_connect_params($connect_params)) $this->connect_params = $connect_params;
 		else $this->connect_params = get_config('database_connect_params', array());
 	}
@@ -61,10 +61,10 @@ class Mysql {
 	}
 	
 	/**
-	 * public Mysql function memory(string $data)
+	 * public Mysql function table(string $data)
 	 */
-	public function memory(string $data): Mysql {
-		$this->sql('memory', $data);
+	public function table(string $data): Mysql {
+		$this->sql('table', $data);
 		return $this;
 	}
 	
@@ -104,7 +104,6 @@ class Mysql {
 	 * public Mysql function order(string $data)
 	 */
 	public function order(string $data): Mysql {
-		
 		$this->sql('order', $data);
 		return $this;
 	}
@@ -122,7 +121,7 @@ class Mysql {
 	 */
 	public function clear(): Mysql {
 		$this->sql_datas = array();
-		if(!is_null($this->memory)) $this->memory($this->memory);
+		if(!is_null($this->memory)) $this->table($this->memory);
 		return $this;
 	}
 	
@@ -130,7 +129,7 @@ class Mysql {
 	 * public array function select(void)
 	 */
 	public function select(): array {
-		$sql_subgroup = ['select', $this->distinct, $this->field, 'from', $this->memory, $this->join, $this->where, $this->group, $this->having, $this->order, $this->limit];
+		$sql_subgroup = ['select', $this->distinct, $this->field, 'from', $this->table, $this->join, $this->where, $this->group, $this->having, $this->order, $this->limit];
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
 		return $this->query($sql);
 	}
@@ -143,46 +142,28 @@ class Mysql {
 		$datas = $this->filter($datas);
 		$keys_str = implode(',', array_keys($datas));
 		$values_str = implode(',', array_values($datas));
-		$sql_subgroup = ['insert into', $this->memory . '(' . $keys_str . ')', 'values(' . $values_str . ')'];
+		$sql_subgroup = ['insert into', $this->table . '(' . $keys_str . ')', 'values(' . $values_str . ')'];
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
 		return $this->cmd($sql);
 	}
 	
 	/**
 	 * public integer function modify(array $datas)
-	 * @$datas = array(string $field => ?scalar $data,...)
+	 * @$datas = [string $field => ?scalar $data|array $data,...]
+	 * @$data = [string $expression]
 	 */
 	public function modify(array $datas): int {
-		$datas = $this->filter($datas);
-		array_walk($datas, 'merge_key_to_data');
-		return $this->save($datas);
-	}
-	
-	/**
-	 * public integer function increase(array $datas)
-	 * @$datas = array(string $field => ?number $data,...)
-	 */
-	public function increase($datas): int {
-		$datas = $this->filter($datas, true);
-		array_walk($datas, 'merge_key_increase_data');
-		return $this->save($datas);
-	}
-	
-	/**
-	 * public integer function decrease(array $datas)
-	 * @$datas = array(string $field => ?number $data,...)
-	 */
-	public function decrease($datas): int {
-		$datas = $this->filter($datas, true);
-		array_walk($datas, 'merge_key_decrease_data');
-		return $this->save($datas);
+		$datas_str = implode(',', $datas);
+		$sql_subgroup = ['update', $this->table, 'set', $datas_str, $this->where, $this->order, $this->limit];
+		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
+		return $this->cmd($sql);
 	}
 	
 	/**
 	 * public integer function delete(void)
 	 */
 	public function delete(): int {
-		$sql_subgroup = array('delete from', $this->memory, $this->where, $this->order, $this->limit);
+		$sql_subgroup = array('delete from', $this->table, $this->where, $this->order, $this->limit);
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
 		return $this->cmd($sql);
 	}
@@ -284,10 +265,11 @@ class Mysql {
 	}
 	
 	/**
-	 * protected array function filter(array $datas, boolean $only_allow_num)
-	 * @$datas = array(string $field => ?scalar $data,...)
+	 * protected array function filter(array $datas)
+	 * @$datas = [string $field => ?scalar $data|array $data,...]
+	 * @$data = [string $expression]
 	 */
-	protected function filter(array $datas, bool $only_allow_num = false): array {
+	protected function filter(array $datas): array {
 		foreach($datas as $field => $data){
 			if(is_string($field) && is_underline_named_regular($field)) $field = wrap_database_backquote($field);
 			else continue;
@@ -299,16 +281,6 @@ class Mysql {
 			$ends[$field] = $data;
 		}
 		return $ends ?? array();
-	}
-	
-	/**
-	 * protected integer function save(array $datas)
-	 */
-	protected function save(array $datas): int {
-		$datas_str = implode(',', $datas);
-		$sql_subgroup = ['update', $this->memory, 'set', $datas_str, $this->where, $this->order, $this->limit];
-		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
-		return $this->cmd($sql);
 	}
 	
 	/**

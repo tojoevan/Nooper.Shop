@@ -158,6 +158,24 @@ create table if not exists `product_type`(
 	
 /**
  *
+ */
+ drop table if exists `product_type_property`;
+ create table if not exists `product_type_property`
+(
+	`id` bigint unsigned auto_increment not null,
+	`type_id` bigint unsigned not null,
+	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`position` int unsigned default 0,
+	`add_time` timestamp default current_timestamp,
+	unique(`type_id`, `name`),
+	primary key(`id`)
+)
+	engine InnoDB
+	default character set utf8
+	default collate utf8_bin;
+ 
+/**
+ *
 */
 drop table if exists `product`;
 create table if not exists `product`(
@@ -177,7 +195,7 @@ create table if not exists `product`(
 	engine InnoDB
 	default character set utf8
 	default collate utf8_bin; 
-	
+ 
 /**
  *
  */ 
@@ -247,6 +265,25 @@ create table if not exists `product_picture_thumbnail`(
 	`is_primary` boolean default false,
 	`add_time` timestamp default current_timestamp,
 	unique(`product_id`, `name`),
+	primary key(`id`)
+)
+	engine InnoDB
+	default character set utf8
+	default collate utf8_bin;
+	
+/**
+ *
+ */
+ drop table if exists `product_property_value`;
+ create table if not exists `product_property_value`
+(
+	`id` bigint unsigned auto_increment not null,
+	`product_id` bigint unsigned not null,
+	`property_id` bigint unsigned not null,
+	`value` varchar(50) character set utf8 collate utf8_bin not null,
+	`position` int unsigned default 0,
+	`add_time` timestamp default current_timestamp,
+	unique(`product_id`, `property_id`, `value`),
 	primary key(`id`)
 )
 	engine InnoDB
