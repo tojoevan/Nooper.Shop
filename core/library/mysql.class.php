@@ -80,15 +80,20 @@ class Mysql {
 	 * public Mysql function where(string $data)
 	 */
 	public function where(string $data = null): Mysql {
-		$this->sql('where', $data);
+		$this->sql('where', 'where ' . $data);
 		return $this;
 	}
 	
 	/**
-	 * public Mysql function group(string $data)
+	 * public Mysql function group(array $datas)
+	 * @$datas = [(string $field=>'asc|desc')|(string $field),...]
 	 */
-	public function group(string $data): Mysql {
-		$this->sql('group', $data);
+	public function group(array $datas): Mysql {
+		foreach($datas as $key => $data){
+			if(is_string($key) && is_database_named_regular($key) && in_array($data, ['asc', 'desc'], true)) $ends[] = $key . ' ' . $data;
+			elseif(is_int($key) && is_database_named_regular($data)) $ends[] = $data;
+		}
+		if(isset($ends)) $this->sql('group', 'group by ' . implode(',', $ends));
 		return $this;
 	}
 	
@@ -96,7 +101,7 @@ class Mysql {
 	 * public Mysql function having(string $data)
 	 */
 	public function having(string $data): Mysql {
-		$this->sql('having', $data);
+		$this->sql('having', 'having ' . $data);
 		return $this;
 	}
 	
@@ -104,7 +109,7 @@ class Mysql {
 	 * public Mysql function order(string $data)
 	 */
 	public function order(string $data): Mysql {
-		$this->sql('order', $data);
+		$this->sql('order', 'order by ' . $data);
 		return $this;
 	}
 	
@@ -277,7 +282,7 @@ class Mysql {
 			elseif(is_string($data)) $data = "'" . $data . "'";
 			elseif(is_bool($data)) $data = $data ? '1' : '0';
 			elseif(is_null($data)) $data = 'null';
-			elseif(is_array($data)&&isset($data[0])&&is_string($data[0])) $data=$data[0];
+			elseif(is_array($data) && isset($data[0]) && is_string($data[0])) $data = $data[0];
 			else continue;
 			$ends[$field] = $data;
 		}
