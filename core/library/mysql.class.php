@@ -19,11 +19,13 @@ class Mysql {
 	protected $connect_params = array();
 	protected $sql_cmds = array('distinct', 'field', 'memory', 'join', 'where', 'group', 'having', 'order', 'limit');
 	protected $sql_datas = array();
+	protected $memory;
 	
 	/**
-	 * public void function __construct(?array $connect_params = null)
+	 * public void function __construct(?string $memory = null, ?array $connect_params = null)
 	 */
-	public function __construct(array $connect_params = null) {
+	public function __construct(string $memory = null, array $connect_params = null) {
+		if(is_underline_named_regular($memory)) $this->memory($this->memory = $memory);
 		if(is_array($connect_params) && is_database_connect_params($connect_params)) $this->connect_params = $connect_params;
 		else $this->connect_params = get_config('database_connect_params', array());
 	}
@@ -43,12 +45,11 @@ class Mysql {
 	}
 	
 	/**
-	 * public boolean function sql(string $cmd, string $data)
+	 * public Mysql function distinct(boolean $data)
 	 */
-	public function sql(string $cmd, string $data): bool {
-		if(!in_array($cmd, $this->sql_cmds, true)) return false;
-		$this->sql_datas[$cmd] = $data;
-		return true;
+	public function distinct(bool $data): Mysql {
+		$this->sql('distinct', $data ? 'distinct' : 'all');
+		return $this;
 	}
 	
 	/**
@@ -68,6 +69,46 @@ class Mysql {
 	}
 	
 	/**
+	 * public Mysql function join(string $data)
+	 */
+	public function join(string $data): Mysql {
+		$this->sql('join', $data);
+		return $this;
+	}
+	
+	/**
+	 * public Mysql function where(string $data)
+	 */
+	public function where(string $data = null): Mysql {
+		$this->sql('where', $data);
+		return $this;
+	}
+	
+	/**
+	 * public Mysql function group(string $data)
+	 */
+	public function group(string $data): Mysql {
+		$this->sql('group', $data);
+		return $this;
+	}
+	
+	/**
+	 * public Mysql function having(string $data)
+	 */
+	public function having(string $data): Mysql {
+		$this->sql('having', $data);
+		return $this;
+	}
+	
+	/**
+	 * public Mysql function order(string $data)
+	 */
+	public function order(string $data): Mysql {
+		$this->sql('order', $data);
+		return $this;
+	}
+	
+	/**
 	 * public Mysql function limit(integer $num, integer $offset =0)
 	 */
 	public function limit(int $num, int $offset = 0): Mysql {
@@ -80,6 +121,7 @@ class Mysql {
 	 */
 	public function clear(): Mysql {
 		$this->sql_datas = array();
+		if(is_null($this->memory)) $this->memory($this->memory);
 		return $this;
 	}
 	
@@ -220,13 +262,22 @@ class Mysql {
 		if($this->connect_params){
 			/*
 			 * list('type'=>$type, 'host'=>$host, 'port'=>$port, 'dbname'=>$dbname, 'charset'=>$charset)=$this->conenct_params;
-			 * list('username'=>$username, 'pwssword'=>$password)=$this->connect_params;
+			 * list('username'=>$username, 'password'=>$password)=$this->connect_params;
 			 */
 			extract($this->connect_params);
 			$dsn = implode(';', array($type . ':host=' . $host, 'port=' . $port, 'dbname=' . $dbname, 'charset=' . $charset));
 			return array($dsn, $username, $password);
 		}
 		return array();
+	}
+	
+	/**
+	 * protected boolean function sql(string $cmd, string $data)
+	 */
+	protected function sql(string $cmd, string $data): bool {
+		if(!in_array($cmd, $this->sql_cmds, true)) return false;
+		$this->sql_datas[$cmd] = $data;
+		return true;
 	}
 	
 	/**
