@@ -104,6 +104,7 @@ class Mysql {
 	 * public Mysql function order(string $data)
 	 */
 	public function order(string $data): Mysql {
+		
 		$this->sql('order', $data);
 		return $this;
 	}
@@ -121,7 +122,7 @@ class Mysql {
 	 */
 	public function clear(): Mysql {
 		$this->sql_datas = array();
-		if(is_null($this->memory)) $this->memory($this->memory);
+		if(!is_null($this->memory)) $this->memory($this->memory);
 		return $this;
 	}
 	
@@ -129,7 +130,7 @@ class Mysql {
 	 * public array function select(void)
 	 */
 	public function select(): array {
-		$sql_subgroup = array('select', $this->distinct, $this->field, 'from', $this->memory, $this->join, $this->where, $this->group, $this->having, $this->order, $this->limit);
+		$sql_subgroup = ['select', $this->distinct, $this->field, 'from', $this->memory, $this->join, $this->where, $this->group, $this->having, $this->order, $this->limit];
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
 		return $this->query($sql);
 	}
@@ -142,7 +143,7 @@ class Mysql {
 		$datas = $this->filter($datas);
 		$keys_str = implode(',', array_keys($datas));
 		$values_str = implode(',', array_values($datas));
-		$sql_subgroup = array('insert into', $this->memory . '(' . $keys_str . ')', 'values(' . $values_str . ')');
+		$sql_subgroup = ['insert into', $this->memory . '(' . $keys_str . ')', 'values(' . $values_str . ')'];
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
 		return $this->cmd($sql);
 	}
@@ -283,17 +284,17 @@ class Mysql {
 	}
 	
 	/**
-	 * protected array function filter(array $datas)
+	 * protected array function filter(array $datas, boolean $only_allow_num)
 	 * @$datas = array(string $field => ?scalar $data,...)
 	 */
-	protected function filter(array $datas, bool $only_num = false): array {
+	protected function filter(array $datas, bool $only_allow_num = false): array {
 		foreach($datas as $field => $data){
 			if(is_string($field) && is_underline_named_regular($field)) $field = wrap_database_backquote($field);
 			else continue;
 			if(is_integer($data) or is_float($data)) $data = (string)$data;
-			elseif(!$only_num && is_string($data)) $data = "'" . $data . "'";
-			elseif(!$only_num && is_bool($data)) $data = $data ? '1' : '0';
-			elseif(!$only_num && is_null($data)) $data = 'null';
+			elseif(!$only_allow_num && is_string($data)) $data = "'" . $data . "'";
+			elseif(!$only_allow_num && is_bool($data)) $data = $data ? '1' : '0';
+			elseif(!$only_allow_num && is_null($data)) $data = 'null';
 			else continue;
 			$ends[$field] = $data;
 		}
@@ -305,7 +306,7 @@ class Mysql {
 	 */
 	protected function save(array $datas): int {
 		$datas_str = implode(',', $datas);
-		$sql_subgroup = array('update', $this->memory, 'set', $datas_str, $this->where, $this->order, $this->limit);
+		$sql_subgroup = ['update', $this->memory, 'set', $datas_str, $this->where, $this->order, $this->limit];
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
 		return $this->cmd($sql);
 	}
