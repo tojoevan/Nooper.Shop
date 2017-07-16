@@ -154,7 +154,7 @@ class Mysql {
 	public function modify(array $datas): int {
 		$datas = $this->filter($datas);
 		array_walk($datas, 'merge_key_to_data');
-		return $this->update($datas);
+		return $this->save($datas);
 	}
 	
 	/**
@@ -164,6 +164,7 @@ class Mysql {
 	public function increase($datas): int {
 		$datas = $this->filter($datas, true);
 		array_walk($datas, 'merge_key_increase_data');
+		return $this->save($datas);
 	}
 	
 	/**
@@ -171,8 +172,9 @@ class Mysql {
 	 * @$datas = array(string $field => ?number $data,...)
 	 */
 	public function decrease($datas): int {
-		$datas = $this->filter2($datas, true);
+		$datas = $this->filter($datas, true);
 		array_walk($datas, 'merge_key_decrease_data');
+		return $this->save($datas);
 	}
 	
 	/**
@@ -299,9 +301,9 @@ class Mysql {
 	}
 	
 	/**
-	 * protected integer function update(array $datas)
+	 * protected integer function save(array $datas)
 	 */
-	protected function update(array $datas): int {
+	protected function save(array $datas): int {
 		$datas_str = implode(',', $datas);
 		$sql_subgroup = array('update', $this->memory, 'set', $datas_str, $this->where, $this->order, $this->limit);
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
