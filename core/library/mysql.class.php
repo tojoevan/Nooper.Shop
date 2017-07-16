@@ -274,9 +274,10 @@ class Mysql {
 			if(is_string($field) && is_underline_named_regular($field)) $field = wrap_database_backquote($field);
 			else continue;
 			if(is_integer($data) or is_float($data)) $data = (string)$data;
-			elseif(!$only_allow_num && is_string($data)) $data = "'" . $data . "'";
-			elseif(!$only_allow_num && is_bool($data)) $data = $data ? '1' : '0';
-			elseif(!$only_allow_num && is_null($data)) $data = 'null';
+			elseif(is_string($data)) $data = "'" . $data . "'";
+			elseif(is_bool($data)) $data = $data ? '1' : '0';
+			elseif(is_null($data)) $data = 'null';
+			elseif(is_array($data)&&isset($data[0])&&is_string($data[0])) $data=$data[0];
 			else continue;
 			$ends[$field] = $data;
 		}
