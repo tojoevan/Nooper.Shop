@@ -178,6 +178,19 @@ $pt->get_list();
 
 
 
+//
+$mysql=new Mysql();
+
+$mysql->field('id,name')->group('sex desc,grade')->select();
+$mysql->field('id,name')->group([
+		'sex'=>'desc',
+		'grade',
+		'salary'=>'asc'
+])->select();
+
+
+
+
 
 
 

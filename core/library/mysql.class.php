@@ -90,8 +90,8 @@ class Mysql {
 	 */
 	public function group(array $datas): Mysql {
 		foreach($datas as $key => $data){
-			if(is_string($key) && is_database_named_regular($key) && in_array($data, ['asc', 'desc'], true)) $ends[] = $key . ' ' . $data;
-			elseif(is_int($key) && is_database_named_regular($data)) $ends[] = $data;
+			if(is_string($key) && is_underline_named_regular($key) && in_array($data, ['asc', 'desc'], true)) $ends[] = $key . ' ' . $data;
+			elseif(is_int($key) && is_underline_named_regular($data)) $ends[] = $data;
 		}
 		if(isset($ends)) $this->sql('group', 'group by ' . implode(',', $ends));
 		return $this;
@@ -158,7 +158,7 @@ class Mysql {
 	 * @$data = [string $expression]
 	 */
 	public function modify(array $datas): int {
-		$datas=$this->filter($datas);
+		$datas = $this->filter($datas);
 		array_walk($datas, 'merge_key_to_data');
 		$datas_str = implode(',', $datas);
 		$sql_subgroup = ['update', $this->table, 'set', $datas_str, $this->where, $this->order, $this->limit];

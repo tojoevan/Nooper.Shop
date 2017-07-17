@@ -76,20 +76,6 @@ function merge_key_to_data(string &$data, string $key): void {
 }
 
 /**
- * void function merge_key_increase_data(string &$data, string $key)
- */
-function merge_key_increase_data(string &$data, string $key): void {
-	$data = $key . '=' . $key . '+' . $data;
-}
-
-/**
- * void function merge_key_decrease_data(string &$data, string $key)
- */
-function merge_key_decrease_data(string &$data, string $key): void {
-	$data = $key . '=' . $key . '-' . $data;
-}
-
-/**
  * string function camel_to_underline_named(string $data)
  */
 function camel_to_underline_named(string $data): string {
