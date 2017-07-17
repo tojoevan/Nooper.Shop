@@ -158,6 +158,7 @@ class Mysql {
 	 * @$data = [string $expression]
 	 */
 	public function modify(array $datas): int {
+		$datas=$this->filter($datas);
 		$datas_str = implode(',', $datas);
 		$sql_subgroup = ['update', $this->table, 'set', $datas_str, $this->where, $this->order, $this->limit];
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
