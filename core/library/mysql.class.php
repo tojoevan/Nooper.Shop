@@ -25,7 +25,7 @@ class Mysql {
 	 * public void function __construct(?string $memory = null, ?array $connect_params = null)
 	 */
 	public function __construct(string $memory = null, array $connect_params = null) {
-		if(is_string($memory)&&is_database_named_regular($memory)) $this->table($this->memory = $memory);
+		if(is_string($memory) && is_database_named_regular($memory)) $this->table($this->memory = $memory);
 		if(is_array($connect_params) && is_database_connect_params($connect_params)) $this->connect_params = $connect_params;
 		else $this->connect_params = get_config('database_connect_params', array());
 	}
@@ -54,12 +54,12 @@ class Mysql {
 	
 	/**
 	 * public Mysql function field(array $datas)
-	 * @$datas = [(string $field),...]
+	 * @$datas = [(string $key=>string $data)|(string $data),...]
 	 */
 	public function field(array $datas): Mysql {
 		foreach($datas as $key => $data){
 			if(!is_string($data)) continue;
-			elseif(is_int($key) && is_database_named_regular($data,true)) $ends[] = wrap_database_backquote($data);
+			elseif(is_int($key) && is_database_named_regular($data, true)) $ends[] = wrap_database_backquote($data);
 			elseif(is_string($key) && is_database_named_regular($key, true)) $ends[] = $data . ' as ' . wrap_database_backquote($key);
 		}
 		if(isset($ends)) $this->sql('field', implode(',', $ends));
@@ -67,10 +67,16 @@ class Mysql {
 	}
 	
 	/**
-	 * public Mysql function table(string $data)
+	 * public Mysql function table(array $datas)
+	 * @$datas = [(string $key=>string $data)|(string $data),...]
 	 */
-	public function table(string $data): Mysql {
-		$this->sql('table', $data);
+	public function table(array $datas): Mysql {
+		foreach($datas as $key => $data){
+			if(!is_string($data)) continue;
+			elseif(is_int($key) && is_database_named_regular($data)) $ends[] = wrap_database_backquote($data);
+			elseif(is_string($key) && is_database_named_regular($data)) $ends[] = wrap_database_backquote($data) . ' ' . wrap_database_backquote($key);
+		}
+		if(isset($ends)) $this->sql('table', implode(',', $ends));
 		return $this;
 	}
 	

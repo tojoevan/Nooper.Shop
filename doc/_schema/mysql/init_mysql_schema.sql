@@ -367,24 +367,23 @@ create table if not exists `product_group_detail`(
  create table if not exists `customer`
 (
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(22) character set utf8 collate utf8_bin not null,
-	`phone` varchar(50) character set utf8 collate utf8_bin not null,
-	`wx_open_id` varchar(50) character set utf8 collate utf8_bin not null,
-	`wx_nickname` varchar(50) character set utf8 collate utf8_bin not null,
-	`wx_remark` varchar(100) character set utf8 collate utf8_bin not null,
-	`growth` bigint unsigned default 0,
-	`point` bigint unsigned default 0,
 	`grade_id` int unsigned not null,
+	`unique_id` char(22) character set utf8 collate utf8_bin not null,
+	`open_id` varchar(50) character set utf8 collate utf8_bin not null,
+	`nickname` varchar(50) character set utf8 collate utf8_bin not null,
+	`phone` char(11) character set utf8 collate utf8_bin not null,
+	`point` bigint unsigned default 0,
 	`balance` decimal(10,4) default 0.0000,
 	`add_time` timestamp default current_timestamp,
 	`status` enum('normal', 'frozen') not null,
-	unique(`unique_id`),
-	unique(`nickname`),
 	unique(`phone`),
+	unique(`open_id`),
+	unique(`unique_id`),
 	primary key(`id`)
 )
 default character set utf8
 default collate utf8_bin;
+
 /**
  *
  */
@@ -556,8 +555,152 @@ default collate utf8_bin;
 default character set utf8
 default collate utf8_bin;
 
- 
- 
+ /**
+ *
+ */
+ drop table if exists `coupon`;
+ create table if not exists `coupon`
+(
+	`id` bigint unsigned auto_increment not null,
+	`model_id` bigint unsigned not null,
+	`unique_id` char(27) character set utf8 collate utf8_bin not null,
+	`money_num` decimal(10,4) not null,
+    `begin_time` timestamp not null,
+	`end_time` timestamp not null,
+	`add_time` timestamp default current_timestamp,
+	`status` enum('prepare', 'normal', 'got', 'used', 'expired') not null,
+	unique(`unique_id`),
+	primary key(`id`)
+)
+default character set utf8
+default collate utf8_bin;
+
+ /**
+ *
+ */
+ drop table if exists `coupon_model`;
+ create table if not exists `coupon_model`
+(
+	`id` bigint unsigned auto_increment not null, 
+	`type_id` bigint unsigned not null,
+	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`money_num` decimal(10, 4) not null,
+	`quantity` int unsigned not null,
+	`begin_time` timestamp not null,
+	`end_time` timestamp not null,
+	`add_time` timestamp default current_timestamp,
+	unique(`type_id`, `name`),
+	primary key(`id`)
+)
+default character set utf8
+default collate utf8_bin;
+
+ /**
+ *
+ */
+ drop table if exists `coupon_rel_product_set`;
+ create table if not exists `coupon_rel_product_set`
+(
+	`id` bigint unsigned auto_increment not null,
+	`coupon_model_id` bigint unsigned not null,
+	`product_set_id` bigint unsigned not null,
+	`add_time` timestamp default current_timestamp,
+	unique(`coupon_model_id`,`product_set_id`),
+	primary key(`id`)
+)
+default character set utf8
+default collate utf8_bin;
+
+ /**
+ *
+ */
+ drop table if exists `coupon_rel_product_type`;
+ create table if not exists `coupon_rel_product_type`
+(
+	`id` bigint unsigned auto_increment not null,
+	`coupon_model_id` bigint unsigned not null,
+	`product_type_id` bigint unsigned not null,
+	`add_time` timestamp default current_timestamp,
+	unique(`coupon_model_id`,`product_type_id`),
+	primary key(`id`)
+)
+default character set utf8
+default collate utf8_bin;
+
+ /**
+ *
+ */
+ drop table if exists `coupon_type`;
+ create table if not exists `coupon_type`
+(
+	`id` bigint unsigned auto_increment not null,
+	`name` char(3) character set utf8 collate utf8_bin not null,
+	`add_time` timestamp default current_timestamp,
+	unique(`name`),
+	primary key(`id`)
+)
+default character set utf8
+default collate utf8_bin;
+
+ /**
+ *
+ */
+ drop table if exists `customer_get_coupon`;
+ create table if not exists `customer_get_coupon`
+(
+	`id` bigint unsigned auto_increment not null,
+	`customer_id` bigint unsigned not null,
+	`customer_unique_id` char(22) character set utf8 collate utf8_bin not null,
+	`coupon_id` bigint unsigned not null,
+	`coupon_unique_id` char(27) character set utf8 collate utf8_bin not null,
+	`add_time` timestamp default current_timestamp,
+	unique(`coupon_unique_id`),
+	unique(`coupon_id`),
+	primary key(`id`)
+)
+default character set utf8
+default collate utf8_bin;
+
+ /**
+ *
+ */
+ drop table if exists `customer_use_coupon`;
+ create table if not exists `customer_use_coupon`
+(
+	`id` bigint unsigned auto_increment not null,
+	`customer_id` bigint unsigned not null,
+	`customer_unique_id` char(22) character set utf8 collate utf8_bin not null,
+	`order_id` bigint unsigned not null,
+	`order_unique_id` char(25) character set utf8 collate utf8_bin not null,
+	`coupon_id` bigint unsigned not null,
+	`coupon_unique_id` char(27) character set utf8 collate utf8_bin not null,
+	`add_time` timestamp default current_timestamp,
+	unique(`coupon_unique_id`),
+	unique(`coupon_id`),
+	primary key(`id`)
+)
+default character set utf8
+default collate utf8_bin;
+
+ /**
+ *
+ */
+ drop table if exists `customer_grade`;
+ create table if not exists `customer_grade`
+(
+
+	`id` bigint unsigned auto_increment not null,
+	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`min_point` bigint unsigned not null,
+	`img` varchar(100) character set utf8 collate utf8_bin not null,
+	`img_num` int unsigned default 1,
+	`add_time` timestamp default current_timestamp,
+	unique(`name`),
+	primary key(`id`)
+)
+default character set utf8
+default collate utf8_bin;
+
 /**
  *
  */
@@ -593,7 +736,14 @@ default collate utf8_bin;
 	('王巍','13612084044','13612084044','gQFd8TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyRTJucE1fMGlmUTAxMDAwMGcwNzcAAgT-rk9ZAwQAAAAA','http://weixin.qq.com/q/02E2npM_0ifQ010000g077'),
 	('王丽','13512288066','13512288066','gQFx8TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAySjJwT01QMGlmUTAxMDAwMGcwN0kAAgQBr09ZAwQAAAAA','http://weixin.qq.com/q/02J2pOMP0ifQ010000g07I');
 
-	
+	insert into `customer_grade`(`name`,`min_point`,`img`,`img_num`) values
+		('普通会员', 0, 'common_user.png', 1),
+		('铜牌会员', 1000, 'bronze_user.png', 1),
+		('银牌会员', 5000, 'sliver_user.png', 1),
+		('金牌会员', 10000, 'gold_user.png', 1),
+		('钻石会员', 50000, 'diamond_user.png', 1);
+		
+
 	
  insert into `express_address_province` (`name`) values
 	('北京'),
