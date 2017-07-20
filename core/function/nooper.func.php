@@ -43,7 +43,7 @@ function is_underline_named_regular(string $data): bool {
  */
 function is_database_named_regular(string $data, bool $wild = false): bool {
 	$pieces = explode('.', $data);
-	$num = $count($pieces);
+	$num = count($pieces);
 	if(1 == $num){
 		if(is_underline_named_regular($pieces[0])) return true;
 		elseif($wild && '*' == $pieces[0]) return true;
