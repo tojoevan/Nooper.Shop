@@ -45,11 +45,11 @@ function is_database_named_regular(string $data, bool $wild = false): bool {
 	$pieces = explode('.', $data);
 	$num = $count($pieces);
 	if(1 == $num){
-		if(is_underline_named_regular($piece[0])) return true;
-		elseif($wild && '*' == $piece[0]) return true;
+		if(is_underline_named_regular($pieces[0])) return true;
+		elseif($wild && '*' == $pieces[0]) return true;
 	}elseif(2 == $num){
-		if(is_underline_named_regular($piece[0]) && is_underline_named_regular($piece[1])) return true;
-		elseif($wild && is_underline_named_regular($piece[0]) && '*' == $piece[1]) return true;
+		if(is_underline_named_regular($pieces[0]) && is_underline_named_regular($pieces[1])) return true;
+		elseif($wild && is_underline_named_regular($pieces[0]) && '*' == $pieces[1]) return true;
 	}
 	return false;
 }

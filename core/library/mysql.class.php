@@ -60,7 +60,7 @@ class Mysql {
 		foreach($datas as $key => $data){
 			if(!is_string($data)) continue;
 			elseif(is_int($key) && is_database_named_regular($data,true)) $ends[] = wrap_database_backquote($data);
-			elseif(is_string($key) && is_databagse_named_regular($key, true)) $ends[] = $data . ' as ' . wrap_database_backquote($key);
+			elseif(is_string($key) && is_database_named_regular($key, true)) $ends[] = $data . ' as ' . wrap_database_backquote($key);
 		}
 		if(isset($ends)) $this->sql('field', implode(',', $ends));
 		return $this;
