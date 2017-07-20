@@ -53,10 +53,16 @@ class Mysql {
 	}
 	
 	/**
-	 * public Mysql function field(string $data)
+	 * public Mysql function field(array $datas)
+	 * @$datas = [(string $field),...]
 	 */
-	public function field(string $data): Mysql {
-		$this->sql('field', $data);
+	public function field(array $datas): Mysql {
+		foreach($datas as $key => $data){
+			if(!is_string($data)) continue;
+			elseif(is_int($key) && is_database_named_regular($data,true)) $ends[] = wrap_database_backquote($data);
+			elseif(is_string($key) && is_databagse_named_regular($key, true)) $ends[] = $data . ' as ' . wrap_database_backquote($key);
+		}
+		if(isset($ends)) $this->sql('field', implode(',', $ends));
 		return $this;
 	}
 	
@@ -90,8 +96,8 @@ class Mysql {
 	 */
 	public function group(array $datas): Mysql {
 		foreach($datas as $key => $data){
-			if(is_string($key) && is_underline_named_regular($key) && in_array($data, ['asc', 'desc'], true)) $ends[] = $key . ' ' . $data;
-			elseif(is_int($key) && is_underline_named_regular($data)) $ends[] = $data;
+			if(is_string($key) && is_underline_named_regular($key) && in_array($data, ['asc', 'desc'], true)) $ends[] = wrap_database_backquote($key) . ' ' . $data;
+			elseif(is_int($key) && is_underline_named_regular($data)) $ends[] = wrap_database_backquote($data);
 		}
 		if(isset($ends)) $this->sql('group', 'group by ' . implode(',', $ends));
 		return $this;
@@ -106,10 +112,15 @@ class Mysql {
 	}
 	
 	/**
-	 * public Mysql function order(string $data)
+	 * public Mysql function order(array $datas)
+	 * @$datas = [(string $field=>'asc|desc')|(string $field),...]
 	 */
-	public function order(string $data): Mysql {
-		$this->sql('order', 'order by ' . $data);
+	public function order(array $datas): Mysql {
+		foreach($datas as $key => $data){
+			if(is_string($key) && is_underline_named_regular($key) && in_array($data, ['asc', 'desc'], true)) $ends[] = wrap_database_backquote($key) . ' ' . $data;
+			elseif(is_int($key) && is_underline_named_regular($data)) $ends[] = wrap_database_backquote($data);
+		}
+		if(isset($ends)) $this->sql('order', 'order by ' . implode(',', $ends));
 		return $this;
 	}
 	

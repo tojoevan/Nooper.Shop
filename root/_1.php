@@ -198,5 +198,49 @@ $mysql->field('id,name')->group([
 
 
 
+//
+
+// 不涉及表名的
+select *  from 
+select `id`, `name` from
+select `id` as `myid`, `name` as `myname` from
+select count(*) as `mytotal` from 
+
+// 涉及到表名
+select `p`.* from `product` `p`
+select `p`.`id` from 		<> select `p.id` from
+select `p`.`id` as `myid` from 
+select avg(`p`.`salary`) as `myavgsalary` from 
+
+
+
+
+[a-z]+_[a-z]+_....
+
+
+// filed()
+field(['*']);			field([0=>'*']);
+field(['id','name']);
+field(['myid'=>'id', 'myname'=>'name']);
+field(['mytotal'=>'count(*)']);
+
+field(['p.*']);
+field(['p.id']);
+field(['myid'=>'p.id']);
+field(['myavgsalary'=>'avg(p.salary)']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

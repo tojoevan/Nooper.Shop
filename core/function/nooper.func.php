@@ -34,9 +34,24 @@ function get_configs(array $keys = null): array {
 /**
  * boolean function is_underline_named_regular(string $data)
  */
-function is_underline_named_regular(?string $data): bool {
+function is_underline_named_regular(string $data): bool {
 	$pattern = '/^[a-z]+(_[a-z]+)*$/';
 	return preg_match($pattern, $data) ? true : false;
+}
+
+/**
+ */
+function is_database_named_regular(string $data, bool $wild = false): bool {
+	$pieces = explode('.', $data);
+	$num = $count($pieces);
+	if(1 == $num){
+		if(is_underline_named_regular($piece[0])) return true;
+		elseif($wild && '*' == $piece[0]) return true;
+	}elseif(2 == $num){
+		if(is_underline_named_regular($piece[0]) && is_underline_named_regular($piece[1])) return true;
+		elseif($wild && is_underline_named_regular($piece[0]) && '*' == $piece[1]) return true;
+	}
+	return false;
 }
 
 /**
@@ -65,7 +80,11 @@ function is_database_connect_params(array $datas): bool {
  * string function wrap_database_backquote(string $identifier)
  */
 function wrap_database_backquote(string $identifier): string {
-	return '`' . $identifier . '`';
+	$pieces = explode('.', $identifier);
+	foreach($pieces as &$piece){
+		$piece= '`' . $piece. '`';
+	}
+	return implode('.', $pieces);
 }
 
 /**
@@ -87,8 +106,8 @@ function camel_to_underline_named(string $data): string {
 /**
  * string function pascal_to_underline_named(string $data)
  */
-function pascal_to_underline_named(string $data):string {
-	$data=camel_to_underline_named($data);
+function pascal_to_underline_named(string $data): string {
+	$data = camel_to_underline_named($data);
 	return substr($data, 1);
 }
 
