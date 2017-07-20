@@ -25,7 +25,7 @@ class Mysql {
 	 * public void function __construct(?string $memory = null, ?array $connect_params = null)
 	 */
 	public function __construct(string $memory = null, array $connect_params = null) {
-		if(is_underline_named_regular($memory)) $this->table($this->memory = $memory);
+		if(is_string($memory)&&is_database_named_regular($memory)) $this->table($this->memory = $memory);
 		if(is_array($connect_params) && is_database_connect_params($connect_params)) $this->connect_params = $connect_params;
 		else $this->connect_params = get_config('database_connect_params', array());
 	}
