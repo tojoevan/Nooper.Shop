@@ -40,14 +40,27 @@ function is_underline_named_regular(string $data): bool {
 }
 
 /**
+ * boolean function is_database_named_regular(string $data, boolean $wild = false)
  */
 function is_database_named_regular(string $data, bool $wild = false): bool {
+	return is_database_primary_named_regular($data, $wild) or is_database_plus_named_regular($data, $wild);
+}
+
+/**
+ * boolean function is_database_primary_named_regular(string $data, boolean $wild = false)
+ */
+function is_database_primary_named_regular(string $data, bool $wild = false): bool {
+	if(is_underline_named_regular($data)) return true;
+	elseif($wild && '*' == $data) return true;
+	return false;
+}
+
+/**
+ * boolean function is_database_plus_named_regular(string $data, boolean $wild = false)
+ */
+function is_database_plus_named_regular(string $data, bool $wild = false): bool {
 	$pieces = explode('.', $data);
-	$num = count($pieces);
-	if(1 == $num){
-		if(is_underline_named_regular($pieces[0])) return true;
-		elseif($wild && '*' == $pieces[0]) return true;
-	}elseif(2 == $num){
+	if(count($pieces) == 2){
 		if(is_underline_named_regular($pieces[0]) && is_underline_named_regular($pieces[1])) return true;
 		elseif($wild && is_underline_named_regular($pieces[0]) && '*' == $pieces[1]) return true;
 	}
@@ -82,7 +95,7 @@ function is_database_connect_params(array $datas): bool {
 function wrap_database_backquote(string $identifier): string {
 	$pieces = explode('.', $identifier);
 	foreach($pieces as &$piece){
-		$piece= '`' . $piece. '`';
+		$piece = '`' . $piece . '`';
 	}
 	return implode('.', $pieces);
 }

@@ -2,7 +2,7 @@
 // declare(strict_types = 1);
 namespace NooperShop;
 
-require_once '../init/bootstrap.php';
+require_once '../init/loader.php';
 
 $qr_ticket = $_GET['qr_ticket'] ?? null;
 $file_name = $_GET['file_name'] ?? null;

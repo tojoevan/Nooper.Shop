@@ -2,7 +2,7 @@
 // declare(strict_types = 1);
 namespace NooperShop;
 
-require_once '../init/bootstrap.php';
+require_once '../init/loader.php';
 
 
 $datas=['name'=>'Phone', 'up_id'=>0, 'position'=>0 ];

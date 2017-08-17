@@ -2,7 +2,7 @@
 // declare(strict_types = 1);
 namespace NooperShop;
 
-require_once '../init/bootstrap.php';
+require_once '../init/loader.php';
 
 $emp_id = $_GET['emp_id'] ?? null;
 $qr_key = $_GET['qr_key'] ?? null;
