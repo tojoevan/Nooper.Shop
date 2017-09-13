@@ -7,7 +7,7 @@ return array(
 	
 		/* database */
 		'database_connect_params'=>[
-				'type'=>'mysql',
+				'protocol'=>'mysql',
 				'host'=>'127.0.0.1', 
 				'port'=>'3306', 
 				'dbname'=>'nooper_shop', 
@@ -15,6 +15,7 @@ return array(
 				'username'=>'root',
 				'password'=>'goodwin@000'
 		],
+		
 );
 
 

@@ -1,0 +1,810 @@
+mysql> show tables;
++----------------------------------------+
+| Tables_in_nooper_shop                  |
++----------------------------------------+
+| administrator_permissions              |
+| administrator_role_rel_permissions     |
+| administrator_roles                    |
+| administrators                         |
+| coupon_categories                      |
+| coupon_models                          |
+| coupon_sale_records                    |
+| coupon_use_records                     |
+| coupons                                |
+| customer_balance_change_records        |
+| customer_browse_records                |
+| customer_carts                         |
+| customer_deliver_addresses             |
+| customer_favourites                    |
+| customer_profiles                      |
+| customer_reviews                       |
+| customers                              |
+| express_address_cities                 |
+| express_address_counties               |
+| express_address_provinces              |
+| express_address_towns                  |
+| express_carriage_default_params        |
+| express_carriage_global_params         |
+| express_carriage_template_details      |
+| express_carriage_templates             |
+| express_corporations                   |
+| expresses                              |
+| gift_card_models                       |
+| gift_card_recharge_records             |
+| gift_card_sale_records                 |
+| gift_cards                             |
+| message_categories                     |
+| messages                               |
+| order_details                          |
+| orders                                 |
+| product_categories                     |
+| product_default_params                 |
+| product_details                        |
+| product_group_details                  |
+| product_groups                         |
+| product_picture_thumbnails             |
+| product_pictures                       |
+| product_properties                     |
+| product_property_datas                 |
+| product_rel_express_carriage_templates |
+| product_set_details                    |
+| product_sets                           |
+| product_stocks                         |
+| product_summaries                      |
+| products                               |
++----------------------------------------+
+50 rows in set (0.03 sec)
+
+mysql> show tables;
++----------------------------------------+
+| Tables_in_nooper_shop                  |
++----------------------------------------+
+| administrator_permissions              |
+| administrator_role_rel_permissions     |
+| administrator_roles                    |
+| administrators                         |
+| coupon_categories                      |
+| coupon_models                          |
+| coupon_sale_records                    |
+| coupon_use_records                     |
+| coupons                                |
+| customer_balance_change_records        |
+| customer_browse_records                |
+| customer_carts                         |
+| customer_deliver_addresses             |
+| customer_favourites                    |
+| customer_profiles                      |
+| customer_reviews                       |
+| customers                              |
+| express_address_cities                 |
+| express_address_counties               |
+| express_address_provinces              |
+| express_address_towns                  |
+| express_carriage_default_params        |
+| express_carriage_global_params         |
+| express_carriage_template_details      |
+| express_carriage_templates             |
+| express_corporations                   |
+| expresses                              |
+| gift_card_models                       |
+| gift_card_recharge_records             |
+| gift_card_sale_records                 |
+| gift_cards                             |
+| message_categories                     |
+| messages                               |
+| order_details                          |
+| orders                                 |
+| product_categories                     |
+| product_default_params                 |
+| product_details                        |
+| product_group_details                  |
+| product_groups                         |
+| product_picture_thumbnails             |
+| product_pictures                       |
+| product_properties                     |
+| product_property_datas                 |
+| product_rel_express_carriage_templates |
+| product_set_details                    |
+| product_sets                           |
+| product_stocks                         |
+| product_summaries                      |
+| products                               |
++----------------------------------------+
+50 rows in set (0.02 sec)
+
+mysql> \. e:/nooper.shop/doc/mysql/init_mysql_schema.sql
+Query OK, 50 rows affected (15.15 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.95 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.70 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.62 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.08 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.97 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.86 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.61 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.39 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.66 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.81 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.61 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.63 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.73 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.36 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.42 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.42 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.31 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.97 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.67 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.69 sec)
+
+mysql> show tables;
++----------------------------------------+
+| Tables_in_nooper_shop                  |
++----------------------------------------+
+| administrator_permissions              |
+| administrator_role_rel_permissions     |
+| administrator_roles                    |
+| administrators                         |
+| coupon_categories                      |
+| coupon_get_records                     |
+| coupon_models                          |
+| coupon_use_records                     |
+| coupons                                |
+| customer_balance_change_records        |
+| customer_browse_records                |
+| customer_carts                         |
+| customer_deliver_addresses             |
+| customer_favourites                    |
+| customer_profiles                      |
+| customer_reviews                       |
+| customers                              |
+| express_address_cities                 |
+| express_address_counties               |
+| express_address_provinces              |
+| express_address_towns                  |
+| express_carriage_default_params        |
+| express_carriage_global_params         |
+| express_carriage_template_details      |
+| express_carriage_templates             |
+| express_corporations                   |
+| expresses                              |
+| gift_card_models                       |
+| gift_card_recharge_records             |
+| gift_card_sale_records                 |
+| gift_cards                             |
+| message_categories                     |
+| messages                               |
+| order_details                          |
+| orders                                 |
+| product_categories                     |
+| product_default_params                 |
+| product_details                        |
+| product_group_details                  |
+| product_groups                         |
+| product_picture_thumbnails             |
+| product_pictures                       |
+| product_properties                     |
+| product_property_datas                 |
+| product_rel_express_carriage_templates |
+| product_set_details                    |
+| product_sets                           |
+| product_stocks                         |
+| product_summaries                      |
+| products                               |
++----------------------------------------+
+50 rows in set (0.00 sec)
+
+mysql> insert into customers values(default, 'uni-id-001', 'open-id-001','nobody', '000000', 0, 0, default, 'normal');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into customers values(default, 'uni-id-002', 'open-id-002', 'luna', '123456', 0, 0, default, 'normal');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into customer_deliver_addresses values(default, 1, 'nobody', '13000001', 'tianjin', 'jinnan', true, default);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> update customer_deliver_address set phone='18630856246';
+ERROR 1146 (42S02): Table 'nooper_shop.customer_deliver_address' doesn't exist
+mysql> insert into customer_deliver_addresses values(default, 1, 'nobody', '13702147059', 'tianjin', 'jinnan', false, default);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> update customer_deliver_addresses set receiver='profoundblue' where id=1;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer_deliver_addresses set receiver='lanboshu' where id=2;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer_deliver_addresses;
++----+-------------+--------------+-------------+-----------------+----------------+------------+---------------------+
+| id | customer_id | receiver     | phone       | primary_address | detail_address | is_default | add_time            |
++----+-------------+--------------+-------------+-----------------+----------------+------------+---------------------+
+|  1 |           1 | profoundblue | 13000001    | tianjin         | jinnan         |          1 | 2017-09-12 13:15:49 |
+|  2 |           1 | lanboshu     | 13702147059 | tianjin         | jinnan         |          0 | 2017-09-12 13:16:07 |
++----+-------------+--------------+-------------+-----------------+----------------+------------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> update customer_deliver_addresses set phone='18630856246'where id=1;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer_deliver_addresses;
++----+-------------+--------------+-------------+-----------------+----------------+------------+---------------------+
+| id | customer_id | receiver     | phone       | primary_address | detail_address | is_default | add_time            |
++----+-------------+--------------+-------------+-----------------+----------------+------------+---------------------+
+|  1 |           1 | profoundblue | 18630856246 | tianjin         | jinnan         |          1 | 2017-09-12 13:15:49 |
+|  2 |           1 | lanboshu     | 13702147059 | tianjin         | jinnan         |          0 | 2017-09-12 13:16:07 |
++----+-------------+--------------+-------------+-----------------+----------------+------------+---------------------+
+2 rows in set (0.01 sec)
+
+mysql> \. e:/nooper.shop/doc/mysql/init_mysql_schema.sql
+Query OK, 50 rows affected (16.16 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.86 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.39 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.39 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.78 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.34 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.69 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.89 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.34 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.80 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.36 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.64 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.67 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.70 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.89 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.38 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.29 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.26 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.51 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.72 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.73 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.98 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.51 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (3.25 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (1.48 sec)
+
+mysql> show tables;
++----------------------------------------+
+| Tables_in_nooper_shop                  |
++----------------------------------------+
+| administrator_permissions              |
+| administrator_role_rel_permissions     |
+| administrator_roles                    |
+| administrators                         |
+| coupon_categories                      |
+| coupon_get_records                     |
+| coupon_models                          |
+| coupon_use_records                     |
+| coupons                                |
+| customer_balance_change_records        |
+| customer_browse_records                |
+| customer_carts                         |
+| customer_deliver_addresses             |
+| customer_favourites                    |
+| customer_message_categories            |
+| customer_messages                      |
+| customer_profiles                      |
+| customer_reviews                       |
+| customers                              |
+| express_address_cities                 |
+| express_address_counties               |
+| express_address_provinces              |
+| express_address_towns                  |
+| express_carriage_default_params        |
+| express_carriage_global_params         |
+| express_carriage_template_details      |
+| express_carriage_templates             |
+| express_corporations                   |
+| expresses                              |
+| gift_card_models                       |
+| gift_card_recharge_records             |
+| gift_card_sale_records                 |
+| gift_cards                             |
+| order_details                          |
+| orders                                 |
+| product_categories                     |
+| product_default_params                 |
+| product_details                        |
+| product_group_details                  |
+| product_groups                         |
+| product_picture_thumbnails             |
+| product_pictures                       |
+| product_properties                     |
+| product_property_datas                 |
+| product_rel_express_carriage_templates |
+| product_set_details                    |
+| product_sets                           |
+| product_stocks                         |
+| product_summaries                      |
+| products                               |
++----------------------------------------+
+50 rows in set (0.00 sec)
+
+mysql> \. e:/nooper.shop/doc/mysql/_1.sql
+Query OK, 1 row affected (0.11 sec)
+
+Query OK, 1 row affected (0.09 sec)
+
+Query OK, 1 row affected (0.20 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from customers;
++----+------------+-------------+----------+--------+---------+-------+---------------------+--------+
+| id | unique_id  | open_id     | nickname | pwd    | balance | point | add_time            | status |
++----+------------+-------------+----------+--------+---------+-------+---------------------+--------+
+|  1 | uni-id-001 | open-id-001 | nobody   | 000000 |    0.00 |     0 | 2017-09-12 14:20:57 | normal |
+|  2 | uni-id-002 | open-id-002 | luna     | 123456 |    0.00 |     0 | 2017-09-12 14:20:57 | normal |
++----+------------+-------------+----------+--------+---------+-------+---------------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> update customers set status='locked' where id=2;
+Query OK, 1 row affected (0.16 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> show tables;
++----------------------------------------+
+| Tables_in_nooper_shop                  |
++----------------------------------------+
+| administrator_permissions              |
+| administrator_role_rel_permissions     |
+| administrator_roles                    |
+| administrators                         |
+| coupon_categories                      |
+| coupon_get_records                     |
+| coupon_models                          |
+| coupon_use_records                     |
+| coupons                                |
+| customer_balance_change_records        |
+| customer_browse_records                |
+| customer_carts                         |
+| customer_deliver_addresses             |
+| customer_favourites                    |
+| customer_message_categories            |
+| customer_messages                      |
+| customer_profiles                      |
+| customer_reviews                       |
+| customers                              |
+| express_address_cities                 |
+| express_address_counties               |
+| express_address_provinces              |
+| express_address_towns                  |
+| express_carriage_default_params        |
+| express_carriage_global_params         |
+| express_carriage_template_details      |
+| express_carriage_templates             |
+| express_corporations                   |
+| expresses                              |
+| gift_card_models                       |
+| gift_card_recharge_records             |
+| gift_card_sale_records                 |
+| gift_cards                             |
+| order_details                          |
+| orders                                 |
+| product_categories                     |
+| product_default_params                 |
+| product_details                        |
+| product_group_details                  |
+| product_groups                         |
+| product_picture_thumbnails             |
+| product_pictures                       |
+| product_properties                     |
+| product_property_datas                 |
+| product_rel_express_carriage_templates |
+| product_set_details                    |
+| product_sets                           |
+| product_stocks                         |
+| product_summaries                      |
+| products                               |
++----------------------------------------+
+50 rows in set (0.02 sec)
+
+mysql> desc customer_message_categoriejs;
+ERROR 1146 (42S02): Table 'nooper_shop.customer_message_categoriejs' doesn't exist
+mysql> desc customer_message_categories;
++----------+---------------------+------+-----+-------------------+----------------+
+| Field    | Type                | Null | Key | Default           | Extra          |
++----------+---------------------+------+-----+-------------------+----------------+
+| id       | bigint(20) unsigned | NO   | PRI | NULL              | auto_increment |
+| code     | varchar(20)         | NO   | UNI | NULL              |                |
+| name     | varchar(50)         | NO   | UNI | NULL              |                |
+| position | int(10) unsigned    | YES  |     | 0                 |                |
+| add_time | timestamp           | NO   |     | CURRENT_TIMESTAMP |                |
++----------+---------------------+------+-----+-------------------+----------------+
+5 rows in set (0.03 sec)
+
+mysql> select * from customer_message_categories;
+Empty set (0.00 sec)
+
+mysql> insert into customer_message_categories values(default, 'IMPORTANT', 'Important-Message', 100, default), (default, 'ORDER', 'Order-Message', 20, default);
+Query OK, 2 rows affected (0.17 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer_message_categories;
++----+-----------+-------------------+----------+---------------------+
+| id | code      | name              | position | add_time            |
++----+-----------+-------------------+----------+---------------------+
+|  1 | IMPORTANT | Important-Message |      100 | 2017-09-12 16:05:16 |
+|  2 | ORDER     | Order-Message     |       20 | 2017-09-12 16:05:16 |
++----+-----------+-------------------+----------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> desc customer_messages;
++-------------+-----------------------+------+-----+-------------------+----------------+
+| Field       | Type                  | Null | Key | Default           | Extra          |
++-------------+-----------------------+------+-----+-------------------+----------------+
+| id          | bigint(20) unsigned   | NO   | PRI | NULL              | auto_increment |
+| category_id | bigint(20) unsigned   | NO   |     | NULL              |                |
+| customer_id | bigint(20) unsigned   | NO   |     | NULL              |                |
+| title       | varchar(100)          | NO   |     | NULL              |                |
+| description | varchar(1000)         | NO   |     | NULL              |                |
+| add_time    | timestamp             | NO   |     | CURRENT_TIMESTAMP |                |
+| status      | enum('unread','read') | NO   |     | NULL              |                |
++-------------+-----------------------+------+-----+-------------------+----------------+
+7 rows in set (0.02 sec)
+
+mysql> insert into customer_messages values(default, 1, 2, 'Ceshi', '...', default, 'unread');
+Query OK, 1 row affected (0.09 sec)
+
