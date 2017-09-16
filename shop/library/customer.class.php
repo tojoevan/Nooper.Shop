@@ -181,6 +181,147 @@ class Customer extends Mysql {
 	}
 	
 	/**
+	 * public integer function get_coupon_num_by_customer_id(integer $customer_id)
+	 */
+	public function get_coupon_num_by_customer_id(int $customer_id): int {
+		$ends = $this->field(['num'=>'count(*)'])->table(['customer_reviews'])->where(['customer_id'=>$customer_id])->select();
+		return $ends[0]['num'] ?? -1;
+	}
+	
+	/**
+	 * public array function get_coupon_page_by_customer_id(integer $customer_id, integer $page_num, integer $page_length = 20)
+	 */
+	public function get_coupon_page_by_customer_id(int $customer_id, int $page_num, int $page_length = 20): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->field(['cgr.id', 'cc.id', 'cm.id', 'c.id', 'cc.code', 'cm.code', 'c.unique_id', 'cm.tag_price', 'cm.,min_charge', 'cm.begin_time', 'cm.end_time', 'c.add_time', 'c.status']);
+		$this->table(['c'=>'coupons'])->join(['cm'=>'coupon_models', 'c.model_id'=>'cm.id'])->join(['cc'=>'coupon_categories', 'cm.category_id'=>'cc.id'])->join(['cgr'=>'coupon_get_records', 'c.id'=>'cgr.coupon_id']);
+		$this - where(['c.customer_id'=>$customer_id]);
+		$this->order(['cgr.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
+	}
+	
+	/**
+	 * public integer function get_gift_card_num_by_customer_id(integer $customer_id)
+	 */
+	public function get_gift_card_num_by_customer_id(int $customer_id): int {
+		$ends = $this->field(['num'=>'count(*)'])->table(['gift_card_sale_records'])->where(['customer_id'=>(string)$customer_id])->select();
+		return $ends[0]['num'] ?? -1;
+	}
+	
+	/**
+	 * public array function get_gift_card_page_by_customer_id(integer $customer_id, integer $page_num, integer $page_length = 20)
+	 */
+	public function get_gift_card_page_by_customer_id(int $customer_id, int $page_num, int $page_length = 20): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->field(['gcm_id'=>'gcm.id', 'gc.id', 'gcsr'=>'gcsr.id', 'gcrr'=>'gcrr.id', 'gcm_code'=>'gcm.code', 'gc.code', 'gcm.recharge_price', 'gcm.sale_price', 'gc.add_time', 'gcsr_add_time'=>'gcsr.add_time', 'gcrr_add_time'=>'gcrr.add_time', 'gc.status']);
+		$this->table(['gc'=>'gift_cards'])->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id'])->join(['gcsr'=>'gift_card_sale_records', 'gc.id'=>'gcsr.gift_card_id'])->join(['gcrr'=>'gift_card_recharge_records', 'gc.id'=>'gcrr.gift_card_id'], 'left');
+		$this->where(['gcsr.customer_id'=>(string)$customer_id])->order(['gcsr.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
+	}
+	
+	/**
+	 * public integer function get_unrecharged_gift_card_num_by_customer_id(integer $customer_id)
+	 */
+	public function get_unrecharged_gift_card_num_by_customer_id(int $customer_id): int {
+		$this->field(['num'=>'count(*)'])->table(['gc'=>'gift_cards'])->join(['gcsr'=>'gift_card_sale_records', 'gc.id'=>'gcsr.gift_card_id']);
+		$ends = $this->where(['gcsr.customer_id'=>(string)$customer_id, 'gc.status'=>"'sold'"])->select();
+		return $ends[0]['num'] ?? -1;
+	}
+	
+	/**
+	 * public array function get_unrecharged_gift_card_page_by_customer_id(integer $customer_id, integer $page_num, integer $page_length = 20)
+	 */
+	public function get_unrecharged_gift_card_page_by_customer_id(int $customer_id, int $page_num, int $page_length = 20): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->field(['gcm_id'=>'gcm.id', 'gc.id', 'gcsr'=>'gcsr.id', 'gcm_code'=>'gcm.code', 'gc.code', 'gcm.recharge_price', 'gcm.sale_price', 'gc.add_time', 'gcsr_add_time'=>'gcsr.add_time', 'gc.status']);
+		$this->table(['gc'=>'gift_cards'])->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id'])->join(['gcsr'=>'gift_card_sale_records', 'gc.id'=>'gcsr.gift_card_id']);
+		$this->where(['gcsr.customer_id'=>(string)$customer_id, 'gc.status'=>"'sold'"])->order(['gcsr.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
+	}
+	
+	/**
+	 * public integer function get_recharged_gift_card_num_by_customer_id(integer $customer_id)
+	 */
+	public function get_recharged_gift_card_num_by_customer_id(int $customer_id): int {
+		$this->field(['num'=>'count(*)'])->table(['gc'=>'gift_cards'])->join(['gcsr'=>'gift_card_sale_records', 'gc.id'=>'gcsr.gift_card_id']);
+		$ends = $this->where(['gcsr.customer_id'=>(string)$customer_id, 'gc.status'=>"'recharged'"])->select();
+		return $ends[0]['num'] ?? -1;
+	}
+	
+	/**
+	 * public array function get_recharged_gift_card_page_by_customer_id(integer $customer_id, integer $page_num, integer $page_length = 20)
+	 */
+	public function get_recharged_gift_card_page_by_customer_id(int $customer_id, int $page_num, int $page_length = 20): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->field(['gcm_id'=>'gcm.id', 'gc.id', 'gcsr'=>'gcsr.id', 'gcrr'=>'gcrr.id', 'gcm_code'=>'gcm.code', 'gc.code', 'gcm.recharge_price', 'gcm.sale_price', 'gc.add_time', 'gcsr_add_time'=>'gcsr.add_time', 'gcrr_add_time'=>'gcrr.add_time', 'gc.status']);
+		$this->table(['gc'=>'gift_cards'])->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id'])->join(['gcsr'=>'gift_card_sale_records', 'gc.id'=>'gcsr.gift_card_id'])->join(['gcrr'=>'gift_card_recharge_records', 'gc.id'=>'gcrr.gift_card_id'], 'left');
+		$this->where(['gcsr.customer_id'=>(string)$customer_id, 'gc.status'=>"'recharged'"])->order(['gcsr.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
+	}
+	
+	/**
+	 * public integer function get_order_num_by_customer_id(integer $customer_id)
+	 */
+	public function get_order_num_by_customer_id(int $customer_id): int {
+		$ends = $this->field(['num'=>'count(*)'])->table(['orders'])->where_cmd('`customer_id`=' . $customer_id . " and `status`!='closed'")->select();
+		return $ends[0]['num'] ?? -1;
+	}
+	
+	/**
+	 * public array function get_order_page_by_customer_id(integer $customer_id, integer $page_num, integer $page_length = 20)
+	 */
+	public function get_order_page_by_customer_id(int $customer_id, int $page_num, int $page_length = 20): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->field(['o.id', 'o.unique_id', 'o.total_tag_money', 'o.total_discount_money', 'o.total_express_carriage_money', 'o.total_money', 'o.add_time', 'o.status']);
+		$this->table(['o'=>'orders'])->where_cmd('`customer_id`=' . $customer_id . " and `status`!='closed'")->order(['o.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
+	}
+	
+	/**
+	 * public integer function get_unpaid_order_num_by_customer_id(integer $customer_id)
+	 */
+	public function get_unpaid_order_num_by_customer_id(int $customer_id): int {
+		$ends = $this->field(['num'=>'count(*)'])->table(['orders'])->where(['customer_id'=>(string)$customer_id, 'status'=>"'unpaid"])->select();
+		return $ends[0]['num'] ?? -1;
+	}
+	
+	/**
+	 * public array function get_unpaid_order_page_by_customer_id(integer $customer_id, integer $page_num, integer $page_length = 20)
+	 */
+	public function get_unpaid_order_page_by_customer_id(int $customer_id, int $page_num, int $page_length = 20): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->field(['o.id', 'o.unique_id', 'o.total_tag_money', 'o.total_discount_money', 'o.total_express_carriage_money', 'o.total_money', 'o.add_time', 'o.status']);
+		$this->table(['o'=>'orders'])->where(['o.customer_id'=>(string)$customer_id, 'status'=>"'unpaid'"])->order(['o.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
+	}
+	
+	/**
+	 * public integer function get_paid_order_num_by_customer_id(integer $customer_id)
+	 */
+	public function get_paid_order_num_by_customer_id(int $customer_id): int {
+		$ends = $this->field(['num'=>'count(*)'])->table(['orders'])->where(['customer_id'=>(string)$customer_id, 'status'=>"'paid"])->select();
+		return $ends[0]['num'] ?? -1;
+	}
+	
+	/**
+	 * public array function get_paid_order_page_by_customer_id(integer $customer_id, integer $page_num, integer $page_length = 20)
+	 */
+	public function get_paid_order_page_by_customer_id(int $customer_id, int $page_num, int $page_length = 20): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->field(['o.id', 'opr_id'=>'opr.id', 'o.unique_id', 'o.total_tag_money', 'o.total_discount_money', 'o.total_express_carriage_money', 'o.total_money', 'o.add_time', 'opr_add_time'=>'opr.add_time', 'o.status']);
+		$this->table(['o'=>'orders'])->join(['opr'=>'order_pay_records', 'o.id'=>'opr.order_id']);
+		$this->where(['o.customer_id'=>(string)$customer_id, 'o.status'=>"'paid'"])->order(['o.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
+	}
+	
+	/**
 	 * protected array function get_plus_page(array $datas)
 	 */
 	protected function get_plus_page(array $datas): array {

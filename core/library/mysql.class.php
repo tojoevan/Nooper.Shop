@@ -13,22 +13,17 @@ class Mysql {
 	protected $id;
 	protected $sql;
 	protected $error;
-	protected $database;
-	protected $ds;
 	protected $driver_options = array(PDO::ATTR_CASE=>PDO::CASE_LOWER, PDO::ATTR_ERRMODE=>PDO::ERRMODE_SILENT, PDO::ATTR_ORACLE_NULLS=>PDO::NULL_NATURAL, PDO::ATTR_STRINGIFY_FETCHES=>false);
 	protected $connect_params = array();
 	protected $sql_cmds = array('distinct', 'field', 'table', 'join', 'where', 'group', 'having', 'order', 'limit');
 	protected $sql_datas = array();
-	protected $memory;
+	protected $database;
+	protected $ds;
 	
 	/**
-	 * public void function __construct(?string $memory = null, ?array $connect_params = null)
+	 * public void function __construct(?array $connect_params = null)
 	 */
-	public function __construct(string $memory = null, array $connect_params = null) {
-		if(is_string($memory) && is_database_primary_named_regular($memory)){
-			$this->sql('table', $memory);
-			$this->memory = $memory;
-		}
+	public function __construct(array $connect_params = null) {
 		if(is_array($connect_params) && is_database_connect_params($connect_params)) $this->connect_params = $connect_params;
 		else $this->connect_params = get_config('database_connect_params', array());
 	}
@@ -44,6 +39,13 @@ class Mysql {
 	 * public ?string function __get(string $cmd)
 	 */
 	public function __get(string $cmd): ?string 
+
+
+
+
+
+
+
 
 {
 	return $this->sql_datas[$cmd] ?? null;
@@ -147,7 +149,7 @@ class Mysql {
 	 */
 	public function where(array $datas): Mysql {
 		foreach($datas as $key => $data){
-			if(is_string($key) && is_database_named_regular($key) && is_string($data)) $ends[] = wrap_database_backquote($key) . '=' . $data;
+			if(is_string($key) &&is_database_named_regular($key)  && is_string($data)) $ends[] = wrap_database_backquote($key) . '=' . $data;
 		}
 		if(isset($ends)) $this->sql('where', 'where ' . implode(' and ', $ends));
 		return $this;
@@ -244,7 +246,6 @@ class Mysql {
 	 */
 	public function clear(): Mysql {
 		$this->sql_datas = array();
-		if(is_string($this->memory)) $this->sql('table', $this->memory);
 		return $this;
 	}
 	
@@ -254,7 +255,7 @@ class Mysql {
 	public function select(): array {
 		$sql_subgroup = ['select', $this->distinct, $this->field, 'from', $this->table, $this->join, $this->where, $this->group, $this->having, $this->order, $this->limit];
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
-		return $this->query($sql);
+		return $this->clear()->query($sql);
 	}
 	
 	/**
@@ -267,7 +268,7 @@ class Mysql {
 		$values_str = implode(',', array_values($datas));
 		$sql_subgroup = ['insert into', $this->table . '(' . $keys_str . ')', 'values(' . $values_str . ')'];
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
-		return $this->cmd($sql);
+		return $this->clear()->cmd($sql);
 	}
 	
 	/**
@@ -281,7 +282,7 @@ class Mysql {
 		$datas_str = implode(',', $datas);
 		$sql_subgroup = ['update', $this->table, 'set', $datas_str, $this->where, $this->order, $this->limit];
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
-		return $this->cmd($sql);
+		return $this->clear()->cmd($sql);
 	}
 	
 	/**
@@ -290,7 +291,7 @@ class Mysql {
 	public function delete(): int {
 		$sql_subgroup = array('delete from', $this->table, $this->where, $this->order, $this->limit);
 		$sql = implode(' ', array_filter($sql_subgroup, 'is_no_empty_str'));
-		return $this->cmd($sql);
+		return $this->clear()->cmd($sql);
 	}
 	
 	/**
@@ -416,9 +417,11 @@ class Mysql {
 	 * protected boolean function sql(string $cmd, string $data)
 	 */
 	protected function sql(string $cmd, string $data): bool {
-		if(!in_array($cmd, $this->sql_cmds, true)) return false;
-		$this->sql_datas[$cmd] = $data;
-		return true;
+		if(in_array($cmd, $this->sql_cmds, true)){
+			$this->sql_datas[$cmd]=$data;
+			return true;
+		}
+		return false;
 	}
 	
 	/**

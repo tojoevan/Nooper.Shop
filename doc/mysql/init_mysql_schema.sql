@@ -661,14 +661,16 @@ create table if not exists `order_details`(
 drop table if exists `orders`;
 create table if not exists `orders`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(32) character set utf8 collate utf8_bin not null,
+	`unique_id` char(19) character set utf8 collate utf8_bin not null,
 	`customer_id` bigint unsigned not null,
+	`deliver_address_id` bigint unsigned not null,
 	`total_tag_money` decimal(10, 2) unsigned not null,
 	`total_discount_money` decimal(10, 2) unsigned not null,
 	`total_express_carriage_money` decimal(10, 2) unsigned not null,
-	`payment_money` decimal(10, 2) unsigned not null,
+	`total_money` decimal(10, 2) unsigned not null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('no-pay', 'no-ship', 'shipped', 'completed', 'closed') character set utf8 collate utf8_bin not null,
+	`pay_method` enum('wechat', 'balance',) character set utf8 collate utf8_bin null,
+	`status` enum('unpaid', 'paid', 'shipped', 'completed', 'closed') character set utf8 collate utf8_bin not null,
 	unique(`unique_id`),
 	primary key(`id`)
 )

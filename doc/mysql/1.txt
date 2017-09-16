@@ -808,3 +808,484 @@ mysql> desc customer_messages;
 mysql> insert into customer_messages values(default, 1, 2, 'Ceshi', '...', default, 'unread');
 Query OK, 1 row affected (0.09 sec)
 
+mysql> show tables;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    571
+Current database: nooper_shop
+
++----------------------------------------+
+| Tables_in_nooper_shop                  |
++----------------------------------------+
+| administrator_permissions              |
+| administrator_role_rel_permissions     |
+| administrator_roles                    |
+| administrators                         |
+| coupon_categories                      |
+| coupon_get_records                     |
+| coupon_models                          |
+| coupon_use_records                     |
+| coupons                                |
+| customer_balance_change_records        |
+| customer_browse_records                |
+| customer_carts                         |
+| customer_deliver_addresses             |
+| customer_favourites                    |
+| customer_message_categories            |
+| customer_messages                      |
+| customer_profiles                      |
+| customer_reviews                       |
+| customers                              |
+| express_address_cities                 |
+| express_address_counties               |
+| express_address_provinces              |
+| express_address_towns                  |
+| express_carriage_default_params        |
+| express_carriage_global_params         |
+| express_carriage_template_details      |
+| express_carriage_templates             |
+| express_corporations                   |
+| expresses                              |
+| gift_card_models                       |
+| gift_card_recharge_records             |
+| gift_card_sale_records                 |
+| gift_cards                             |
+| order_details                          |
+| orders                                 |
+| product_categories                     |
+| product_default_params                 |
+| product_details                        |
+| product_group_details                  |
+| product_groups                         |
+| product_picture_thumbnails             |
+| product_pictures                       |
+| product_properties                     |
+| product_property_datas                 |
+| product_rel_express_carriage_templates |
+| product_set_details                    |
+| product_sets                           |
+| product_stocks                         |
+| product_summaries                      |
+| products                               |
++----------------------------------------+
+50 rows in set (2.56 sec)
+
+mysql> select * from gift_card_models;
+Empty set (1.23 sec)
+
+mysql> desc gift_card_models;
++----------------+------------------------+------+-----+-------------------+----------------+
+| Field          | Type                   | Null | Key | Default           | Extra          |
++----------------+------------------------+------+-----+-------------------+----------------+
+| id             | bigint(20) unsigned    | NO   | PRI | NULL              | auto_increment |
+| code           | varchar(10)            | NO   | UNI | NULL              |                |
+| name           | varchar(50)            | NO   | UNI | NULL              |                |
+| recharge_price | decimal(10,2) unsigned | NO   |     | NULL              |                |
+| sale_price     | decimal(10,2) unsigned | NO   |     | NULL              |                |
+| quantity       | int(10) unsigned       | NO   |     | NULL              |                |
+| add_time       | timestamp              | NO   |     | CURRENT_TIMESTAMP |                |
++----------------+------------------------+------+-----+-------------------+----------------+
+7 rows in set (0.25 sec)
+
+mysql> insert into gift_card_models values(default, 'gfm001', 'gfm001-name', 500, 488, 100, default);
+Query OK, 1 row affected (0.33 sec)
+
+mysql> select * from gift_card_models;
++----+--------+-------------+----------------+------------+----------+---------------------+
+| id | code   | name        | recharge_price | sale_price | quantity | add_time            |
++----+--------+-------------+----------------+------------+----------+---------------------+
+|  1 | gfm001 | gfm001-name |         500.00 |     488.00 |      100 | 2017-09-16 15:58:42 |
++----+--------+-------------+----------------+------------+----------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> update gift_card_models set name='gfm001-mycard';
+Query OK, 1 row affected (0.39 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from gift_card_models;
++----+--------+---------------+----------------+------------+----------+---------------------+
+| id | code   | name          | recharge_price | sale_price | quantity | add_time            |
++----+--------+---------------+----------------+------------+----------+---------------------+
+|  1 | gfm001 | gfm001-mycard |         500.00 |     488.00 |      100 | 2017-09-16 15:58:42 |
++----+--------+---------------+----------------+------------+----------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from gift_cards;
+Empty set (0.09 sec)
+
+mysql> desc gift_cards;
++-----------+-----------------------------------+------+-----+-------------------+----------------+
+| Field     | Type                              | Null | Key | Default           | Extra          |
++-----------+-----------------------------------+------+-----+-------------------+----------------+
+| id        | bigint(20) unsigned               | NO   | PRI | NULL              | auto_increment |
+| unique_id | char(32)                          | NO   | UNI | NULL              |                |
+| model_id  | bigint(20) unsigned               | NO   |     | NULL              |                |
+| code      | char(32)                          | NO   | UNI | NULL              |                |
+| add_time  | timestamp                         | NO   |     | CURRENT_TIMESTAMP |                |
+| status    | enum('normal','sold','recharged') | NO   |     | NULL              |                |
++-----------+-----------------------------------+------+-----+-------------------+----------------+
+6 rows in set (0.02 sec)
+
+mysql> insert into gift_cards values(default, 'gf-uni-001', 1, 'gf-uni-001', default, 'sold');
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into gift_cards values(default, 'gf-uni-002', 1, 'gf-uni-001', default, 'sold');
+ERROR 1062 (23000): Duplicate entry 'gf-uni-001' for key 'code'
+mysql> insert into gift_cards values(default, 'gf-uni-002', 1, 'gf-uni-002', default, 'sold');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into gift_cards values(default, 'gf-uni-003', 1, 'gf-uni-003', default, 'recharged');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from gift_cards;
++----+------------+----------+------------+---------------------+-----------+
+| id | unique_id  | model_id | code       | add_time            | status    |
++----+------------+----------+------------+---------------------+-----------+
+|  1 | gf-uni-001 |        1 | gf-uni-001 | 2017-09-16 16:00:31 | sold      |
+|  3 | gf-uni-002 |        1 | gf-uni-002 | 2017-09-16 16:01:12 | sold      |
+|  4 | gf-uni-003 |        1 | gf-uni-003 | 2017-09-16 16:01:30 | recharged |
++----+------------+----------+------------+---------------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> desc gift_card_sale_records;
++--------------+---------------------+------+-----+-------------------+----------------+
+| Field        | Type                | Null | Key | Default           | Extra          |
++--------------+---------------------+------+-----+-------------------+----------------+
+| id           | bigint(20) unsigned | NO   | PRI | NULL              | auto_increment |
+| customer_id  | bigint(20) unsigned | NO   |     | NULL              |                |
+| gift_card_id | bigint(20) unsigned | NO   | UNI | NULL              |                |
+| add_time     | timestamp           | NO   |     | CURRENT_TIMESTAMP |                |
++--------------+---------------------+------+-----+-------------------+----------------+
+4 rows in set (0.05 sec)
+
+mysql> insert into gift_card_sale_records values(default, 22, 1, default);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into gift_card_sale_records values(default, 22, 3, default);
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into gift_card_sale_records values(default, 22, 4, default);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> desc gift_card_recharge_records;
++--------------+---------------------+------+-----+-------------------+----------------+
+| Field        | Type                | Null | Key | Default           | Extra          |
++--------------+---------------------+------+-----+-------------------+----------------+
+| id           | bigint(20) unsigned | NO   | PRI | NULL              | auto_increment |
+| customer_id  | bigint(20) unsigned | NO   |     | NULL              |                |
+| gift_card_id | bigint(20) unsigned | NO   | UNI | NULL              |                |
+| add_time     | timestamp           | NO   |     | CURRENT_TIMESTAMP |                |
++--------------+---------------------+------+-----+-------------------+----------------+
+4 rows in set (0.14 sec)
+
+mysql> insert into gift_card_recharge_records values(default, 22, 4, default);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from gift_card_recharge_records;
++----+-------------+--------------+---------------------+
+| id | customer_id | gift_card_id | add_time            |
++----+-------------+--------------+---------------------+
+|  1 |          22 |            4 | 2017-09-16 16:03:39 |
++----+-------------+--------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from gift_card_sale_records;
++----+-------------+--------------+---------------------+
+| id | customer_id | gift_card_id | add_time            |
++----+-------------+--------------+---------------------+
+|  1 |          22 |            1 | 2017-09-16 16:02:38 |
+|  2 |          22 |            3 | 2017-09-16 16:02:47 |
+|  3 |          22 |            4 | 2017-09-16 16:02:51 |
++----+-------------+--------------+---------------------+
+3 rows in set (0.02 sec)
+
+mysql> select * from gift_cards;
++----+------------+----------+------------+---------------------+-----------+
+| id | unique_id  | model_id | code       | add_time            | status    |
++----+------------+----------+------------+---------------------+-----------+
+|  1 | gf-uni-001 |        1 | gf-uni-001 | 2017-09-16 16:00:31 | sold      |
+|  3 | gf-uni-002 |        1 | gf-uni-002 | 2017-09-16 16:01:12 | sold      |
+|  4 | gf-uni-003 |        1 | gf-uni-003 | 2017-09-16 16:01:30 | recharged |
++----+------------+----------+------------+---------------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> desc gift_card_models;
++----------------+------------------------+------+-----+-------------------+----------------+
+| Field          | Type                   | Null | Key | Default           | Extra          |
++----------------+------------------------+------+-----+-------------------+----------------+
+| id             | bigint(20) unsigned    | NO   | PRI | NULL              | auto_increment |
+| code           | varchar(10)            | NO   | UNI | NULL              |                |
+| name           | varchar(50)            | NO   | UNI | NULL              |                |
+| recharge_price | decimal(10,2) unsigned | NO   |     | NULL              |                |
+| sale_price     | decimal(10,2) unsigned | NO   |     | NULL              |                |
+| quantity       | int(10) unsigned       | NO   |     | NULL              |                |
+| add_time       | timestamp              | NO   |     | CURRENT_TIMESTAMP |                |
++----------------+------------------------+------+-----+-------------------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from gift_card_models;
++----+--------+---------------+----------------+------------+----------+---------------------+
+| id | code   | name          | recharge_price | sale_price | quantity | add_time            |
++----+--------+---------------+----------------+------------+----------+---------------------+
+|  1 | gfm001 | gfm001-mycard |         500.00 |     488.00 |      100 | 2017-09-16 15:58:42 |
++----+--------+---------------+----------------+------------+----------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into gift_card_models values(default, 'gfm002', 'gfm002-mycard', 1000, 900, 50, default);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from gift_card_models;
++----+--------+---------------+----------------+------------+----------+---------------------+
+| id | code   | name          | recharge_price | sale_price | quantity | add_time            |
++----+--------+---------------+----------------+------------+----------+---------------------+
+|  1 | gfm001 | gfm001-mycard |         500.00 |     488.00 |      100 | 2017-09-16 15:58:42 |
+|  2 | gfm002 | gfm002-mycard |        1000.00 |     900.00 |       50 | 2017-09-16 16:52:49 |
++----+--------+---------------+----------------+------------+----------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from gift_cards;
++----+------------+----------+------------+---------------------+-----------+
+| id | unique_id  | model_id | code       | add_time            | status    |
++----+------------+----------+------------+---------------------+-----------+
+|  1 | gf-uni-001 |        1 | gf-uni-001 | 2017-09-16 16:00:31 | sold      |
+|  3 | gf-uni-002 |        1 | gf-uni-002 | 2017-09-16 16:01:12 | sold      |
+|  4 | gf-uni-003 |        1 | gf-uni-003 | 2017-09-16 16:01:30 | recharged |
++----+------------+----------+------------+---------------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into gift_cards values(default, 'gf-uni-004', 2, 'gf-uni-004', default, 'normal');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select * from gift_cards;
++----+------------+----------+------------+---------------------+-----------+
+| id | unique_id  | model_id | code       | add_time            | status    |
++----+------------+----------+------------+---------------------+-----------+
+|  1 | gf-uni-001 |        1 | gf-uni-001 | 2017-09-16 16:00:31 | sold      |
+|  3 | gf-uni-002 |        1 | gf-uni-002 | 2017-09-16 16:01:12 | sold      |
+|  4 | gf-uni-003 |        1 | gf-uni-003 | 2017-09-16 16:01:30 | recharged |
+|  5 | gf-uni-004 |        2 | gf-uni-004 | 2017-09-16 16:53:56 | normal    |
++----+------------+----------+------------+---------------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> desc orders;
++------------------------------+---------------------------------------------------------+------+-----+-------------------+----------------+
+| Field                        | Type                                                    | Null | Key | Default           | Extra          |
++------------------------------+---------------------------------------------------------+------+-----+-------------------+----------------+
+| id                           | bigint(20) unsigned                                     | NO   | PRI | NULL              | auto_increment |
+| unique_id                    | char(32)                                                | NO   | UNI | NULL              |                |
+| customer_id                  | bigint(20) unsigned                                     | NO   |     | NULL              |                |
+| total_tag_money              | decimal(10,2) unsigned                                  | NO   |     | NULL              |                |
+| total_discount_money         | decimal(10,2) unsigned                                  | NO   |     | NULL              |                |
+| total_express_carriage_money | decimal(10,2) unsigned                                  | NO   |     | NULL              |                |
+| payment_money                | decimal(10,2) unsigned                                  | NO   |     | NULL              |                |
+| add_time                     | timestamp                                               | NO   |     | CURRENT_TIMESTAMP |                |
+| status                       | enum('no-pay','no-ship','shipped','completed','closed') | NO   |     | NULL              |                |
++------------------------------+---------------------------------------------------------+------+-----+-------------------+----------------+
+9 rows in set (0.05 sec)
+
+mysql> insert into \. e:/nooper.shop/doc/mysql/init_mysql_schema.sql
+Query OK, 50 rows affected (19.22 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.12 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.64 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (2.28 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.95 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.51 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.78 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.66 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.14 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.61 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.62 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.69 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.51 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.01 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.70 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.67 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') character set utf8 collate utf8_bin null,
+	`status` enum('unpaid', 'paid', 'sh' at line 11
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.37 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.69 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.14 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.08 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.64 sec)
+

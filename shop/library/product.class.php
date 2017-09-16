@@ -2,7 +2,7 @@
 // declare(strict_types = 1);
 namespace Nooper;
 
-class Customer extends Mysql {
+class Product extends Mysql {
 	
 	/**
 	 * public array function get_message_category_page(integer $page_num, integer $page_length = 20)
