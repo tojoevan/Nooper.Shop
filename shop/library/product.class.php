@@ -5,196 +5,189 @@ namespace Nooper;
 class Product extends Mysql {
 	
 	/**
-	 * public array function get_message_category_page(integer $page_num, integer $page_length = 20)
-	 * ----------
-	 * cmc.id
-	 * cmc.code
-	 * cmc.name
-	 * cmc.position
-	 * cmc.add_time
-	 * url: message_num
-	 * ----------
-	 * op: item
-	 * op: edit
-	 * op: ?delete
+	 * public array function get_category_page(integer $page_num, integer $page_length = 20)
 	 */
-	public function get_message_category_page(int $page_num, int $page_length = 20): array {
+	public function get_category_page(int $page_num, int $page_length = 20): array {
 		$offset_num = $page_length * ($page_num - 1);
-		$field_datas = ['cmc.id', 'cmc.code', 'cmc.name', 'cmc.position', 'cmc.add_time', 'message_num'=>'count(`cm`.`id`)'];
-		$memory_datas = ['cmc'=>'customer_message_categories'];
-		$plus_datas = ['cm'=>'customer_messages', 'cmc.id'=>'cm.category_id'];
-		$group_datas = ['cmc.id'];
-		$order_datas = ['cmc.position'=>'desc', 'cmc.id'=>'desc'];
-		return $this->field($field_datas)->table($memory_datas)->join($plus_datas, 'left')->group($group_datas)->order($order_datas)->limit($page_length, $offset_num)->select();
+		$this->field(['pc.id', 'pc.name', 'pc.position'])->table(['pc'=>'product_categories'])->where(['pc.parent_id'=>'0']);
+		$this->order(['pc.position'=>'desc'])->limit($page_length, $offset_num);
+		$ends = $this->select();
 	}
 	
 	/**
-	 * public integer function get_num(void)
+	 * public boolean function add_category(string $name, integer $parent_id = 0)
 	 */
-	public function get_num(): int {
-		$ends = $this->field(['num'=>'count(*)'])->table(['customers'])->select();
-		return $ends[0]['num'] ?? -1;
+	public function add_category(string $name, int $parent_id = 0): bool {
+		$datas = ['name'=>$name, 'parent_id'=>$parent_id];
+		$end = $this->table(['product_categories'])->add($datas);
+		return $end > 0 ? true : false;
 	}
 	
 	/**
-	 * public array function page(integer $page_num, integer $page_length = 20)
-	 * ----------
-	 * id
-	 * unique_id
-	 * open_id
-	 * nickname
-	 * url: point
-	 * url: balance
-	 * add_time
-	 * status
-	 * ----------
-	 * url: order_num
-	 * url: coupon_num
-	 * url: gift_card_num
-	 * url: review_num
-	 * url: deliver_address_num
-	 * url: message_num
-	 * ----------
-	 * op: detail
-	 * op: send_message
-	 * op: lock or unlock
+	 * public integer function add_category_properties(integer $category_id, array $datas)
 	 */
-	public function page(int $page_num, int $page_length = 20): array {
+	public function add_category_properties(int $category_id, array $properties):int {
+		$counter=0;
+		foreach($properties as $prop){
+			$datas=['category_id'=>$category_id, 'name'=>$prop];
+			$end = $this->table(['product_category_properties'])->add($datas);
+			if($end>0) $counter++;
+		}
+		return $counter;
+	}
+	
+	/**
+	 * public integer function num(void)
+	 */
+	public function num(): int {
+		$ends = $this->field(['product_num'=>'count(*)'])->table(['products'])->where_cmd("`status`!='deleted'")->select();
+		return $ends[0]['product_num'] ?? -1;
+	}
+	
+	/**
+	 * public array function page(integer $page_num = 1, integer $page_length = 20)
+	 */
+	public function page(int $page_num = 1, int $page_length = 20): array {
 		$offset_num = $page_length * ($page_num - 1);
-		$field_datas = ['id', 'unique_id', 'open_id', 'nickname', 'point', 'balance', 'add_time', 'status'];
-		$ends = $this->field($field_datas)->table(['customers'])->order(['id'=>'desc'])->limit($page_length, $offset_num)->select();
-		return $this->get_plus_page($ends);
-	}
-	
-	/**
-	 * public integer function get_locked_num(void)
-	 */
-	public function get_locked_num(): int {
-		$ends = $this->field(['num'=>'count(*)'])->table(['customers'])->where(['status'=>"'locked'"])->select();
-		return $ends[0]['num'] ?? -1;
-	}
-	
-	/**
-	 * public array function get_locked_page(integer $page_num, integer $page_length = 20)
-	 * ----------
-	 * id
-	 * unique_id
-	 * open_id
-	 * nickname
-	 * url: point
-	 * url: balance
-	 * add_time
-	 * status
-	 * ----------
-	 * url: order_num
-	 * url: coupon_num
-	 * url: gift_card_num
-	 * url: review_num
-	 * url: deliver_address_num
-	 * url: message_num
-	 * ----------
-	 * op: detail
-	 * op: send_message
-	 * op: unlock
-	 */
-	public function get_locked_page(int $page_num, int $page_length = 20): array {
-		$offset_num = $page_length * ($page_num - 1);
-		$field_datas = ['id', 'unique_id', 'open_id', 'nickname', 'point', 'balance', 'add_time', 'status'];
-		$ends = $this->field($field_datas)->table(['customers'])->where(['status'=>"'locked'"])->order(['id'=>'desc'])->limit($page_length, $offset_num)->select();
-		return $this->get_plus_page($ends);
-	}
-	
-	/**
-	 * protected array function get_plus_page(array $datas)
-	 */
-	protected function get_plus_page(array $datas): array {
-		if($datas){
-			$order_nums = $this->get_order_nums();
-			$coupon_nums = $this->get_coupon_nums();
-			$gift_card_nums = $this->get_gift_card_nums();
-			$review_nums = $this->get_review_nums();
-			$address_nums = $this->get_deliver_address_nums();
-			$message_nums = $this->get_message_nums();
-			foreach($datas as &$data){
+		$this->field(['p.id', 'p.unique_id', 'p.code', 'p.name', 'p.tag_price', 'p.discount_price', 'p.position', 'p.add_time', 'p.status']);
+		$this - table(['p'=>'products']);
+		$this->where_cmd("`p`.`status`!='deleted'")->order(['p.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		$ends = $this->select();
+		if($ends){
+			$category_names = $this->get_category_names();
+			$sale_nums = $this->get_sale_nums();
+			foreach($ends as $data){
 				$id = $data['id'];
-				$data['order_num'] = $order_nums[$id] ?? 0;
-				$data['coupon_num'] = $coupon_nums[$id] ?? 0;
-				$data['gift_card_num'] = $gift_card_nums[$id] ?? 0;
-				$data['view_num'] = $review_nums[$id] ?? 0;
-				$data['deliver_address_num'] = $address_nums[$id] ?? 0;
-				$data['message_num'] = $message_nums[$id] ?? 0;
+				$data['category'] = $category_names[$id] ?? null;
+				$data['sale_num'] = $sale_nums[$id] ?? 0;
 			}
 		}
-		return $datas;
+		return $ends;
 	}
 	
 	/**
-	 * protected array function get_order_nums(void)
+	 * public array function item(integer $product_id)
 	 */
-	protected function get_order_nums(): array {
-		$datas = $this->field(['customer_id', 'num'=>'count(*)'])->table(['orders'])->group(['customer_id'])->order(['customer_id'=>'desc'])->select();
+	public function item(int $product_id): array {
+		/* -- ? -- */
+	}
+	
+	/**
+	 * public boolean function online(integer $product_id)
+	 */
+	public function online(int $product_id): bool {
+		$datas = ['status'=>'online'];
+		$end = $this->table(['products'])->where(['id'=>(string)$product_id])->modify($datas);
+		return $end > 0 ? true : false;
+	}
+	
+	/**
+	 * public boolean function offline(integer $product_id)
+	 */
+	public function offline(int $product_id): bool {
+		/* -- ? -- */
+	}
+	
+	/**
+	 * public boolean function delete(integer $product_id)
+	 */
+	public function delete_item(int $product_id): bool {
+		/* -- ? -- */
+	}
+	
+	/**
+	 * public boolean function recover(integer $product_id)
+	 */
+	public function recover(int $product_id): bool {
+		/* -- ? -- */
+	}
+	
+	/**
+	 * public integer function get_group_num(void)
+	 */
+	public function get_group_num(): int {
+		$ends = $this->field(['group_num'=>'count(*)'])->table(['pg'=>'product_groups'])->select();
+		return $ends[0]['group_num'] ?? -1;
+	}
+	
+	/**
+	 * public array function get_group_page(integer $page_num, integer $page_length = 20)
+	 */
+	public function get_group_page(int $page_num, int $page_length = 20): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->field(['pg.id', 'pg.code', 'pg.name', 'pg.position', 'product_num'=>'count(`pgd`.`product_id`)', 'pg.add_time']);
+		$this->table(['pg'=>'product_groups'])->join(['pgd'=>'product_group_details', 'pg.id'=>'pgd.group_id'], 'left');
+		$this->group(['pg.id'])->order(['pg.position'=>'desc'])->limit($page_length, $offset_num);
+		return $this->select();
+	}
+	
+	/**
+	 * public array function get_group(integer $group_id)
+	 */
+	public function get_group(int $group_id): array {
+		$this->field(['pg.id', 'pg.code', 'pg.name', 'pg.position', 'product_num'=>'count(`pgd`.`product_id`)', 'pg.add_time']);
+		$this->table(['pg'=>'product_groups'])->join(['pgd'=>'product_group_details', 'pg.id'=>'pgd.group_id'], 'left');
+		$ends = $this->where(['pg.id'=>(string)$group_id])->group(['pg.id'])->select();
+		return $ends[0] ?? [];
+	}
+	
+	/**
+	 * public array function get_page_by_group_id(integer $group_id)
+	 */
+	public function get_page_by_group_id(int $group_id): array {
+		/* -- ? -- */
+	}
+	
+	/**
+	 * public boolean function delete_group(integer $group_id)
+	 */
+	public function delete_group(int $group_id): bool {
+		$this->begin();
+		$end1 = $this->table(['product_group_details'])->where(['group_id'=>(string)$group_id])->delete();
+		$end2 = $this->table(['product_groups'])->where(['id'=>(string)$group_id])->delete();
+		if($end1 >= 0 && $end2 >= 0){
+			$this->end();
+			return true;
+		}
+		$this->rollback();
+		return false;
+	}
+	
+	/**
+	 * protected array function get_category_property_nums(void)
+	 */
+	protected function get_category_property_nums(): array {
+		$this->field(['pc.id', 'num'=>'count(*)'])->table(['pc'=>'product_categories']);
+		$this->join(['pcp'=>'product_category_properties', 'pc.id'=>'pcp.category_id'], 'left');
+		$datas = $this->group(['pc.id'])->order(['pc.id'=>'desc'])->select();
 		foreach($datas as $data){
-			list('customer_id'=>$id, 'num'=>$num)=$data;
+			list('id'=>$id, 'num'=>$num)=$data;
 			$ends[$id] = $num;
 		}
 		return $ends ?? [];
 	}
 	
 	/**
-	 * protected array function get_coupon_nums(void)
+	 * protected array function get_category_names(void)
 	 */
-	protected function get_coupon_nums(): array {
-		$datas = $this->field(['customer_id', 'num'=>'count(*)'])->table(['coupon_get_records'])->group(['customer_id'])->order(['customer_id'=>'desc'])->select();
-		foreach($datas as $data){
-			list('customer_id'=>$id, 'num'=>$num)=$data;
-			$ends[$id] = $num;
-		}
-		return $ends ?? [];
+	protected function get_category_names(): array {
+		$this->field(['a.id', 'parent_name'=>'b.name', 'a.name']);
+		$this->table(['a'=>'product_categories'])->join(['b'=>'product_categories', 'a.parent_id'=>'b.id'], 'left');
+		$this->order(['a.id'=>'asc']);
+		return $this->select();
 	}
 	
 	/**
-	 * protected array function get_gift_card_nums(void)
+	 * public array function get_sale_nums(void)
 	 */
-	protected function get_gift_card_nums(): array {
-		$datas = $this->field(['customer_id', 'num'=>'count(*)'])->table(['gift_card_sale_records'])->group(['customer_id'])->order(['customer_id'=>'desc'])->select();
+	protected function get_sale_nums(): array {
+		$this->field(['od.product_id', 'sale_num'=>'sum(`od`.`quantity`)']);
+		$this->table(['o'=>'orders'])->join(['od'=>'order_details', 'o.id'=>'od.order_id']);
+		$this->where(['o.status'=>"'completed'"])->group('od.product_id')->order(['od.product_id'=>'asc']);
+		$datas = $this->select();
 		foreach($datas as $data){
-			list('customer_id'=>$id, 'num'=>$num)=$data;
-			$ends[$id] = $num;
-		}
-		return $ends ?? [];
-	}
-	
-	/**
-	 * protected array function get_review_nums(void)
-	 */
-	protected function get_review_nums(): array {
-		$datas = $this->field(['customer_id', 'num'=>'count(*)'])->table(['customer_reviews'])->group(['customer_id'])->order(['customer_id'=>'desc'])->select();
-		foreach($datas as $data){
-			list('customer_id'=>$id, 'num'=>$num)=$data;
-			$ends[$id] = $num;
-		}
-		return $ends ?? [];
-	}
-	
-	/**
-	 * protected array function get_deliver_address_nums(void)
-	 */
-	protected function get_deliver_address_nums(): array {
-		$datas = $this->field(['customer_id', 'num'=>'count(*)'])->table(['customer_deliver_addresses'])->group(['customer_id'])->order(['customer_id'=>'desc'])->select();
-		foreach($datas as $data){
-			list('customer_id'=>$id, 'num'=>$num)=$data;
-			$ends[$id] = $num;
-		}
-		return $ends ?? [];
-	}
-	
-	/**
-	 * protected array function get_message_nums(void)
-	 */
-	protected function get_message_nums(): array {
-		$datas = $this->field(['customer_id', 'num'=>'count(*)'])->table(['customer_messages'])->group(['customer_id'])->order(['customer_id'=>'desc'])->select();
-		foreach($datas as $data){
-			list('customer_id'=>$id, 'num'=>$num)=$data;
+			list('product_id'=>$id, 'sale_num'=>$num)=$data;
 			$ends[$id] = $num;
 		}
 		return $ends ?? [];

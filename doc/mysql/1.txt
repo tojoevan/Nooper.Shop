@@ -1289,3 +1289,1545 @@ Query OK, 0 rows affected, 1 warning (0.00 sec)
 
 Query OK, 0 rows affected (0.64 sec)
 
+mysql> insert into \. e:/nooper.shop/doc/mysql/init_mysql_schema.sql
+Query OK, 49 rows affected (20.09 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.64 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.70 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.67 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.39 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.72 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.62 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.70 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.76 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.09 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (2.17 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (1.72 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.12 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.31 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.33 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.37 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.69 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.36 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.39 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`order_id`),
+	primary key(`id`)
+)
+	engine innodb
+	default character set utf8
+	d' at line 6
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.36 sec)
+
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`order_id`),
+	primary key(`id`)
+)
+	engine innodb
+	default character set utf8
+	d' at line 7
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') character set utf8 collate utf8_bin null,
+	`status` enum('unpaid', 'paid', 'sh' at line 11
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.81 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.39 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.42 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.62 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.66 sec)
+
+mysql> insert into \. e:/nooper.shop/doc/mysql/init_mysql_schema.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    1044
+Current database: nooper_shop
+
+Query OK, 49 rows affected (22.29 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.80 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.06 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.78 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.86 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1072 (42000): Key column 'product_group_id' doesn't exist in table
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.40 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.66 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.69 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.19 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.51 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.73 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.62 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.11 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.38 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.14 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.37 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`order_id`),
+	primary key(`id`)
+)
+	engine innodb
+	default character set utf8
+	d' at line 6
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`order_id`),
+	primary key(`id`)
+)
+	engine innodb
+	default character set utf8
+	d' at line 7
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') character set utf8 collate utf8_bin null,
+	`status` enum('unpaid', 'paid', 'sh' at line 11
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (2.37 sec)
+
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+Query OK, 0 rows affected (0.61 sec)
+
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+Query OK, 0 rows affected (0.67 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.39 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.70 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.62 sec)
+
+mysql> insert into \. e:/nooper.shop/doc/mysql/init_mysql_schema.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    1045
+Current database: nooper_shop
+
+Query OK, 46 rows affected (15.63 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.80 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.36 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.40 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.86 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.39 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.79 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.33 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1072 (42000): Key column 'product_group_id' doesn't exist in table
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.33 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (2.16 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.34 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.90 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.78 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (1.33 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.65 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.54 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.80 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.73 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.84 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.60 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.43 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.74 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.64 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`order_id`),
+	primary key(`id`)
+)
+	engine innodb
+	default character set utf8
+	d' at line 6
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.52 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`order_id`),
+	primary key(`id`)
+)
+	engine innodb
+	default character set utf8
+	d' at line 7
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') character set utf8 collate utf8_bin null,
+	`status` enum('unpaid', 'paid', 'sh' at line 11
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.46 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.96 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.12 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.87 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.40 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.70 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.62 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.57 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.62 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.93 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+mysql> show tables;
++----------------------------------------+
+| Tables_in_nooper_shop                  |
++----------------------------------------+
+| administrator_permissions              |
+| administrator_role_rel_permissions     |
+| administrator_roles                    |
+| administrators                         |
+| coupon_categories                      |
+| coupon_get_records                     |
+| coupon_models                          |
+| coupon_use_records                     |
+| coupons                                |
+| customer_balance_change_records        |
+| customer_browse_records                |
+| customer_deliver_addresses             |
+| customer_favourites                    |
+| customer_message_categories            |
+| customer_messages                      |
+| customer_profiles                      |
+| customer_reviews                       |
+| customers                              |
+| express_address_cities                 |
+| express_address_counties               |
+| express_address_provinces              |
+| express_address_towns                  |
+| express_carriage_default_params        |
+| express_carriage_global_params         |
+| express_carriage_template_details      |
+| express_carriage_templates             |
+| express_corporations                   |
+| expresses                              |
+| gift_card_models                       |
+| gift_card_recharge_records             |
+| gift_card_sale_records                 |
+| gift_cards                             |
+| order_details                          |
+| product_categories                     |
+| product_category_properties            |
+| product_default_params                 |
+| product_details                        |
+| product_group_details                  |
+| product_groups                         |
+| product_picture_thumbnails             |
+| product_pictures                       |
+| product_property_datas                 |
+| product_rel_express_carriage_templates |
+| product_stocks                         |
+| product_summaries                      |
+| products                               |
++----------------------------------------+
+46 rows in set (0.02 sec)
+
+mysql> desc product_groups;
++----------+---------------------+------+-----+-------------------+----------------+
+| Field    | Type                | Null | Key | Default           | Extra          |
++----------+---------------------+------+-----+-------------------+----------------+
+| id       | bigint(20) unsigned | NO   | PRI | NULL              | auto_increment |
+| code     | varchar(20)         | NO   | UNI | NULL              |                |
+| name     | varchar(50)         | NO   | UNI | NULL              |                |
+| position | int(10) unsigned    | YES  |     | 0                 |                |
+| add_time | timestamp           | NO   |     | CURRENT_TIMESTAMP |                |
++----------+---------------------+------+-----+-------------------+----------------+
+5 rows in set (0.04 sec)
+
+mysql> insert into product_groups values(default, 'pg-001', 'pg-luna', 22, default);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into product_groups values(default, 'pg-002', 'pg-hanna', 33, default);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from product_groups;
++----+--------+----------+----------+---------------------+
+| id | code   | name     | position | add_time            |
++----+--------+----------+----------+---------------------+
+|  1 | pg-001 | pg-luna  |       22 | 2017-09-24 11:08:11 |
+|  2 | pg-002 | pg-hanna |       33 | 2017-09-24 11:08:25 |
++----+--------+----------+----------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> desc product_group_details;
++------------+---------------------+------+-----+-------------------+----------------+
+| Field      | Type                | Null | Key | Default           | Extra          |
++------------+---------------------+------+-----+-------------------+----------------+
+| id         | bigint(20) unsigned | NO   | PRI | NULL              | auto_increment |
+| group_id   | bigint(20) unsigned | NO   | MUL | NULL              |                |
+| product_id | bigint(20) unsigned | NO   |     | NULL              |                |
+| add_time   | timestamp           | NO   |     | CURRENT_TIMESTAMP |                |
++------------+---------------------+------+-----+-------------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into product_group_details values(default, 2, 100, default);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from product_group_details;
++----+----------+------------+---------------------+
+| id | group_id | product_id | add_time            |
++----+----------+------------+---------------------+
+|  1 |        2 |        100 | 2017-09-24 11:17:48 |
++----+----------+------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into product_group_details values(default, 2, 101, default);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into product_group_details values(default, 2, 102, default);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from product_group_details;
++----+----------+------------+---------------------+
+| id | group_id | product_id | add_time            |
++----+----------+------------+---------------------+
+|  1 |        2 |        100 | 2017-09-24 11:17:48 |
+|  2 |        2 |        101 | 2017-09-24 11:22:19 |
+|  3 |        2 |        102 | 2017-09-24 11:22:28 |
++----+----------+------------+---------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from product_groups;
++----+--------+----------+----------+---------------------+
+| id | code   | name     | position | add_time            |
++----+--------+----------+----------+---------------------+
+|  1 | pg-001 | pg-luna  |       22 | 2017-09-24 11:08:11 |
+|  2 | pg-002 | pg-hanna |       33 | 2017-09-24 11:08:25 |
++----+--------+----------+----------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> delete from product_group_details pgd where pgd.groupd_id=3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'pgd where pgd.groupd_id=3' at line 1
+mysql> help delte;
+
+Nothing found
+Please try to run 'help contents' for a list of all accessible topics
+
+mysql> help delete;
+Name: 'DELETE'
+Description:
+Syntax:
+DELETE is a DML statement that removes rows from a table.
+
+Single-Table Syntax
+
+DELETE [LOW_PRIORITY] [QUICK] [IGNORE] FROM tbl_name
+    [PARTITION (partition_name,...)]
+    [WHERE where_condition]
+    [ORDER BY ...]
+    [LIMIT row_count]
+
+The DELETE statement deletes rows from tbl_name and returns the number
+of deleted rows. To check the number of deleted rows, call the
+ROW_COUNT() function described in
+http://dev.mysql.com/doc/refman/5.7/en/information-functions.html.
+
+Main Clauses
+
+The conditions in the optional WHERE clause identify which rows to
+delete. With no WHERE clause, all rows are deleted.
+
+where_condition is an expression that evaluates to true for each row to
+be deleted. It is specified as described in
+http://dev.mysql.com/doc/refman/5.7/en/select.html.
+
+If the ORDER BY clause is specified, the rows are deleted in the order
+that is specified. The LIMIT clause places a limit on the number of
+rows that can be deleted. These clauses apply to single-table deletes,
+but not multi-table deletes.
+
+Multiple-Table Syntax
+
+DELETE [LOW_PRIORITY] [QUICK] [IGNORE]
+    tbl_name[.*] [, tbl_name[.*]] ...
+    FROM table_references
+    [WHERE where_condition]
+
+Or:
+
+DELETE [LOW_PRIORITY] [QUICK] [IGNORE]
+    FROM tbl_name[.*] [, tbl_name[.*]] ...
+    USING table_references
+    [WHERE where_condition]
+
+Privileges
+
+You need the DELETE privilege on a table to delete rows from it. You
+need only the SELECT privilege for any columns that are only read, such
+as those named in the WHERE clause.
+
+Performance
+
+When you do not need to know the number of deleted rows, the TRUNCATE
+TABLE statement is a faster way to empty a table than a DELETE
+statement with no WHERE clause. Unlike DELETE, TRUNCATE TABLE cannot be
+used within a transaction or if you have a lock on the table. See [HELP
+TRUNCATE TABLE] and [HELP LOCK].
+
+The speed of delete operations may also be affected by factors
+discussed in http://dev.mysql.com/doc/refman/5.7/en/delete-speed.html.
+
+To ensure that a given DELETE statement does not take too much time,
+the MySQL-specific LIMIT row_count clause for DELETE specifies the
+maximum number of rows to be deleted. If the number of rows to delete
+is larger than the limit, repeat the DELETE statement until the number
+of affected rows is less than the LIMIT value.
+
+Subqueries
+
+You cannot delete from a table and select from the same table in a
+subquery.
+
+Partitioned Tables
+
+DELETE supports explicit partition selection using the PARTITION
+option, which takes a comma-separated list of the names of one or more
+partitions or subpartitions (or both) from which to select rows to be
+dropped. Partitions not included in the list are ignored. Given a
+partitioned table t with a partition named p0, executing the statement
+DELETE FROM t PARTITION (p0) has the same effect on the table as
+executing ALTER TABLE t TRUNCATE PARTITION (p0); in both cases, all
+rows in partition p0 are dropped.
+
+PARTITION can be used along with a WHERE condition, in which case the
+condition is tested only on rows in the listed partitions. For example,
+DELETE FROM t PARTITION (p0) WHERE c < 5 deletes rows only from
+partition p0 for which the condition c < 5 is true; rows in any other
+partitions are not checked and thus not affected by the DELETE.
+
+The PARTITION option can also be used in multiple-table DELETE
+statements. You can use up to one such option per table named in the
+FROM option.
+
+See http://dev.mysql.com/doc/refman/5.7/en/partitioning-selection.html,
+for more information and examples.
+
+URL: http://dev.mysql.com/doc/refman/5.7/en/delete.html
+
+
+mysql> delete from product_group_details where group_id=33;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> delete from product_group_details pgd where group_id=33;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'pgd where group_id=33' at line 1
+mysql> delete from product_group_details as pgd where group_id=33;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as pgd where group_id=33' at line 1
+mysql> desc product_categories;
++-----------+---------------------+------+-----+-------------------+----------------+
+| Field     | Type                | Null | Key | Default           | Extra          |
++-----------+---------------------+------+-----+-------------------+----------------+
+| id        | bigint(20) unsigned | NO   | PRI | NULL              | auto_increment |
+| parent_id | bigint(20) unsigned | YES  | MUL | 0                 |                |
+| name      | varchar(50)         | NO   |     | NULL              |                |
+| position  | int(10) unsigned    | YES  |     | 0                 |                |
+| add_time  | timestamp           | NO   |     | CURRENT_TIMESTAMP |                |
++-----------+---------------------+------+-----+-------------------+----------------+
+5 rows in set (0.01 sec)
+
+mysql> insert into product_categories values(default, 0, 'pc-001', 1, default);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into product_categories values(default, 0, 'pc-002', 2, default);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> select * from product_categories;
++----+-----------+--------+----------+---------------------+
+| id | parent_id | name   | position | add_time            |
++----+-----------+--------+----------+---------------------+
+|  1 |         0 | pc-001 |        1 | 2017-09-24 13:25:37 |
+|  2 |         0 | pc-002 |        2 | 2017-09-24 13:25:51 |
++----+-----------+--------+----------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into product_categories values(default, 1, 'pc-001-1', 2, default);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into product_categories values(default, 1, 'pc-001-2', 3, default);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select * from product_categories;
++----+-----------+----------+----------+---------------------+
+| id | parent_id | name     | position | add_time            |
++----+-----------+----------+----------+---------------------+
+|  1 |         0 | pc-001   |        1 | 2017-09-24 13:25:37 |
+|  2 |         0 | pc-002   |        2 | 2017-09-24 13:25:51 |
+|  3 |         1 | pc-001-1 |        2 | 2017-09-24 13:26:32 |
+|  4 |         1 | pc-001-2 |        3 | 2017-09-24 13:26:39 |
++----+-----------+----------+----------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql> help concat;
+Name: 'CONCAT'
+Description:
+Syntax:
+CONCAT(str1,str2,...)
+
+Returns the string that results from concatenating the arguments. May
+have one or more arguments. If all arguments are nonbinary strings, the
+result is a nonbinary string. If the arguments include any binary
+strings, the result is a binary string. A numeric argument is converted
+to its equivalent nonbinary string form.
+
+CONCAT() returns NULL if any argument is NULL.
+
+URL: http://dev.mysql.com/doc/refman/5.7/en/string-functions.html
+
+Examples:
+mysql> SELECT CONCAT('My', 'S', 'QL');
+        -> 'MySQL'
+mysql> SELECT CONCAT('My', NULL, 'QL');
+        -> NULL
+mysql> SELECT CONCAT(14.3);
+        -> '14.3'
+
+mysql> help trim();
+
+Nothing found
+Please try to run 'help contents' for a list of all accessible topics
+
+mysql> help trim;
+Name: 'TRIM'
+Description:
+Syntax:
+TRIM([{BOTH | LEADING | TRAILING} [remstr] FROM] str), TRIM([remstr
+FROM] str)
+
+Returns the string str with all remstr prefixes or suffixes removed. If
+none of the specifiers BOTH, LEADING, or TRAILING is given, BOTH is
+assumed. remstr is optional and, if not specified, spaces are removed.
+
+URL: http://dev.mysql.com/doc/refman/5.7/en/string-functions.html
+
+Examples:
+mysql> SELECT TRIM('  bar   ');
+        -> 'bar'
+mysql> SELECT TRIM(LEADING 'x' FROM 'xxxbarxxx');
+        -> 'barxxx'
+mysql> SELECT TRIM(BOTH 'x' FROM 'xxxbarxxx');
+        -> 'bar'
+mysql> SELECT TRIM(TRAILING 'xyz' FROM 'barxxyz');
+        -> 'barx'
+
+mysql> select concat(null, 'a');
++-------------------+
+| concat(null, 'a') |
++-------------------+
+| NULL              |
++-------------------+
+1 row in set (0.01 sec)
+
+mysql> insert into product_categories values(default, 1, 'pc-001-2', 3, default);
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    1202
+Current database: nooper_shop
+
+ERROR 1062 (23000): Duplicate entry '1-pc-001-2' for key 'parent_id'
+mysql> insert into \. e:/nooper.shop/doc/mysql/init_mysql_schema.sql
+Query OK, 46 rows affected (14.98 sec)
+
+Query OK, 1 row affected (0.25 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (2.09 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.67 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.73 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.23 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.80 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.75 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1072 (42000): Key column 'product_group_id' doesn't exist in table
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.77 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.91 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.58 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.69 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.77 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.64 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.78 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.86 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.73 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.39 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`order_id`),
+	primary key(`id`)
+)
+	engine innodb
+	default character set utf8
+	d' at line 6
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.61 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`order_id`),
+	primary key(`id`)
+)
+	engine innodb
+	default character set utf8
+	d' at line 7
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') character set utf8 collate utf8_bin null,
+	`status` enum('unpaid', 'paid', 'sh' at line 11
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.41 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.83 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.25 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.42 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.51 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.80 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.55 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.86 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.67 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected (0.51 sec)
+
+mysql> \. e:/nooper.shop/doc/mysql/init_mysql_schema.sql
+Query OK, 46 rows affected (18.32 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.59 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.51 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.72 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.53 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.70 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.57 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.49 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1072 (42000): Key column 'product_group_id' doesn't exist in table
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.96 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.71 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.63 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.66 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.22 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.74 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.89 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.78 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.61 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.51 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.49 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.82 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.39 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.54 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.08 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.63 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.37 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.86 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.64 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.87 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`order_id`),
+	primary key(`id`)
+)
+	engine innodb
+	default character set utf8
+	d' at line 6
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.16 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`order_id`),
+	primary key(`id`)
+)
+	engine innodb
+	default character set utf8
+	d' at line 7
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') character set utf8 collate utf8_bin null,
+	`status` enum('unpaid', 'paid', 'sh' at line 11
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.26 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.78 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.66 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.62 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.80 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.80 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.56 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (1.45 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.48 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.54 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.85 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.63 sec)
+
+mysql> show tables;
++----------------------------------------+
+| Tables_in_nooper_shop                  |
++----------------------------------------+
+| administrator_permissions              |
+| administrator_role_rel_permissions     |
+| administrator_roles                    |
+| administrators                         |
+| coupon_categories                      |
+| coupon_get_records                     |
+| coupon_models                          |
+| coupon_use_records                     |
+| coupons                                |
+| customer_balance_change_records        |
+| customer_browse_records                |
+| customer_deliver_addresses             |
+| customer_favourites                    |
+| customer_message_categories            |
+| customer_messages                      |
+| customer_profiles                      |
+| customer_reviews                       |
+| customers                              |
+| express_address_cities                 |
+| express_address_counties               |
+| express_address_provinces              |
+| express_address_towns                  |
+| express_carriage_default_params        |
+| express_carriage_global_params         |
+| express_carriage_template_details      |
+| express_carriage_templates             |
+| express_corporations                   |
+| expresses                              |
+| gift_card_models                       |
+| gift_card_recharge_records             |
+| gift_card_sale_records                 |
+| gift_cards                             |
+| order_details                          |
+| product_categories                     |
+| product_category_properties            |
+| product_default_params                 |
+| product_details                        |
+| product_group_details                  |
+| product_groups                         |
+| product_picture_thumbnails             |
+| product_pictures                       |
+| product_property_datas                 |
+| product_rel_express_carriage_templates |
+| product_stocks                         |
+| product_summaries                      |
+| products                               |
++----------------------------------------+
+46 rows in set (0.00 sec)
+
+mysql> desc products;
++----------------+----------------------------------------------+------+-----+-------------------+----------------+
+| Field          | Type                                         | Null | Key | Default           | Extra          |
++----------------+----------------------------------------------+------+-----+-------------------+----------------+
+| id             | bigint(20) unsigned                          | NO   | PRI | NULL              | auto_increment |
+| unique_id      | char(12)                                     | NO   | UNI | NULL              |                |
+| category_id    | bigint(20) unsigned                          | NO   |     | NULL              |                |
+| code           | varchar(20)                                  | YES  | UNI | NULL              |                |
+| name           | varchar(50)                                  | NO   | UNI | NULL              |                |
+| tag_price      | decimal(10,2)                                | NO   |     | NULL              |                |
+| discount_price | decimal(10,2)                                | NO   |     | NULL              |                |
+| position       | int(10) unsigned                             | NO   |     | NULL              |                |
+| add_time       | timestamp                                    | NO   |     | CURRENT_TIMESTAMP |                |
+| status         | enum('prepare','online','offline','deleted') | NO   |     | NULL              |                |
++----------------+----------------------------------------------+------+-----+-------------------+----------------+
+10 rows in set (0.05 sec)
+
+mysql> insert into products values(default 'p-uni-001', 1, 'p-001', 'p-001-name', 100.00, 98.00, 1, default, 'online');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''p-uni-001', 1, 'p-001', 'p-001-name', 100.00, 98.00, 1, default, 'online')' at line 1
+mysql> insert into products values(default, 'p-uni-001', 1, 'p-001', 'p-001-name', 100.00, 98.00, 1, default, 'online');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from products;
++----+-----------+-------------+-------+------------+-----------+----------------+----------+---------------------+--------+
+| id | unique_id | category_id | code  | name       | tag_price | discount_price | position | add_time            | status |
++----+-----------+-------------+-------+------------+-----------+----------------+----------+---------------------+--------+
+|  1 | p-uni-001 |           1 | p-001 | p-001-name |    100.00 |          98.00 |        1 | 2017-09-25 22:21:32 | online |
++----+-----------+-------------+-------+------------+-----------+----------------+----------+---------------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from products;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    1217
+Current database: nooper_shop
+
++----+-----------+-------------+-------+------------+-----------+----------------+----------+---------------------+--------+
+| id | unique_id | category_id | code  | name       | tag_price | discount_price | position | add_time            | status |
++----+-----------+-------------+-------+------------+-----------+----------------+----------+---------------------+--------+
+|  1 | p-uni-001 |           1 | p-001 | p-001-name |    100.00 |          98.00 |        1 | 2017-09-25 22:21:32 | online |
++----+-----------+-------------+-------+------------+-----------+----------------+----------+---------------------+--------+
+1 row in set (0.03 sec)
+
+mysql> select * from products;
++----+-----------+-------------+-------+------------+-----------+----------------+----------+---------------------+--------+
+| id | unique_id | category_id | code  | name       | tag_price | discount_price | position | add_time            | status |
++----+-----------+-------------+-------+------------+-----------+----------------+----------+---------------------+--------+
+|  1 | p-uni-001 |           1 | p-001 | p-001-name |    100.00 |          98.00 |        1 | 2017-09-25 22:21:32 | online |
++----+-----------+-------------+-------+------------+-----------+----------------+----------+---------------------+--------+
+1 row in set (0.00 sec)
+

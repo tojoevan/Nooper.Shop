@@ -305,7 +305,7 @@ class Mysql {
 			$this->ds = $this->database->prepare($this->sql);
 			if($this->ds){
 				if($this->ds->execute()){
-					$id = $this->database_lastInsertId();
+					$id = $this->database->lastInsertId();
 					$this->id = $old_id != $id ? $id : null;
 					return $this->ds->rowCount();
 				}else
