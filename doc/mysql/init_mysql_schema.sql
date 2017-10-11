@@ -19,7 +19,7 @@ use `nooper_shop`
 drop table if exists `administrator_permissions`;
 create table if not exists `administrator_permissions`(
 	`id` bigint unsigned auto_increment not null,
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
+	`code` varchar(10) character set utf8 collate utf8_bin not null,
 	`name` varchar(50) character set utf8 collate utf8_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
