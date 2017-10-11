@@ -225,7 +225,7 @@ create table if not exists `customer_carts`(
 	`product_id` bigint unsigned not null,
 	`quantity` int unsigned not null,
 	`add_time` timestamp default current_timestamp,
-	unique(`customer_id`,`product_group_id`,`product_id`),
+	unique(`customer_id`,`product_id`),
 	primary key(`id`)
 )
 	engine innodb
@@ -642,7 +642,7 @@ create table if not exists `order_complete_records`(
 	`customer_id` bigint unsigned not null,
 	`order_id` bigint unsigned not null,
 	`add_time` timestamp default current_timestamp,
-	unqiue(`order_id`),
+	unique(`order_id`),
 	primary key(`id`)
 )
 	engine innodb
@@ -681,7 +681,7 @@ create table if not exists `order_pay_records`(
 	`order_id` bigint unsigned not null,
 	`pay_money` decimal(10, 2) unsigned not null,
 	`add_time` timestamp default current_timestamp,
-	unqiue(`order_id`),
+	unique(`order_id`),
 	primary key(`id`)
 )
 	engine innodb
@@ -703,7 +703,7 @@ create table if not exists `orders`(
 	`total_express_carriage_money` decimal(10, 2) unsigned not null,
 	`total_money` decimal(10, 2) unsigned not null,
 	`add_time` timestamp default current_timestamp,
-	`pay_method` enum('wechat', 'balance',) character set utf8 collate utf8_bin null,
+	`pay_method` enum('wechat', 'balance') character set utf8 collate utf8_bin null,
 	`status` enum('unpaid', 'paid', 'shipped', 'completed', 'closed') character set utf8 collate utf8_bin not null,
 	unique(`unique_id`),
 	primary key(`id`)
