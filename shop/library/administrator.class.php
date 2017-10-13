@@ -13,7 +13,14 @@ class Administrator extends Mysql {
 	}
 	
 	/**
-	 * public array function get_permission_page(integer $page_num = 1, integer $page_length = 20)
+	 * public array function get_permissions(void)
+	 */
+	public function get_permissions(): array {
+		return $this->field(['id', 'code', 'name'])->table(['administrator_permissions'])->order(['id'=>'asc'])->select();
+	}
+	
+	/**
+	 * public array function get_permission_page(integer $page_num = 1, integer $page_length = 20)d
 	 */
 	public function get_permission_page(int $page_num = 1, int $page_length = 20): array {
 		$offset = ($page_num - 1) * $page_length;
@@ -75,6 +82,29 @@ class Administrator extends Mysql {
 		$this->join(['ap'=>'administrator_permissions', 'arrp.permission_id'=>'ap.id']);
 		$this->where(['arrp.role_id'=>(string)$role_id])->order(['ap.id'=>'asc']);
 		return $this->select();
+	}
+	
+	/**
+	 * public boolean function set_role_permissions(integer $role_id, array $permission_ids)
+	 * @$permission_ids=[integer $permission_id,...]
+	 */
+	public function set_role_permissions(int $role_id, array $permission_ids): bool {
+		$this->begin();
+		$end1 = $this->table(['administrator_role_rel_permissions'])->where(['role_id'=>(string)$role_id])->delete();
+		if($end1 < 0){
+			$this->rollback();
+			return false;
+		}
+		foreach($permission_ids as $pid){
+			$datas = ['role_id'=>$role_id, 'permission_id'=>$pid];
+			$end2 = $this->table(['administrator_role_rel_permissions'])->add($datas);
+			if($end2 < 0){
+				$this->rollback();
+				return false;
+			}
+		}
+		$this->end();
+		return true;
 	}
 	
 	/**
