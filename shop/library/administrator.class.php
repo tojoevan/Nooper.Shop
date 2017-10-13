@@ -136,5 +136,81 @@ class Administrator extends Mysql {
 		return $this->table(['administrator_roles'])->where(['id'=>(string)$role_id])->delete(); // -1: database error!
 	}
 	
+	/**
+	 * public integer function num(void)
+	 */
+	public function num(): int {
+		// 查询返回管理员的个数
+	}
+	
+	/**
+	 * public array function page(integer $page_num = 1, integer $page_length = 20)
+	 */
+	public function page(int $page_num = 1, int $page_lenght = 20): array {
+		// 查询返回管理员列表，是一个二维数组， 按a.id=>asc
+		// 返回字段包括
+		// a.id
+		// ar.code
+		// a.email
+		// a.add_time
+	}
+	
+	/**
+	 * public array function item(integer $admin_id)
+	 */
+	public function item(int $admin_id): array {
+		/*
+		 * 查询返回指定管理员的具体信息数组
+		 * a.id
+		 * ar.code
+		 * a.email
+		 * permissions=[ap.code,...]
+		 * a.add_time
+		 */
+	}
+	
+	/**
+	 * public integer function create(integer $role_id, string $email, string $pwd)
+	 */
+	public function create(int $role_id, string $email, string $pwd): int {
+		/*
+		 * 添加管理员记录
+		 * 如果$role_id=1,即添加的是超级管理员，返回-2，禁止添加
+		 * 如果添加成功，返回该新增的管理员的a.id，失败返回-1
+		 */
+	}
+	
+	/**
+	 * public boolean function save(integer $admin_id, integer $role_id)
+	 */
+	public function save(int $admin_id, int $role_id): bool {
+		/*
+		 * 修改管理员记录
+		 * 只能修改角色类型
+		 * 如果$role_id=1， 即修改的是超级管理员，返回false
+		 * 如果添加成功，返回true， 否则返回false
+		 */
+	}
+	
+	/**
+	 * public boolean function remove(integer $admin_id)
+	 */
+	public function remove(int $admin_id): bool {
+		/*
+		 * 删除管理员记录
+		 * 禁止删除$role_id=1的超级管理员，返回false
+		 * 添加成功返回true，否则返回false
+		 */
+	}
+	
+	/**
+	 * public boolean function password(string $new_pwd)
+	 */
+	public function password(string $new_pwd): bool {
+		/*
+		 * 重新设置管理员密码
+		 */
+	}
+	
 	//
 }
