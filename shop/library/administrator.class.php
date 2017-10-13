@@ -120,7 +120,7 @@ class Administrator extends Mysql {
 	 * public bool function modify_role(integer $role_id, string $code, string $name)
 	 */
 	public function modify_role(int $role_id, string $code, string $name): bool {
-		if(1 == $role_id) return false; // $role_id=1, $code='super_admin', no modify!
+		if(1 == $role_id) return false;
 		$datas = ['code'=>$code, 'name'=>$name];
 		$end = $this->table(['administrator_roles'])->where(['id'=>(string)$role_id])->modify($datas);
 		return $end > 0 ? true : false;
@@ -130,86 +130,84 @@ class Administrator extends Mysql {
 	 * public integer function delete_role(int $role_id)
 	 */
 	public function delete_role(int $role_id): int {
-		if(1 == $role_id) return -2; // $role_id=1, $code='super_admin', no delete!
+		if(1 == $role_id) return -2;
 		$datas = $this->field(['admin_num'=>'count(*)'])->table(['administrators'])->where(['role_id'=>(string)$role_id])->select();
-		if(isset($datas[0]) && $datas[0]['admin_num'] > 0) return -3; // role including admins!
-		return $this->table(['administrator_roles'])->where(['id'=>(string)$role_id])->delete(); // -1: database error!
+		if(isset($datas[0]) && $datas[0]['admin_num'] > 0) return -3;
+		return $this->table(['administrator_roles'])->where(['id'=>(string)$role_id])->delete();
 	}
 	
 	/**
 	 * public integer function num(void)
 	 */
 	public function num(): int {
-		// 查询返回管理员的个数
+		$ends = $this->field(['admin_num'=>'count(*)'])->table(['administrators'])->select();
+		return isset($ends[0]) ? $ends[0]['admin_num'] : -1;
 	}
 	
 	/**
 	 * public array function page(integer $page_num = 1, integer $page_length = 20)
 	 */
-	public function page(int $page_num = 1, int $page_lenght = 20): array {
-		// 查询返回管理员列表，是一个二维数组， 按a.id=>asc
-		// 返回字段包括
-		// a.id
-		// ar.code
-		// a.email
-		// a.add_time
+	public function page(int $page_num = 1, int $page_length = 20): array {
+		$offset = ($page_num - 1) * $page_length;
+		$this->field(['a.id', 'role_id'=>'ar.id', 'role_code'=>'ar.code', 'a.email', 'a.add_time']);
+		$this->table(['a'=>'administrators'])->join(['ar'=>'administrator_roles', 'a.role_id'=>'ar.id']);
+		$this->order(['a.id'=>'asc'])->limit($page_length, $offset);
+		return $this->select();
 	}
 	
 	/**
 	 * public array function item(integer $admin_id)
 	 */
 	public function item(int $admin_id): array {
-		/*
-		 * 查询返回指定管理员的具体信息数组
-		 * a.id
-		 * ar.code
-		 * a.email
-		 * permissions=[ap.code,...]
-		 * a.add_time
-		 */
+		$this->field(['a.id', 'role_id'=>'ar.id', 'role_code'=>'ar.code', 'a.email', 'a.add_time']);
+		$this->table(['a'=>'administrators'])->join(['ar'=>'administrator_roles', 'a.role_id'=>'ar.id']);
+		$datas = $this->where(['a.id'=>(string)$admin_id])->select();
+		if(isset($datas[0])){
+			$ends = $datas[0];
+			$role_id = $ends['role_id'];
+			$this->field(['ap.id', 'ap.code'])->table(['ap'=>'administrator_permissions']);
+			$this->join(['arrp'=>'administrator_role_rel_permissions', 'ap.id'=>'arrp.permission_id']);
+			$ends['permissions'] = $this->where(['arrp.role_id'=>(string)$role_id])->select();
+		}
+		return $ends ?? [];
 	}
 	
 	/**
 	 * public integer function create(integer $role_id, string $email, string $pwd)
 	 */
 	public function create(int $role_id, string $email, string $pwd): int {
-		/*
-		 * 添加管理员记录
-		 * 如果$role_id=1,即添加的是超级管理员，返回-2，禁止添加
-		 * 如果添加成功，返回该新增的管理员的a.id，失败返回-1
-		 */
+		if(1 == $role_id) return -2;
+		$datas = ['role_id'=>$role_id, 'email'=>$email, 'pwd'=>["password('" . $pwd . "')"]];
+		$end = $this->table(['administrators'])->add($datas);
+		return $end > 0 ? $this->get_last_id() : -1;
 	}
 	
 	/**
 	 * public boolean function save(integer $admin_id, integer $role_id)
 	 */
 	public function save(int $admin_id, int $role_id): bool {
-		/*
-		 * 修改管理员记录
-		 * 只能修改角色类型
-		 * 如果$role_id=1， 即修改的是超级管理员，返回false
-		 * 如果添加成功，返回true， 否则返回false
-		 */
+		if(1 == $role_id) return false;
+		$datas = ['role_id'=>$role_id];
+		$end = $this->table(['administrators'])->where(['id'=>(string)$admin_id])->modify($datas);
+		return $end > 0 ? true : false;
 	}
 	
 	/**
 	 * public boolean function remove(integer $admin_id)
 	 */
 	public function remove(int $admin_id): bool {
-		/*
-		 * 删除管理员记录
-		 * 禁止删除$role_id=1的超级管理员，返回false
-		 * 添加成功返回true，否则返回false
-		 */
+		if(1 == $admin_id) return false;
+		$end = $this->table(['administrators'])->where(['id'=>(string)$admin_id])->delete();
+		return $end > 0 ? true : false;
 	}
 	
 	/**
-	 * public boolean function password(string $new_pwd)
+	 * public boolean function password(integer $admin_id, string $new_pwd)
 	 */
-	public function password(string $new_pwd): bool {
-		/*
-		 * 重新设置管理员密码
-		 */
+	public function password(int $admin_id, string $new_pwd): bool {
+		$datas = ['pwd'=>["password('" . $new_pwd . "')"]];
+		$end = $this->table(['administrators'])->where(['id'=>(string)$admin_id])->modify($datas);
+		return $end > 0 ? true : false;
 	}
 	
 	//
