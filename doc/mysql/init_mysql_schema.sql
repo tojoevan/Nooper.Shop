@@ -117,6 +117,7 @@ create table if not exists `coupon_models`(
 	`begin_time` bigint unsigned not null,
 	`end_time` bigint unsigned not null,
 	`add_time`timestamp default current_timestamp,
+	`status` enum('normal', 'expired') not null,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
