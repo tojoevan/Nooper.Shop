@@ -73,6 +73,7 @@ drop table if exists `administrators`;
 create table if not exists `administrators`(
 	`id` bigint unsigned auto_increment not null,
 	`role_id` bigint unsigned not null,
+	`name` varchar(30) character set utf8 collate utf8_bin not null,
 	`email` varchar(50) character set utf8 collate utf8_bin not null,
 	`pwd` char(41) character set utf8 collate utf8_bin not null,
 	`add_time` timestamp default current_timestamp,
@@ -90,7 +91,7 @@ create table if not exists `administrators`(
 drop table if exists `coupon_categories`;
 create table if not exists `coupon_categories`(
 	`id` bigint unsigned auto_increment not null,
-	`code` varchar(10) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8 collate utf8_bin not null,
 	`name` varchar(50) character set utf8 collate utf8_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
@@ -101,23 +102,6 @@ create table if not exists `coupon_categories`(
 	default character set utf8
 	default collate utf8_bin;
 
-
-/**
- * Table: Coupon_Get_Records
- */
-drop table if exists `coupon_get_records`;
-create table if not exists `coupon_get_records`(
-	`id` bigint unsigned auto_increment not null,
-	`customer_id` bigint unsigned not null,
-	`coupon_id` bigint unsigned not null,
-	`add_time` timestamp default current_timestamp,
-	unique(`coupon_id`),
-	primary key(`id`)
-)
-	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
-
 	
 /**
  * Table: Coupon_Models
@@ -126,11 +110,10 @@ drop table if exists `coupon_models`;
 create table if not exists `coupon_models`(
 	`id` bigint unsigned auto_increment not null, 
 	`category_id` bigint unsigned not null,
-	`code` varchar(10) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8 collate utf8_bin not null,
 	`name` varchar(50) character set utf8 collate utf8_bin not null,
 	`tag_money` decimal(10, 2) not null,
-	`min_charge` decimal(10, 2) null,
-	`quantity` int unsigned not null,
+	`min_charge` decimal(10, 2)  default 0,
 	`begin_time` bigint unsigned not null,
 	`end_time` bigint unsigned not null,
 	`add_time`timestamp default current_timestamp,
@@ -149,6 +132,7 @@ create table if not exists `coupon_models`(
 drop table if exists `coupon_use_records`;
 create table if not exists `coupon_use_records`(
 	`id` bigint unsigned auto_increment not null,
+	`customer_id` bigint unsigned not null,
 	`order_id` bigint unsigned not null,
 	`coupon_id` bigint unsigned not null,
 	`add_time` timestamp default current_timestamp,
@@ -167,10 +151,11 @@ create table if not exists `coupon_use_records`(
 drop table if exists `coupons`;
 create table if not exists `coupons`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(28) character set utf8 collate utf8_bin not null,
+	`unique_id` char(10) character set utf8 collate utf8_bin not null,
 	`model_id` bigint unsigned not null,
+	`customer_id` bigint unsigned not null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('prepare', 'normal', 'got', 'used', 'expired') not null,
+	`status` enum('normal', 'used', 'expired') not null,
 	unique(`unique_id`),
 	primary key(`id`)
 )

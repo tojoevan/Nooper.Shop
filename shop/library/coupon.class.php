@@ -5,6 +5,141 @@ namespace Nooper;
 class Coupon extends Mysql {
 	
 	/**
+	 * public integer function get_category_num(void)
+	 */
+	public function get_category_num():int {
+		//
+	}
+	
+	/**
+	 * public array function get_category_page(integer $page_num = 1, integer $page_length = 20)
+	 */
+	public function get_category_page(int $page_num=1, int $page_length=20):array {
+		/*
+		 * cc.id
+		 * cc.code
+		 * cc.name
+		 * 本类别下优惠卷模板的个数：model_num
+		 * 本类下优惠卷的个数：coupon_num
+		 * cc.add_time
+		 * 
+		 * cc.id=>asc
+		 */
+	}
+	
+	/**
+	 * public array function get_category_item(integer $categroy_id)
+	 */
+	public function get_catgory_item(int $category_id):array {
+		//
+	}
+	
+	/**
+	 * public integer function get_model_num(void)
+	 */
+	public function get_model_num():int {
+		//
+	}
+	
+	/**
+	 * public array function get_model_page(integer $page_num = 1, integer $page_length = 20)
+	 */
+	public function get_model_page(int $page_num=1, $page_length=20):array {
+		/*
+		 * cm.id
+		 * cc.id=>category_id
+		 * cc.code=>category_code		yes
+		 * cm.code		yes
+		 * cm.name		yes
+		 * cm.tag_price		yes
+		 * cm.min_charge			yes
+		 * cm.begin_time /cm.end_time			yes
+		 * cm.add_time		yes
+		 * 本模板下领取的优惠卷个数：coupon_num		yes
+		 * 本模板下已使用优惠卷个数：used_coupon_num		yes	
+		 * 本模板下过期的优惠卷个数：expired_coupon_num		yes
+		 * 
+		 */
+	}
+	
+	
+	/**
+	 * public array function get_model_item(integer $model_id)
+	 */
+	public function get_model_item(int $model_id):array {
+		/*
+		 * 
+		 */
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
 	 * public array function get_categories(integer $pagea_num, integer $page_length = 20)
 	 */
 	public function get_categories(int $page_num, int $page_length = 20): array {

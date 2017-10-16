@@ -7,7 +7,7 @@ insert into `administrator_permissions`(`code`, `name`) values('all','全部权�
 /**
  *
  */
-insert into `administrator_roles`(`code`, `name`) values('super-admin', '超级管理员');
+insert into `administrator_roles`(`code`, `name`) values('system-admin', '系统管理员');
 
 
 /**

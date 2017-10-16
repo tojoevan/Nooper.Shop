@@ -149,7 +149,7 @@ class Administrator extends Mysql {
 	 */
 	public function page(int $page_num = 1, int $page_length = 20): array {
 		$offset = ($page_num - 1) * $page_length;
-		$this->field(['a.id', 'role_id'=>'ar.id', 'role_code'=>'ar.code', 'a.email', 'a.add_time']);
+		$this->field(['a.id', 'role_id'=>'ar.id', 'role_code'=>'ar.code', 'a.email', 'a.name', 'a.add_time']);
 		$this->table(['a'=>'administrators'])->join(['ar'=>'administrator_roles', 'a.role_id'=>'ar.id']);
 		$this->order(['a.id'=>'asc'])->limit($page_length, $offset);
 		return $this->select();
@@ -183,9 +183,9 @@ class Administrator extends Mysql {
 	}
 	
 	/**
-	 * public boolean function save(integer $admin_id, integer $role_id)
+	 * public boolean function edit(integer $admin_id, integer $role_id)
 	 */
-	public function save(int $admin_id, int $role_id): bool {
+	public function edit(int $admin_id, int $role_id): bool {
 		if(1 == $role_id) return false;
 		$datas = ['role_id'=>$role_id];
 		$end = $this->table(['administrators'])->where(['id'=>(string)$admin_id])->modify($datas);
