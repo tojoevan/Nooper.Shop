@@ -117,7 +117,7 @@ create table if not exists `coupon_models`(
 	`begin_time` bigint unsigned not null,
 	`end_time` bigint unsigned not null,
 	`add_time`timestamp default current_timestamp,
-	`status` enum('normal', 'expired') not null,
+	`status` enum('normal', 'expired', 'deleted') not null,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
@@ -152,7 +152,7 @@ create table if not exists `coupon_use_records`(
 drop table if exists `coupons`;
 create table if not exists `coupons`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(10) character set utf8 collate utf8_bin not null,
+	`unique_id` char(18) character set utf8 collate utf8_bin not null,
 	`model_id` bigint unsigned not null,
 	`customer_id` bigint unsigned not null,
 	`add_time` timestamp default current_timestamp,
@@ -550,11 +550,10 @@ create table if not exists `expresses`(
 drop table if exists `gift_card_models`;
 create table if not exists `gift_card_models`(
 	`id` bigint unsigned auto_increment not null, 
-	`code` varchar(10) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8 collate utf8_bin not null,
 	`name` varchar(50) character set utf8 collate utf8_bin not null,
-	`recharge_price` decimal(10, 2) unsigned not null,
+	`recharge_money` decimal(10, 2) unsigned not null,
 	`sale_price`decimal(10, 2) unsigned not null,
-	`quantity` int unsigned not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
 	unique(`code`),
