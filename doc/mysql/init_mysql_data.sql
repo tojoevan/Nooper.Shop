@@ -1,6 +1,11 @@
 /**
  *
  */
+ use `nooper_shop`
+
+/**
+ *
+ */
 insert into `administrator_permissions`(`code`, `name`) values('all','全部权限');
 
 
@@ -19,7 +24,7 @@ insert into `administrators`(`role_id`,`name`,`pwd`) values(1, 'root', password(
 /**
  *
  */
-insert into `coupon_categories`(`code`, `name`) values('MC-AP', '全场限最低消费额度优惠券'), ('NO-MC-AP', '全场不限最低消费额度优惠券');
+insert into `coupon_categories`(`code`, `name`) values('mc-ap', '全场限最低消费额度优惠券'), ('no-mc-ap', '全场不限最低消费额度优惠券');
 
 
 /**

@@ -105,7 +105,7 @@ class Coupon extends Mysql {
 	/**
 	 * public boolean recover_model(integer $model_id)
 	 */
-	public function recovere_model(int $model_id): bool {
+	public function recover_model(int $model_id): bool {
 		//
 	}
 	
