@@ -347,7 +347,7 @@ drop table if exists `customers`;
 create table if not exists `customers`(
 	`id` bigint unsigned auto_increment not null,
 	`unique_id` char(26) character set utf8 collate utf8_bin not null,
-	`open_id` varchar(50) character set utf8 collate utf8_bin not null,
+	`wx_open_id` varchar(128) character set utf8 collate utf8_bin not null,
 	`nickname` varchar(50) character set utf8 collate utf8_bin null,
 	`pwd` char(41) character set utf8 collate utf8_bin not null,
 	`balance` decimal(10, 2) unsigned default 0.00,

@@ -22,17 +22,17 @@ class GiftCard extends Mysql {
 	 * public array function get_model_page(integer $page_num = 1, integer $page_length = 20)
 	 */
 	public function get_model_page(int $page_num = 1, int $page_length = 20): array {
-		//gfm.id
-		// gfm.code
-		// gfm.name
-		// gfm.recharge_money
-		// gfm.sale_price
+		//gcm.id
+		// gcm.code
+		// gcm.name
+		// gcm.recharge_money
+		// gcm.sale_price
 		// gift_card_num=>?
 		// recharged_gift_card_num=>?
-		// gfm.add_time
-		// gfm.status
+		// gcm.add_time
+		// gcm.status
 		//
-		// order(gfm.id)=>'desc'
+		// order(gcm.id)=>'desc'
 	}
 	
 	/**
@@ -102,7 +102,23 @@ class GiftCard extends Mysql {
 	 * public array page(integer $page_num = 1, integer $page_length = 20)
 	 */
 	public function page(int $page_num = 1, int $page_length = 20): array {
-		//
+		/*
+		 * gc.id
+		 * model_id=>gcm.id
+		 * user_id=>customer.id
+		 * 
+		 * gcm.code
+		 * gc.unique_id
+		 * gc.code
+		 * gc.wx_transaction_id
+		 * c.wx_open_id
+		 * gcm.recharge_money
+		 * gcm.sale_price
+		 * gc.add_time
+		 * gc.status
+		 * 
+		 * order(gc.id)=>'desc'
+		 */
 	}
 	
 	/**
@@ -133,6 +149,8 @@ class GiftCard extends Mysql {
 		//
 	}
 	
+	/* ********************************************************************* */
+	/*  这下面是以前写的，能用就直接粘过去，不能用，就删除 */
 	/* ********************************************************************* */
 	
 	/**
