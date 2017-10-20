@@ -555,6 +555,7 @@ create table if not exists `gift_card_models`(
 	`recharge_money` decimal(10, 2) unsigned not null,
 	`sale_price`decimal(10, 2) unsigned not null,
 	`add_time` timestamp default current_timestamp,
+	`status` enum('normal', 'deleted') character set utf8 collate utf8_bin not null,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
@@ -582,33 +583,17 @@ create table if not exists `gift_card_recharge_records`(
 	
 	
 /**
- * Table: Gift_Card_Sale_Records
- */
-drop table if exists `gift_card_sale_records`;
-create table if not exists `gift_card_sale_records`(
-	`id` bigint unsigned auto_increment not null,
-	`customer_id` bigint unsigned not null,
-	`gift_card_id` bigint unsigned not null,
-	`add_time` timestamp default current_timestamp,
-	unique(`gift_card_id`),
-	primary key(`id`)
-)
-	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
-	
-	
-/**
  * Table: Gift_Cards
  */
 drop table if exists `gift_cards`;
 create table if not exists `gift_cards`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(32) character set utf8 collate utf8_bin not null,
+	`unique_id` char(26) character set utf8 collate utf8_bin not null,
+	`wx_transaction_id` varchar(32) character set utf8 collate utf8_bin not null,
 	`model_id` bigint unsigned not null,
-	`code` char(32) character set utf8 collate utf8_bin not null,
+	`code` char(26) character set utf8 collate utf8_bin not null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('normal', 'sold', 'recharged') character set utf8 collate utf8_bin not null,
+	`status` enum('normal', 'recharged') character set utf8 collate utf8_bin not null,
 	unique(`code`),
 	unique(`unique_id`),
 	primary key(`id`)

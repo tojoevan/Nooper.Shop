@@ -16,7 +16,7 @@ set global event_scheduler=true;
  drop event if exists modify_expired_coupon_status;
  delimiter **
  create event if not exists modify_expired_coupon_status
-	on schedule every 1 every
+	on schedule every 1 day
 		starts now()+ interval 1 day
 		ends '2028-01-01 00:00:00'
 	on completion preserve

@@ -5,6 +5,137 @@ namespace Nooper;
 class GiftCard extends Mysql {
 	
 	/**
+	 * public integer function get_model_num(void)
+	 */
+	public function get_model_num(): int {
+		// status!='deleted'
+	}
+	
+	/**
+	 * public integer function get_deleted_model_num(void)
+	 */
+	public function get_deleted_model_num(): int {
+		//
+	}
+	
+	/**
+	 * public array function get_model_page(integer $page_num = 1, integer $page_length = 20)
+	 */
+	public function get_model_page(int $page_num = 1, int $page_length = 20): array {
+		//gfm.id
+		// gfm.code
+		// gfm.name
+		// gfm.recharge_money
+		// gfm.sale_price
+		// gift_card_num=>?
+		// recharged_gift_card_num=>?
+		// gfm.add_time
+		// gfm.status
+		//
+		// order(gfm.id)=>'desc'
+	}
+	
+	/**
+	 * public array function get_deleted_model_page(integer $page_num = 1, integer $page_length = 20)
+	 */
+	public function get_deleted_model_page(int $page_num = 1, int $page_length = 20): array {
+		//
+	}
+	
+	/**
+	 * public array function get_model_record(integer $model_id)
+	 */
+	public function get_model_record(int $model_id): array {
+		//
+	}
+	
+	/**
+	 * public boolean function modify_model(integer $model_id, array $datas)
+	 */
+	public function modify_model(int $model_id, array $datas): bool {
+		//
+	}
+	
+	/**
+	 * public boolean function delete_model(integer $model_id)
+	 */
+	public function delete_model(int $model_id): bool {
+		//
+	}
+	
+	/**
+	 * public boolean function recover_model(integer $model_id)
+	 */
+	public function recover_model(int $model_id): bool {
+		//
+	}
+	
+	/**
+	 * public integer function add_model(array $datas)
+	 */
+	public function add_model(array $datas): int {
+		// error, return -1
+	}
+	
+	/**
+	 * public integer function num(void)
+	 */
+	public function num(): int {
+		//
+	}
+	
+	/**
+	 * public integer function get_normal_num(void)
+	 */
+	public function get_normal_num(): int {
+		//
+	}
+	
+	/**
+	 * public integer function get_recharged_num(void)
+	 */
+	public function get_recharged_num(): int {
+		//
+	}
+	
+	/**
+	 * public array page(integer $page_num = 1, integer $page_length = 20)
+	 */
+	public function page(int $page_num = 1, int $page_length = 20): array {
+		//
+	}
+	
+	/**
+	 * public array get_normal_page(integer $page_num = 1, integer $page_length = 20)
+	 */
+	public function get_normal_page(int $page_num = 1, int $page_length = 20): array {
+		//
+	}
+	
+	/**
+	 * public array get_recharged_page(integer $page_num = 1, integer $page_length = 20)
+	 */
+	public function get_recharged_page(int $page_num = 1, int $page_length = 20): array {
+		//
+	}
+	
+	/**
+	 * public array record(integer $gift_card_id)
+	 */
+	public function record(int $gift_card_id): array {
+		//
+	}
+	
+	/**
+	 * public array find(string $gift_card_unique_id)
+	 */
+	public function find(string $gift_card_unique_id): array {
+		//
+	}
+	
+	/* ********************************************************************* */
+	
+	/**
 	 * public integer function get_models_num(void)
 	 */
 	public function get_models_num(): int {
@@ -19,6 +150,7 @@ class GiftCard extends Mysql {
 		$offset_num = $page_length * ($page_num - 1);
 		$field_datas = ['id', 'code', 'name', 'recharge_price', 'sale_price', 'quantity'];
 		$ends = $this->field($field_datas)->table(['gift_card_models'])->order(['id'=>'desc'])->limit($page_length, $offset_num)->select();
+		
 		if($ends){
 			$all_nums = $this->get_nums_by_model_id();
 			$sold_nums = $this->get_sold_nums_by_model_id();
@@ -32,6 +164,7 @@ class GiftCard extends Mysql {
 				$data['normal_qty'] = $normal_nums[$id] ?? 0;
 			}
 		}
+		
 		return $ends;
 	}
 	
