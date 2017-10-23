@@ -5,63 +5,109 @@ namespace Nooper;
 class Express extends Mysql {
 	
 	/**
-	 * public ?integer function get_corporations_num(void)
+	 * public integer function get_corporation_num(void)
 	 */
-	public function get_corporations_num(): int {
-		$datas = $this->field(['corporation_num'=>'count(*)'])->table(['express_corporations'])->select();
-		return $datas[0]['corporation_num'] ?? null;
+	public function get_corporation_num(): int {
+		$ends = $this->field(['corporation_num'=>'count(*)'])->table(['express_corporations'])->where_cmd("`status`!='deleted'")->select();
+		return isset($ends[0]) ? $ends[0]['corporation_num'] : -1;
 	}
 	
 	/**
-	 * public array function get_corporations(integer $page_num, integer $page_length = 20)
+	 * public integer function get_deleted_corporation_num(void)
 	 */
-	public function get_corporations(int $page_num, int $page_length = 20): array {
-		$offset_num = $page_length * ($page_num - 1);
-		$field_datas = ['ec.id', 'ec.name', 'ec.home_page', 'ec.query_api', 'ec.is_default', 'ec.position', 'express_num'=>'count(`e`.`code`)'];
-		$table_datas = ['ec'=>'express_corporations'];
-		$join_datas = ['e'=>'expresses', 'ec.id'=>'e.corporation_id'];
-		$group_datas = ['ec.id'];
-		$order_datas = ['ec.is_default'=>'desc', 'ec.position'=>'desc', 'ec.id'=>'desc'];
-		return $this->field($field_datas)->table($table_datas)->join($join_datas, 'left')->group($group_datas)->order($order_datas)->limit($page_length, $offset_num)->select();
+	public function get_deleted_corporation_num(): int {
+		$ends = $this->field(['deleted_corporation_num'=>'count(*)'])->table(['express_corporations'])->where(['status'=>"'deleted'"])->select();
+		return isset($ends[0]) ? $ends[0]['deleted_corporation_num'] : -1;
 	}
 	
 	/**
+	 * public array function get_corporation_page(integer $page_num = 1, integer $page_length = 20)
 	 */
-	public function get_expresses_by_corporation_id(int $corporation_id): array {
+	public function get_corporation_page(int $page_num = 1, int $page_length = 20): array {
+		$offset = ($page_num - 1) * $page_length;
+		$this->field(['ec.id', 'ec.code', 'ec.name', 'ec.query_api', 'express_num'=>'count(`e`.`id`)', 'ec.is_default', 'ec.position', 'ec.add_time', 'ec.status']);
+		$this->table(['express_corporations'])->join(['e'=>'expresses', 'ec.id'=>'e.corporation_id'], 'left')->where_cmd("`status`!='deleted'");
+		$this->group(['ec.id'=>'asc'])->order(['ec.is_default'=>'desc', 'ec.position'=>'desc', 'ec.id'=>'desc']);
+		return $this->limit($page_length, $offset)->select();
 	}
 	
 	/**
-	 * public array function get_carriage_templates(integer $page_num, $integer $page_length = 20)
+	 * public array function get_deleted_corporation_page(integer $page_num = 1, integer $page_length = 20)
 	 */
-	public function get_carriage_templates(int $page_num, int $page_length = 20): array {
-		$offset_num = $page_length * ($page_num - 1);
-		$field_datas = ['ect.id', 'ect.name', 'ect.basic_carriage', 'ect.each_plus_carriage', 'ect.ceil_carriage', 'ect.is_default', 'product_num'=>'count(prect.product_id)'];
-		$table_datas = ['ect'=>'express_carriage_templates'];
-		$join_datas = ['prect'=>'product_rel_express_carriage_templates', 'ect.id'=>'prect.carriage_template_id'];
-		$group_datas = ['ect.id'];
-		$order_datas = ['ect.is_default'=>'desc', 'ect.name'=>'asc'];
-		return $this->field($field_datas)->table($table_datas)->join($join_datas, 'left')->group($group_datas)->order($order_datas)->limit($page_length, $offset_num)->select();
+	public function get_deleted_corporation_page(int $page_num = 1, int $page_length = 20): array {
+		$offset = ($page_num - 1) * $page_length;
+		$this->field(['ec.id', 'ec.code', 'ec.name', 'ec.query_api', 'express_num'=>'count(`e`.`id`)', 'ec.is_default', 'ec.position', 'ec.add_time', 'ec.status']);
+		$this->table(['express_corporations'])->join(['e'=>'expresses', 'ec.id'=>'e.corporation_id'], 'left')->where(['ec.status'=>"'deleted'"]);
+		$this->group(['ec.id'=>'asc'])->order(['ec.is_default'=>'desc', 'ec.position'=>'desc', 'ec.id'=>'desc']);
+		return $this->limit($page_length, $offset)->select();
 	}
 	
 	/**
-	 * public array function get_carriage_template_by_id(integer $template_id)
+	 * public array function get_corporation_list(void)
 	 */
-	public function get_carriage_template_by_id(int $template_id): array {
-		$field_datas = ['id', 'name', 'basic_carriage', 'each_plus_carriage', 'ceil_carriage', 'is_default'];
-		$ends = $this->field($field_datas)->table(['express_carriage_templates'])->where(['id'=>(string)$template_id])->select();
-		return $ends[0] ?? [];
+	public function get_corporation_list(): array {
+		$this - field(['id', 'code', 'name'])->table(['express_corporations'])->where_cmd("`status`!='deleted'");
+		$this->order(['is_default'=>'desc', 'position'=>'desc', 'id'=>'desc']);
+		return $this->select();
 	}
 	
 	/**
-	 * public array function get_carriage_template_detail_by_id(integer $template_id)
+	 * public array function get_corporation_record(integer $corporation_id)
 	 */
-	public function get_carriage_template_detail_by_id(int $template_id): array {
-		$field_datas = ['ectd.id', 'eap.name', 'ectd.basic_carriage', 'ectd.each_plus_carriage'];
-		$table_datas = ['eap'=>'express_address_provinces'];
-		$join_datas = ['ectd'=>'express_carriage_template_details', 'eap.id'=>'ectd.province_id'];
-		$where_datas = ['ectd.template_id'=>(string)$template_id];
-		$order_datas = ['eap.id'=>'asc'];
-		return $this->field($field_datas)->table($table_datas)->join($join_datas)->where($where_datas)->order($order_datas)->select();
+	public function get_corporation_record(int $corporation_id): array {
+		$this->field(['ec.id', 'ec.code', 'ec.name', 'ec.query_api', 'express_num'=>'count(`e`.`id`)', 'ec.is_default', 'ec.position', 'ec.add_time', 'ec.status']);
+		$this->table(['express_corporations'])->join(['e'=>'expresses', 'ec.id'=>'e.corporation_id'], 'left');
+		$this->where(['ec.id'=>(string)$corporation_id])->group(['ec.id'=>'asc']);
+		return $this->select();
+	}
+	
+	/**
+	 * public boolean function modify_corporation(integer $corporation_id, array $datas)
+	 */
+	public function modify_corporation(int $corporation_id, array $datas): bool {
+		$end = $this->table(['express_corporations'])->where(['id'=>(string)$corporation_id])->modify($datas);
+		return $end > 0 ? true : false;
+	}
+	
+	/**
+	 * public boolean function delete_corporation(integer $corporation_id)
+	 */
+	public function delete_corporation(int $corporation_id): bool {
+		$datas = $this->field(['express_num'=>'count(*)'])->table(['expresses'])->where(['corporation_id'=>(string)$corporation_id]);
+		if(isset($datas[0])){
+			$express_num = $datas[0]['express_num'];
+			if($express_num > 0){
+				$datas = ['status'=>'deleted'];
+				$end = $this->table(['express_corporations'])->where(['id'=>(string)$corporation_id])->modify($datas);
+			}else
+				$end = $this->table(['express_corporations'])->where(['id'=>(string)$corporation_id])->delete();
+			return $end > 0 ? true : false;
+		}
+		return false;
+	}
+	
+	/**
+	 * public boolean function recover_corporation(integer $corporation_id)
+	 */
+	public function recover_corporation(int $corporation_id): bool {
+		$datas = ['status'=>'normal'];
+		$end = $this->table(['express_corporations'])->where(['id'=>(string)$corporation_id])->modify($datas);
+		return $end > 0 ? true : false;
+	}
+	
+	/**
+	 * public integer function add_corporation(array $datas)
+	 */
+	public function add_corporation(array $datas): int {
+		$end = $this->table(['express_corporations'])->add($datas);
+		return $end > 0 ? $this->get_last_id() : -1;
+	}
+	
+	/**
+	 * public array function get_page_by_corporation_id(integer $corporation_id)
+	 */
+	public function get_page_by_corporation_id(int $corporation_id): array {
+		//
 	}
 	//
 }

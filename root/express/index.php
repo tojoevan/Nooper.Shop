@@ -1,6 +1,6 @@
 <?php
 // declare(strict_types = 1);
-namespace NooperShop;
+namespace Nooper;
 
-require_once '../init/bootstrap.php';
+require_once '../../init/loader.php';
 

@@ -354,7 +354,7 @@ create table if not exists `customers`(
 	`point` bigint unsigned default 0,
 	`add_time` timestamp default current_timestamp,
 	`status` enum('normal', 'locked') character set utf8 collate utf8_bin not null,
-	unique(`open_id`),
+	unique(`wx_open_id`),
 	unique(`unique_id`),
 	primary key(`id`)
 )
@@ -509,10 +509,10 @@ create table if not exists `express_carriage_templates`(
 drop table if exists `express_corporations`;
 create table if not exists `express_corporations`(
 	`id` bigint unsigned auto_increment not null,
+	`code` varchar(20) character set utf8 collate utf8_bin not null,
 	`name` varchar(20) character set utf8 collate utf8_bin not null,
-	`home_page` varchar(50) character set utf8 collate utf8_bin null,
 	`query_api` varchar(100) character set utf8 collate utf8_bin null,
-	`is_default` boolean default 0,
+	`is_default` boolean default false,
 	`position` int unsigned default 0,
 	`add_time` timestamp default current_timestamp,
 	`status` enum('normal', 'deleted') character set utf8 collate utf8_bin not null,
@@ -534,7 +534,7 @@ create table if not exists `expresses`(
 	`deliver_address_id` bigint unsigned not null,
 	`corporation_id` bigint unsigned not null,
 	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`carriage_num` decimal(10, 2) unsigned not null,
+	`carriage_money` decimal(10, 2) unsigned not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`code`),
 	primary key(`id`)
@@ -591,9 +591,10 @@ create table if not exists `gift_cards`(
 	`unique_id` char(26) character set utf8 collate utf8_bin not null,
 	`wx_transaction_id` varchar(32) character set utf8 collate utf8_bin not null,
 	`model_id` bigint unsigned not null,
+	`customer_id` bigint unsigned not null,
 	`code` char(26) character set utf8 collate utf8_bin not null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('normal', 'recharged') character set utf8 collate utf8_bin not null,
+	`status` enum('unpaid', 'paid', 'recharged') character set utf8 collate utf8_bin not null,
 	unique(`code`),
 	unique(`unique_id`),
 	primary key(`id`)

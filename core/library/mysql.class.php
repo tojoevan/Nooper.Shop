@@ -47,6 +47,13 @@ class Mysql {
 
 
 
+
+
+
+
+
+
+
 {
 	return $this->sql_datas[$cmd] ?? null;
 }
@@ -144,14 +151,18 @@ class Mysql {
 	}
 	
 	/**
-	 * public Mysql function where(array $datas)
+	 * public Mysql function where(array $datas, string $equal = 'eq', string $logic = 'and')
 	 * @$datas = [string $field=>string $data,...]
 	 */
-	public function where(array $datas): Mysql {
+	public function where(array $datas, string $equal='eq', string $logic='and'): Mysql {
+		$equal_datas=['eq'=>'=', 'neq'=>'!=', 'gt'=>'>', 'egt'=>'>=', 'lt'=>'<', 'elt'=>'<='];
+		$logic_datas=['and'=>'and', 'or'=>'or'];
+		$equal_operator=$equal_datas[$equal] ?? '=';
+		$logic_operator=$logic_datas[$logic]?? 'and';	
 		foreach($datas as $key => $data){
-			if(is_string($key) &&is_database_named_regular($key)  && is_string($data)) $ends[] = wrap_database_backquote($key) . '=' . $data;
+			if(is_string($key) &&is_database_named_regular($key)  && is_string($data)) $ends[] = wrap_database_backquote($key) . $equal_operator . $data;
 		}
-		if(isset($ends)) $this->sql('where', 'where ' . implode(' and ', $ends));
+		if(isset($ends)) $this->sql('where', 'where ' . implode(' '.$logic_operator.' ', $ends));
 		return $this;
 	}
 	
