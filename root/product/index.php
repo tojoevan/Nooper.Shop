@@ -4,9 +4,13 @@ namespace Nooper;
 
 require_once '../../init/loader.php';
 
-
 $product=new Product();
-$num=$product->add_category_properties(1, ['color','ram']);
-echo $num."<br />";
-echo $product->get_last_sql();
+$category_num=$product->get_category_num();
+echo $category_num;
+echo "<hr />";
+
+$category_page=$product->get_category_page();
+print_r($category_page);
+echo "<hr />";
+
 

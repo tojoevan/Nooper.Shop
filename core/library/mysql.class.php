@@ -40,23 +40,9 @@ class Mysql {
 	 */
 	public function __get(string $cmd): ?string 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{
-	return $this->sql_datas[$cmd] ?? null;
-}
+	{
+		return $this->sql_datas[$cmd] ?? null;
+	}
 	
 	/**
 	 * public Mysql function distinct(boolean $data)
@@ -152,17 +138,21 @@ class Mysql {
 	
 	/**
 	 * public Mysql function where(array $datas, string $equal = 'eq', string $logic = 'and')
-	 * @$datas = [string $field=>string $data,...]
+	 * @$datas = [string $field => string|number $data,...]
 	 */
-	public function where(array $datas, string $equal='eq', string $logic='and'): Mysql {
-		$equal_datas=['eq'=>'=', 'neq'=>'!=', 'gt'=>'>', 'egt'=>'>=', 'lt'=>'<', 'elt'=>'<='];
-		$logic_datas=['and'=>'and', 'or'=>'or'];
-		$equal_operator=$equal_datas[$equal] ?? '=';
-		$logic_operator=$logic_datas[$logic]?? 'and';	
+	public function where(array $datas, string $equal = 'eq', string $logic = 'and'): Mysql {
+		$equal_maps = ['eq'=>'=', 'neq'=>'!=', 'gt'=>'>', 'egt'=>'>=', 'lt'=>'<', 'elt'=>'<='];
+		$logic_maps = ['and'=>'and', 'or'=>'or'];
+		$equal_operator = $equal_maps[$equal] ?? '=';
+		$logic_operator = $logic_maps[$logic] ?? 'and';
 		foreach($datas as $key => $data){
-			if(is_string($key) &&is_database_named_regular($key)  && is_string($data)) $ends[] = wrap_database_backquote($key) . $equal_operator . $data;
+			if(is_string($key) && is_database_named_regular($key)){
+				$str = wrap_database_backquote($key) . $equal_operator;
+				if(is_string($data)) $ends[] = $str . "'" . $data . "'";
+				elseif(is_integer($data) or is_float($data)) $ends[] = $str . $equal_operator . $data;
+			}
 		}
-		if(isset($ends)) $this->sql('where', 'where ' . implode(' '.$logic_operator.' ', $ends));
+		if(isset($ends)) $this->sql('where', 'where ' . implode(' ' . $logic_operator . ' ', $ends));
 		return $this;
 	}
 	
@@ -429,7 +419,7 @@ class Mysql {
 	 */
 	protected function sql(string $cmd, string $data): bool {
 		if(in_array($cmd, $this->sql_cmds, true)){
-			$this->sql_datas[$cmd]=$data;
+			$this->sql_datas[$cmd] = $data;
 			return true;
 		}
 		return false;

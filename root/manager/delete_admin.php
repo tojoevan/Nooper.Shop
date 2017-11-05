@@ -3,4 +3,3 @@
 namespace Nooper;
 
 require_once '../../init/loader.php';
-

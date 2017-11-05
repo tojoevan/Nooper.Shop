@@ -29,14 +29,20 @@ insert into `coupon_categories`(`code`, `name`) values('mc-ap', '全场限最低
 
 /**
  *
- */			
-insert into `message_categories`(`code`,`name`,`position`) values
-		('important', '重要信息', 1),
-		('order', '订单信息', 2),
-		('account', '账户信息', 3),
-		('other', '其它信息', 4);
+ */
+insert into `message_default_params`(`auto_clear_switch`) values(1);
 
-			
+
+/**
+ *
+ */			
+insert into `message_categories`(`code`,`name`) values
+		('important', '重要信息'),
+		('order', '订单信息'),
+		('account', '账户信息'),
+		('other', '其它信息');
+		
+
 /**
  *
  */

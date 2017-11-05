@@ -5,37 +5,42 @@ namespace Nooper;
 class Administrator extends Mysql {
 	
 	/**
+	 * Const
+	 */
+	const page_record_num = 20;
+	
+	/**
 	 * public integer function get_permission_num(void)
 	 */
 	public function get_permission_num(): int {
 		$ends = $this->field(['permission_num'=>'count(*)'])->table(['administrator_permissions'])->select();
-		return isset($ends[0]) ? $ends[0]['permission_num'] : -1;
+		return $ends[0]['permission_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_permissions(void)
+	 * public array function get_permission_list(void)
 	 */
-	public function get_permissions(): array {
+	public function get_permission_list(): array {
 		return $this->field(['id', 'code', 'name'])->table(['administrator_permissions'])->order(['id'=>'asc'])->select();
 	}
 	
 	/**
-	 * public array function get_permission_page(integer $page_num = 1, integer $page_length = 20)d
+	 * public array function get_permission_page(integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
-	public function get_permission_page(int $page_num = 1, int $page_length = 20): array {
+	public function get_permission_page(): array {
 		$offset = ($page_num - 1) * $page_length;
 		$this->field(['ap.id', 'ap.code', 'ap.name', 'role_num'=>'count(distinct `arrp`.`role_id`)', 'admin_num'=>'count(`a`.`id`)', 'ap.add_time']);
 		$this->table(['ap'=>'administrator_permissions']);
 		$this->join(['arrp'=>'administrator_role_rel_permissions', 'ap.id'=>'arrp.permission_id'], 'left');
 		$this->join(['a'=>'administrators', 'arrp.role_id'=>'a.role_id'], 'left');
-		$this->order(['ap.id'=>'asc'])->group(['ap.id'])->limit($page_length, $offset);
-		return $this->select();
+		$this->group(['ap.id'])->order(['ap.id'=>'asc']);
+		return $this->limit($page_length, $offset)->select();
 	}
 	
 	/**
-	 * public array get_permission_item(integer $permission_id)
+	 * public array get_permission_record(integer $permission_id)
 	 */
-	public function get_permission_item(int $permission_id): array {
+	public function get_permission_record(int $permission_id): array {
 		$this->field(['ap.id', 'ap.code', 'ap.name', 'role_num'=>'count(distinct `arrp`.`role_id`)', 'admin_num'=>'count(`a`.`id`)', 'ap.add_time']);
 		$this->table(['ap'=>'administrator_permissions']);
 		$this->join(['arrp'=>'administrator_role_rel_permissions', 'ap.id'=>'arrp.permission_id'], 'left');
@@ -45,50 +50,75 @@ class Administrator extends Mysql {
 	}
 	
 	/**
+	 * public array function get_role_page_by_permission_id(integer $permission_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 */
+	public function get_role_page_by_permission_id(int $permission_id, int $page_num = 1, int $page_length = self::page_record_num): array {
+		$offset = ($page_num - 1) * $page_length;
+		$this->field(['ar.id', 'ar.code', 'ar.name', 'admin_num'=>'count(`a`.`id`)', 'ar.add_time']);
+		$this->table(['ar'=>'administrator_roles'])->join(['a'=>'administrators', 'ar.id'=>'a.role_id'], 'left');
+		$this->join(['arrp'=>'administrator_role_rel_permissions', 'ar.id'=>'arrp.role_id']);
+		$this->where(['arrp.permission_id'=>(string)$permission_id, 'arrp.permission_id'=>'1'], 'eq', 'or')->group(['ar.id'])->order(['ar.id'=>'asc']);
+		return $this->limit($page_length, $offset)->select();
+	}
+	
+	/**
+	 * public array function get_page_by_permission_id(integer $permission_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 */
+	public function get_page_by_permission_id(int $permission_id, int $page_num = 1, int $page_length = self::page_record_num): array {
+		$offset = ($page_num - 1) * $page_length;
+		$this->field(['a.id', 'role_id'=>'ar.id', 'role_code'=>'ar.code', 'a.name', 'a.email', 'a.add_time']);
+		$this->table(['a'=>'administrators'])->join(['ar'=>'administrator_roles', 'a.role_id'=>'ar.id']);
+		$this->join(['arrp'=>'administrator_role_rel_permissions', 'ar.id'=>'arrp.role_id']);
+		$this->where(['arrp.permission_id'=>(string)$permission_id, 'arrp.permission_id'=>'1'], 'eq', 'or')->order(['a.id'=>'asc']);
+		return $this->limit($page_length, $offset)->select();
+	}
+	
+	/**
 	 * public integer function get_role_num(void)
 	 */
 	public function get_role_num(): int {
 		$ends = $this->field(['role_num'=>'count(*)'])->table(['administrator_roles'])->select();
-		return isset($ends[0]) ? $ends[0]['role_num'] : -1;
+		return $ends[0]['role_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_role_page(integer $page_num = 1, integer $page_length = 20)
+	 * public array function get_role_page(integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
-	public function get_role_page(int $page_num = 1, int $page_length = 20): array {
+	public function get_role_page(int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset = ($page_num - 1) * $page_length;
 		$this->field(['ar.id', 'ar.code', 'ar.name', 'admin_num'=>'count(`a`.`id`)', 'ar.add_time']);
 		$this->table(['ar'=>'administrator_roles'])->join(['a'=>'administrators', 'ar.id'=>'a.role_id'], 'left');
-		$this->order(['ar.id'=>'asc'])->group(['ar.id'])->limit($page_length, $offset);
-		return $this->select();
+		$this->group(['ar.id'])->order(['ar.id'=>'asc']);
+		return $this->limit($page_length, $offset)->select();
 	}
 	
 	/**
-	 * public array function get_role_item(integer $role_id)
+	 * public array function get_role_record(integer $role_id)
 	 */
-	public function get_role_item(int $role_id): array {
+	public function get_role_record(int $role_id): array {
 		$this->field(['ar.id', 'ar.code', 'ar.name', 'admin_num'=>'count(`a`.`id`)', 'ar.add_time']);
 		$this->table(['ar'=>'administrator_roles'])->join(['a'=>'administrators', 'ar.id'=>'a.role_id'], 'left');
-		$ends = $this->where(['ar.id'=>(string)$role_id])->select();
-		$ends['permissions'] = $this->get_role_permissions($role_id);
+		$datas = $this->where(['ar.id'=>(string)$role_id])->select();
+		$ends = $datas[0] ?? [];
+		if($ends) $ends['permissions'] = $this->get_role_permissions($role_id);
 		return $ends;
 	}
 	
 	/**
-	 * public array function get_role_permissions(integer $role_id)
+	 * public array function get_role_permission(integer $role_id)
 	 */
-	public function get_role_permissions(int $role_id): array {
-		$this->field(['ap.id', 'ap.code', 'ap.name'])->table(['arrp'=>'administrator_role_rel_permissions']);
-		$this->join(['ap'=>'administrator_permissions', 'arrp.permission_id'=>'ap.id']);
+	public function get_role_permission(int $role_id): array {
+		$this->field(['ap.id', 'ap.code', 'ap.name'])->table(['ap'=>'administrator_permissions']);
+		$this->join(['arrp'=>'administrator_role_rel_permissions', 'ap.id'=>'arrp.permission_id']);
 		$this->where(['arrp.role_id'=>(string)$role_id])->order(['ap.id'=>'asc']);
 		return $this->select();
 	}
 	
 	/**
-	 * public boolean function set_role_permissions(integer $role_id, array $permission_ids)
-	 * @$permission_ids=[integer $permission_id,...]
+	 * public boolean function set_role_permission(integer $role_id, array $permission_ids)
+	 * @$permission_ids = [integer $permission_id,...]
 	 */
-	public function set_role_permissions(int $role_id, array $permission_ids): bool {
+	public function set_role_permission(int $role_id, array $permission_ids): bool {
 		$this->begin();
 		$end1 = $this->table(['administrator_role_rel_permissions'])->where(['role_id'=>(string)$role_id])->delete();
 		if($end1 < 0){
@@ -108,25 +138,6 @@ class Administrator extends Mysql {
 	}
 	
 	/**
-	 * public bool function add_role(string $code, string $name)
-	 */
-	public function add_role(string $code, string $name): bool {
-		$datas = ['code'=>$code, 'name'=>$name];
-		$end = $this->table(['administrator_roles'])->add($datas);
-		return $end > 0 ? true : false;
-	}
-	
-	/**
-	 * public bool function modify_role(integer $role_id, string $code, string $name)
-	 */
-	public function modify_role(int $role_id, string $code, string $name): bool {
-		if(1 == $role_id) return false;
-		$datas = ['code'=>$code, 'name'=>$name];
-		$end = $this->table(['administrator_roles'])->where(['id'=>(string)$role_id])->modify($datas);
-		return $end > 0 ? true : false;
-	}
-	
-	/**
 	 * public integer function delete_role(int $role_id)
 	 */
 	public function delete_role(int $role_id): int {
@@ -137,17 +148,33 @@ class Administrator extends Mysql {
 	}
 	
 	/**
+	 * public integer function edit_role(integer $role_id, array $datas)
+	 */
+	public function edit_role(int $role_id, array $datas): int {
+		if(1 == $role_id) return -2;
+		return $this->table(['administrator_roles'])->where(['id'=>(string)$role_id])->modify($datas);
+	}
+	
+	/**
+	 * public bool function add_role(array $datas)
+	 */
+	public function add_role(array $datas): bool {
+		$end = $this->table(['administrator_roles'])->add($datas);
+		return $end > 0 ? true : false;
+	}
+	
+	/**
 	 * public integer function num(void)
 	 */
 	public function num(): int {
 		$ends = $this->field(['admin_num'=>'count(*)'])->table(['administrators'])->select();
-		return isset($ends[0]) ? $ends[0]['admin_num'] : -1;
+		return $ends[0]['admin_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function page(integer $page_num = 1, integer $page_length = 20)
+	 * public array function page(integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
-	public function page(int $page_num = 1, int $page_length = 20): array {
+	public function page(int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset = ($page_num - 1) * $page_length;
 		$this->field(['a.id', 'role_id'=>'ar.id', 'role_code'=>'ar.code', 'a.email', 'a.name', 'a.add_time']);
 		$this->table(['a'=>'administrators'])->join(['ar'=>'administrator_roles', 'a.role_id'=>'ar.id']);
@@ -156,55 +183,47 @@ class Administrator extends Mysql {
 	}
 	
 	/**
-	 * public array function item(integer $admin_id)
+	 * public array function record(integer $admin_id)
 	 */
-	public function item(int $admin_id): array {
-		$this->field(['a.id', 'role_id'=>'ar.id', 'role_code'=>'ar.code', 'a.email', 'a.add_time']);
+	public function record(int $admin_id): array {
+		$this->field(['a.id', 'role_id'=>'ar.id', 'role_code'=>'ar.code', 'a.name', 'a.email', 'a.add_time']);
 		$this->table(['a'=>'administrators'])->join(['ar'=>'administrator_roles', 'a.role_id'=>'ar.id']);
 		$datas = $this->where(['a.id'=>(string)$admin_id])->select();
-		if(isset($datas[0])){
-			$ends = $datas[0];
-			$role_id = $ends['role_id'];
-			$this->field(['ap.id', 'ap.code'])->table(['ap'=>'administrator_permissions']);
-			$this->join(['arrp'=>'administrator_role_rel_permissions', 'ap.id'=>'arrp.permission_id']);
-			$ends['permissions'] = $this->where(['arrp.role_id'=>(string)$role_id])->select();
-		}
-		return $ends ?? [];
+		$ends = $datas[0] ?? [];
+		if($ends) $ends['permissions'] = $this->get_role_permissions($ends['role_id']);
+		return $ends;
 	}
 	
 	/**
-	 * public integer function create(integer $role_id, string $email, string $pwd)
+	 * public integer function delete_record(integer $admin_id)
 	 */
-	public function create(int $role_id, string $email, string $pwd): int {
-		if(1 == $role_id) return -2;
-		$datas = ['role_id'=>$role_id, 'email'=>$email, 'pwd'=>["password('" . $pwd . "')"]];
+	public function delete_record(int $admin_id): int {
+		if(1 == $admin_id) return -2;
+		return $this->table(['administrators'])->where(['id'=>(string)$admin_id])->delete();
+	}
+	
+	/**
+	 * public integer function edit_record(integer $admin_id, array $datas)
+	 */
+	public function edit_record(int $admin_id, array $datas): int {
+		if(1 == $admin_id) return -2;
+		return $this->table(['administrators'])->where(['id'=>(string)$admin_id])->modify($datas);
+	}
+	
+	/**
+	 * public integer function add_record(array $datas)
+	 */
+	public function add_record(array $datas): int {
+		if(isset($datas['role_id']) && 1 == $datas['role_id']) return -2;
+		elseif(isset($datas['pwd'])) $datas['pwd'] = ["password('" . $datas['pwd'] . "')"];
 		$end = $this->table(['administrators'])->add($datas);
-		return $end > 0 ? $this->get_last_id() : -1;
+		return $end > 0 ? $this->get_last_id() : $end;
 	}
 	
 	/**
-	 * public boolean function edit(integer $admin_id, integer $role_id)
+	 * public boolean function set_password(integer $admin_id, string $new_pwd)
 	 */
-	public function edit(int $admin_id, int $role_id): bool {
-		if(1 == $role_id) return false;
-		$datas = ['role_id'=>$role_id];
-		$end = $this->table(['administrators'])->where(['id'=>(string)$admin_id])->modify($datas);
-		return $end > 0 ? true : false;
-	}
-	
-	/**
-	 * public boolean function remove(integer $admin_id)
-	 */
-	public function remove(int $admin_id): bool {
-		if(1 == $admin_id) return false;
-		$end = $this->table(['administrators'])->where(['id'=>(string)$admin_id])->delete();
-		return $end > 0 ? true : false;
-	}
-	
-	/**
-	 * public boolean function password(integer $admin_id, string $new_pwd)
-	 */
-	public function password(int $admin_id, string $new_pwd): bool {
+	public function set_password(int $admin_id, string $new_pwd): bool {
 		$datas = ['pwd'=>["password('" . $new_pwd . "')"]];
 		$end = $this->table(['administrators'])->where(['id'=>(string)$admin_id])->modify($datas);
 		return $end > 0 ? true : false;

@@ -53,6 +53,30 @@ create event delete_unpaid_gift_card
 delimiter ;
 
 
+/**
+ *
+ */
+drop event if exists delete_expired_message;
+delimiter **
+create event delete_expired_message
+	on schedule every 1 day
+		starts now()+ interval 1 day
+		ends '2028-01-01 00:00:00'
+	on completion preserve
+	enable
+	do
+		begin
+			 declare now_num bigint;
+			 declare max_length bigint;
+			 set now_num=unix_timestamp();
+			 set max_length=60*60*24*90;
+			delete from `messages` where (now_num-unix_timestamp(`add_time`)>max_length);
+		end**
+delimiter ;
+
+
+
+
 
 
 
