@@ -1,5 +1,8 @@
 <?php
 // declare(strict_types = 1);
-namespace Nooper;
+namespace NooperShop;
 
-require_once '../init/loader.php';
+require_once '../../init/loader.php';
+
+$card=new GiftCard();
+echo $card->unique_id();

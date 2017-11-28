@@ -11,6 +11,56 @@ set global event_scheduler=true;
  
  
  /**
+ * Part 1: System
+ */
+ 
+ 
+ /**
+ * Part 2: Manager
+ */
+ 
+ 
+ /**
+ * Part 3: Customer
+ */
+ 
+ 
+ /**
+ * Part 4: Product
+ */
+ 
+ 
+ /**
+ * Part 5: Order
+ */
+ 
+ 
+ /**
+ * Part 6: Gift_Card
+ */
+ 
+ 
+ /**
+ * Part 7: Coupon
+ */
+ 
+ 
+ /**
+ * Part 8: Message
+ */
+ 
+ 
+ /**
+ * Part 9: Express
+ */
+ 
+ 
+ /**
+ * Part 10: User
+ */
+ 
+ 
+ /**
   *
   */
  drop event if exists modify_expired_coupon_status;

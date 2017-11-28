@@ -39,10 +39,9 @@ class Mysql {
 	 * public ?string function __get(string $cmd)
 	 */
 	public function __get(string $cmd): ?string 
-
-	{
-		return $this->sql_datas[$cmd] ?? null;
-	}
+{
+	return $this->sql_datas[$cmd] ?? null;
+}
 	
 	/**
 	 * public Mysql function distinct(boolean $data)
@@ -62,13 +61,18 @@ class Mysql {
 	
 	/**
 	 * public Mysql function field(array $datas)
-	 * @$datas = [(string $alias=>string $field)|(string $field),...]
+	 * @$datas = [(string $alias=>?string|boolean|number $field)|(string $field),...]
 	 */
 	public function field(array $datas): Mysql {
 		foreach($datas as $key => $data){
-			if(!is_string($data)) continue;
-			elseif(is_int($key) && is_database_named_regular($data, true)) $ends[] = wrap_database_backquote($data);
-			elseif(is_string($key) && is_database_primary_named_regular($key)) $ends[] = (is_database_named_regular($data) ? wrap_database_backquote($data) : $data) . ' as ' . wrap_database_backquote($key);
+			if(is_int($key) && is_string($data) && is_database_named_regular($data, true)) $ends[] = wrap_database_backquote($data);
+			elseif(is_string($key) && is_database_primary_named_regular($key)){
+				if(is_string($data) && is_database_named_regular($data)) $data = wrap_database_backquote($data);
+				elseif(is_int($data) or is_float($data)) $data = (string)$data;
+				elseif(is_bool($data)) $data = $data ? '1' : '0';
+				elseif(is_null($data)) $data = 'null';
+				if(is_string($data)) $ends[] = $data . ' as ' . wrap_database_backquote($key);
+			}
 		}
 		if(isset($ends)) $this->sql('field', implode(',', $ends));
 		return $this;
@@ -77,7 +81,7 @@ class Mysql {
 	/**
 	 * public Mysql function field_cmd(string $data)
 	 */
-	public function field_low(string $data): Mysql {
+	public function field_cmd(string $data): Mysql {
 		$this->sql('field', $data);
 		return $this;
 	}
@@ -149,7 +153,7 @@ class Mysql {
 			if(is_string($key) && is_database_named_regular($key)){
 				$str = wrap_database_backquote($key) . $equal_operator;
 				if(is_string($data)) $ends[] = $str . "'" . $data . "'";
-				elseif(is_integer($data) or is_float($data)) $ends[] = $str . $equal_operator . $data;
+				elseif(is_integer($data) or is_float($data)) $ends[] = $str . $data;
 			}
 		}
 		if(isset($ends)) $this->sql('where', 'where ' . implode(' ' . $logic_operator . ' ', $ends));
@@ -165,7 +169,7 @@ class Mysql {
 	}
 	
 	/**
-	 * public Mysqlfunction group(array $datas)
+	 * public Mysql function group(array $datas)
 	 * @$datas = [(string $field=>'asc|desc')|(string $field),...]
 	 */
 	public function group(array $datas): Mysql {

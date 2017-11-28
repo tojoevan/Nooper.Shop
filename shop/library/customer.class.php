@@ -395,17 +395,20 @@ class Customer extends Mysql {
 	}
 	
 	/**
-	 * public array function get_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array function get_review_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
-	public function get_order_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
+	public function get_review_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = $page_length * ($page_num - 1);
-		$this->field(['o.id', 'o.unique_id', 'o.total_tag_money', 'o.total_discount_money', 'o.total_express_carriage_money', 'o.total_money', 'o.add_time', 'o.status']);
-		$this->table(['o'=>'orders'])->where_cmd('`customer_id`=' . $customer_id . " and `status`!='closed'")->order(['o.id'=>'desc']);
+		$this->field(['cr.id', 'order_id'=>'o.id', 'order_unique_id'=>'o.unique_id', 'product_id'=>'p.id', 'product_unique_id'=>'p.unique_id', 'product_code'=>'p.code', 'cr.grade', 'cr.add_time']);
+		$this->table(['cr'=>'customer_reviews'])->join(['o'=>'orders', 'cr.order_id'=>'o.id'])->join(['p'=>'products', 'cr.product_id'=>'p.id']);
+		$this->where(['cr.customer_id'=>$customer_id])->order(['cr.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
 	
-	
+	/**
+	 * public 
+	 */
 	
 	/**
 	 * public integer function get_deliver_address_num(integer $customer_id)
