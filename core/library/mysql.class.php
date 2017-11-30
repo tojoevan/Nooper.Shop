@@ -1,4 +1,5 @@
 <?php
+
 // declare(strict_types = 1);
 namespace Nooper;
 
@@ -38,10 +39,9 @@ class Mysql {
 	/**
 	 * public ?string function __get(string $cmd)
 	 */
-	public function __get(string $cmd): ?string 
-{
-	return $this->sql_datas[$cmd] ?? null;
-}
+	public function __get(string $cmd): ?string {
+		return $this->sql_datas[$cmd] ?? null;
+	}
 	
 	/**
 	 * public Mysql function distinct(boolean $data)
@@ -142,7 +142,8 @@ class Mysql {
 	
 	/**
 	 * public Mysql function where(array $datas, string $equal = 'eq', string $logic = 'and')
-	 * @$datas = [string $field => string|number $data,...]
+	 * @$datas = [string $field => string|number|array $data,...]
+	 * @data = [string $expression]
 	 */
 	public function where(array $datas, string $equal = 'eq', string $logic = 'and'): Mysql {
 		$equal_maps = ['eq'=>'=', 'neq'=>'!=', 'gt'=>'>', 'egt'=>'>=', 'lt'=>'<', 'elt'=>'<='];
@@ -154,6 +155,7 @@ class Mysql {
 				$str = wrap_database_backquote($key) . $equal_operator;
 				if(is_string($data)) $ends[] = $str . "'" . $data . "'";
 				elseif(is_integer($data) or is_float($data)) $ends[] = $str . $data;
+				elseif(is_array($data)) $ends[] = $str . $data[0];
 			}
 		}
 		if(isset($ends)) $this->sql('where', 'where ' . implode(' ' . $logic_operator . ' ', $ends));

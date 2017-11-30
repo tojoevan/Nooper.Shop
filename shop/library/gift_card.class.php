@@ -1,4 +1,5 @@
 <?php
+
 // declare(strict_types = 1);
 namespace NooperShop;
 
@@ -232,7 +233,7 @@ class GiftCard extends Mysql {
 		$this->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
 		$datas = $this->where(['gc.id'=>$id])->select();
 		if(isset($datas[0])){
-			// list('customer_id'=>$customer_id, 'recharge_money'=>$recharge_money)=$datas[0];
+			list('customer_id'=>$customer_id, 'recharge_money'=>$recharge_money) = $datas[0];
 			$this->begin();
 			$datas1 = ['recharge_time'=>get_now_timestamp(), 'status'=>'recharged'];
 			$datas2 = ['balance'=>['balance+' . $recharge_money]];

@@ -493,7 +493,7 @@ create table if not exists `expresses`(
 	`order_id` bigint unsigned not null,
 	`corporation_id` bigint unsigned not null, 
 	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`carriage ` decimal(10, 2) unsigned not null,
+	`carriage` decimal(10, 2) unsigned not null,
 	`address` varchar(200) character set utf8 collate utf8_bin not null,
 	`receiver` varchar(50) not null,
 	`phone` varchar(20) not null,
@@ -676,7 +676,7 @@ create table if not exists `message_categories`(
 drop table if exists `message_default_params`;
 create table if not exists `message_default_params`(
 	`id` bigint unsigned auto_increment not null,
-	`auto_clear_switch` boolean default 1,
+	`auto_clear_trigger` boolean default 1,
 	`add_time` timestamp default current_timestamp,
 	primary key(`id`)
 )
@@ -691,7 +691,7 @@ create table if not exists `message_default_params`(
 drop table if exists `messages`;
 create table if not exists `messages`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(12) character set utf8 collate utf8_bin not null,
+	`unique_id` char(16) character set utf8 collate utf8_bin not null,
 	`category_id` bigint unsigned not null,
 	`customer_id` bigint unsigned not null,
 	`title` varchar(100) character set utf8 collate utf8_bin not null,
