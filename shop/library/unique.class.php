@@ -9,21 +9,28 @@ class Unique {
 	 * public string gift_card(void)
 	 */
 	public function gift_card(): string {
-		return $this->get_unique_id([4, 6, 6, 3]);
+		return $this->get_unique_id([4, 6, 6, 3]); // length=22, @@
+	}
+	
+	/**
+	 * public string coupon(void)
+	 */
+	public function coupon(): string {
+		return $this->get_unique_id([4, 7, 5]); // length=18, @@
 	}
 	
 	/**
 	 * public string message(void)
 	 */
-	public function message():string {
-		return $this->get_unique_id([5,6,3])
+	public function message(): string {
+		return $this->get_unique_id([5, 6, 3]); // length=16, @@
 	}
 	
 	/**
 	 * public string password(void)
 	 */
 	public function password(): string {
-		return get_rand_str(12);
+		return get_rand_str(12); // length=12, @@
 	}
 	
 	/**

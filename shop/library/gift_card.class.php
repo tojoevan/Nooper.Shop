@@ -91,12 +91,12 @@ class GiftCard extends Mysql {
 	 */
 	public function delete_model(int $model_id): int {
 		$datas = $this->field(['gift_card_num'=>'COUNT(*)'])->table(['gift_cards'])->where(['id'=>$model_id])->select();
-		$this->table(['gift_card_models'])->where(['id'=>$model_id]);
 		if(isset($datas[0])){
+			$this->table(['gift_card_models'])->where(['id'=>$model_id]);
 			if($datas[0]['gift_card_num'] > 0) return $this->modify(['status'=>'deleted']) > 0 ? 2 : -1;
 			else return $this->delete() > 0 ? 1 : -1;
-			return -1;
 		}
+		return -1;
 	}
 	
 	/**
@@ -113,7 +113,8 @@ class GiftCard extends Mysql {
 	 * @$datas = [string $code, string $name, float $recharge_money, float $sale_price]
 	 */
 	public function add_model(array $datas): ?int {
-		return $this->table(['gift_card_models'])->add($datas) > 0 ? $this->get_last_id() : -1;
+		$end = $this->table(['gift_card_models'])->add($datas);
+		return $end > 0 ? $this->get_last_id() : $end;
 	}
 	
 	/**

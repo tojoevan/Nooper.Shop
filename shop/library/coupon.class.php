@@ -87,7 +87,7 @@ class Coupon extends Mysql {
 	}
 	
 	/**
-	 * public array function get_expired_model_page(integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_expired_model_page(integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_expired_model_page(int $page_num = 1, $page_length = self::page_record_num): array {
 		$offset_num = ($page_num - 1) * $page_length;
@@ -105,7 +105,7 @@ class Coupon extends Mysql {
 	}
 	
 	/**
-	 * public array function get_deleted_model_page(integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_deleted_model_page(integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_deleted_model_page(int $page_num = 1, $page_length = self::page_record_num): array {
 		$offset_num = ($page_num - 1) * $page_length;
@@ -137,15 +137,16 @@ class Coupon extends Mysql {
 	}
 	
 	/**
-	 * public boolean delete_model(integer $model_id)
+	 * public integer delete_model(integer $model_id)
 	 */
 	public function delete_model(int $model_id): int {
 		$datas = $this->field(['coupon_num'=>'COUNT(*)'])->table(['coupons'])->where(['id'=>$model_id])->select();
 		if(isset($datas[0])){
-			$end = $datas[0]['coupon_num'] > 0 ? $this->modify(['status'=>'deleted']) : $this->delete();
-			return $end > 0 ? true : false;
+			$this->table(['coupon_models'])->where(['id'=>$model_id]);
+			if($datas[0]['copon_num'] > 0) return $this->modify(['status'=>'deleted']) > 0 ? 2 : -1;
+			else return $this->delete() > 0 ? 1 : -1;
 		}
-		return false;
+		return -1;
 	}
 	
 	/**
@@ -158,10 +159,10 @@ class Coupon extends Mysql {
 	}
 	
 	/**
-	 * public integer function add_model(array $datas)
+	 * public ?integer add_model(array $datas)
 	 * @$datas = [integer $category_id, string $code, string $name, float $discount_money, float $min_charge_money, integer $begin_time, integer $end_time]
 	 */
-	public function add_model(array $datas): bool {
+	public function add_model(array $datas): ?int {
 		$end = $this->table(['coupon_models'])->add($datas);
 		return $end > 0 ? $this->get_last_id() : $end;
 	}
@@ -245,42 +246,6 @@ class Coupon extends Mysql {
 	}
 	
 	/**
-	 * protected Coupon _category_view(void)
-	 */
-	protected function _category_view(): Coupon {
-		$cc_cols = ['cc.id', 'cc.code', 'cc.name', 'cc.add_time'];
-		$func_cols = ['model_num'=>'COUNT(DISTINCT `cm`.`id`)', 'coupon_num'=>'COUNT(`c`.`id`)'];
-		$this->field(array_merge($cc_cols, $func_cols))->table(['cc'=>'coupon_categories']);
-		$this->join(['cm'=>'coupon_models', 'cc.id'=>'cm.category_id'], 'left');
-		$this->join(['c'=>'coupons', 'cm.id'=>'c.model_id'], 'left');
-	}
-	
-	/**
-	 * protected Coupon _model_view(void)
-	 */
-	protected function _model_view(): Coupon {
-		$cm_cols = ['cm.id', 'cm.code', 'cm.name', 'cm.discount_money', 'cm.min_charge_money', 'cm.begin_time', 'cm.end_time', 'cm.add_time'];
-		$cc_cols = ['category_id=>cc.id', 'category_code=>cc.code'];
-		$define_cols = ['coupon_num'=>-1, 'used_coupon_num'=>-1];
-		$this->field(array_merge($cm_cols, $cc_cols, $define_cols))->table(['cm'=>'coupon_models']);
-		$this->join(['cc'=>'coupon_categories', 'cm.category_id'=>'cc.id']);
-	}
-	
-	/**
-	 * protected Coupon _view(void)
-	 */
-	protected function _view(): Coupon {
-		$c_cols = ['c.id', 'c.unique_id', 'c.use_time', 'c.add_time'];
-		$cm_cols = ['model_id'=>'cm.id', 'model_code'=>'cm.code', 'cm.discount_money', 'cm.min_charge_money', 'cm.begin_time', 'cm.end_time'];
-		$cc_cols = ['category_id'=>'cc.id', 'category_code'=>'cc.code'];
-		$u_cols = ['customer_id'=>'u.id', 'customer_unique_id'=>'u.unique_id'];
-		$o_cols = ['order_id'=>'o.id', 'order_unique_id'=>'o.unique_id'];
-		$this->field(array_merge($c_cols, $cm_cols, $cc_cols, $u_cols, $o_cols))->table(['c'=>'coupons']);
-		$this->join(['cm'=>'coupon_models', 'c.model_id'=>'cm.id'])->join(['cc'=>'coupon_categories', 'cm.category_id'=>'cc.id']);
-		$this->join(['u'=>'customers', 'c.customer_id'=>'u.id'])->join(['o'=>'orders', 'c.order_id'=>'o.id']);
-	}
-	
-	/**
 	 * protected array get_model_defined_datas(array $datas)
 	 */
 	protected function get_model_defined_datas(array $datas): array {
@@ -316,6 +281,45 @@ class Coupon extends Mysql {
 			$ends[$data['model_id']] = $data['coupon_num'];
 		}
 		return $ends ?? [];
+	}
+	
+	/**
+	 * protected Coupon _category_view(void)
+	 */
+	protected function _category_view(): Coupon {
+		$cc_cols = ['cc.id', 'cc.code', 'cc.name', 'cc.add_time'];
+		$func_cols = ['model_num'=>'COUNT(DISTINCT `cm`.`id`)', 'coupon_num'=>'COUNT(`c`.`id`)'];
+		$this->field(array_merge($cc_cols, $func_cols))->table(['cc'=>'coupon_categories']);
+		$this->join(['cm'=>'coupon_models', 'cc.id'=>'cm.category_id'], 'left');
+		$this->join(['c'=>'coupons', 'cm.id'=>'c.model_id'], 'left');
+		return $this;
+	}
+	
+	/**
+	 * protected Coupon _model_view(void)
+	 */
+	protected function _model_view(): Coupon {
+		$cm_cols = ['cm.id', 'cm.code', 'cm.name', 'cm.discount_money', 'cm.min_charge_money', 'cm.begin_time', 'cm.end_time', 'cm.add_time'];
+		$cc_cols = ['category_id=>cc.id', 'category_code=>cc.code'];
+		$define_cols = ['coupon_num'=>-1, 'used_coupon_num'=>-1];
+		$this->field(array_merge($cm_cols, $cc_cols, $define_cols))->table(['cm'=>'coupon_models']);
+		$this->join(['cc'=>'coupon_categories', 'cm.category_id'=>'cc.id']);
+		return $this;
+	}
+	
+	/**
+	 * protected Coupon _view(void)
+	 */
+	protected function _view(): Coupon {
+		$c_cols = ['c.id', 'c.unique_id', 'c.use_time', 'c.add_time'];
+		$cm_cols = ['model_id'=>'cm.id', 'model_code'=>'cm.code', 'cm.discount_money', 'cm.min_charge_money', 'cm.begin_time', 'cm.end_time'];
+		$cc_cols = ['category_id'=>'cc.id', 'category_code'=>'cc.code'];
+		$u_cols = ['customer_id'=>'u.id', 'customer_unique_id'=>'u.unique_id'];
+		$o_cols = ['order_id'=>'o.id', 'order_unique_id'=>'o.unique_id'];
+		$this->field(array_merge($c_cols, $cm_cols, $cc_cols, $u_cols, $o_cols))->table(['c'=>'coupons']);
+		$this->join(['cm'=>'coupon_models', 'c.model_id'=>'cm.id'])->join(['cc'=>'coupon_categories', 'cm.category_id'=>'cc.id']);
+		$this->join(['u'=>'customers', 'c.customer_id'=>'u.id'])->join(['o'=>'orders', 'c.order_id'=>'o.id']);
+		return $this;
 	}
 	//
 }

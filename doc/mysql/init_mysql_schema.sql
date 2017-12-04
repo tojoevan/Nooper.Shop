@@ -3,8 +3,8 @@
  */
 drop schema if exists `nooper_shop`;
 create schema if not exists `nooper_shop`
-	default character set utf8
-	default collate utf8_bin;
+	default character set utf8mb4
+	default collate utf8mb4_bin;
 
 	
 /**
@@ -19,16 +19,16 @@ use `nooper_shop`
 drop table if exists `coupon_categories`;
 create table if not exists `coupon_categories`(
 	`id` bigint unsigned auto_increment not null,
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;
+	default character set utf8mb4
+	default collate utf8mb4_bin;
 	
 	
 /**
@@ -41,8 +41,8 @@ create table if not exists `coupon_default_params`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 
 	
 /**
@@ -52,21 +52,21 @@ drop table if exists `coupon_models`;
 create table if not exists `coupon_models`(
 	`id` bigint unsigned auto_increment not null, 
 	`category_id` bigint unsigned not null,
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`discount_money` decimal(10, 2) not null,
 	`min_charge_money` decimal(10, 2)  default 0,
 	`begin_time` bigint unsigned not null,
 	`end_time` bigint unsigned not null,
 	`add_time`timestamp default current_timestamp,
-	`status` enum('normal', 'expired', 'deleted') character set utf8 collate utf8_bin not null,
+	`status` enum('normal', 'expired', 'deleted') character set utf8mb4 collate utf8mb4_bin not null,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;
+	default character set utf8mb4
+	default collate utf8mb4_bin;
 	
 	
 /**
@@ -75,20 +75,20 @@ create table if not exists `coupon_models`(
 drop table if exists `coupons`;
 create table if not exists `coupons`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(18) character set utf8 collate utf8_bin not null,
+	`unique_id` char(18) character set utf8mb4 collate utf8mb4_bin not null,
 	`model_id` bigint unsigned not null,
 	`customer_id` bigint unsigned not null,
 	`order_id` bigint unsigned null,
 	`use_time` bigint unsigned null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('unused', 'used', 'expired') character set utf8 collate utf8_bin not null,
+	`status` enum('unused', 'used', 'expired') character set utf8mb4 collate utf8mb4_bin not null,
 	unique(`order_id`),
 	unique(`unique_id`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 
 /**
@@ -107,8 +107,8 @@ create table if not exists `customer_balance_change_records`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 	
 /**
@@ -123,8 +123,8 @@ create table if not exists `customer_browse_records`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 	
 /**
@@ -141,8 +141,8 @@ create table if not exists `customer_carts`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 
 
 /**
@@ -155,8 +155,8 @@ create table if not exists `customer_default_params`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 
 
 /**
@@ -170,16 +170,16 @@ create table if not exists `customer_deliver_addresses`(
 	`province_id` bigint unsigned null,
 	`receiver` varchar(50) not null,
 	`phone` char(11) not null,
-	`primary_address` varchar(200) character set utf8 collate utf8_bin not null,
-	`detail_address` varchar(200) character set utf8 collate utf8_bin not null,
+	`primary_address` varchar(200) character set utf8mb4 collate utf8mb4_bin not null,
+	`detail_address` varchar(200) character set utf8mb4 collate utf8mb4_bin not null,
 	`is_default` boolean default true,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('normal', 'disabled') character set utf8 collate utf8_bin not null,
+	`status` enum('normal', 'disabled') character set utf8mb4 collate utf8mb4_bin not null,
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 
  
  /**
@@ -195,8 +195,8 @@ create table if not exists `customer_favourites`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 
 /**
@@ -206,13 +206,13 @@ drop table if exists `customer_profiles`;
 create table if not exists `customer_profiles`(
 	`id` bigint unsigned auto_increment not null,
 	`customer_id` bigint unsigned not null,
-	`id_card` char(18) character set utf8 collate utf8_bin null,
-	`real_name` varchar(50) character set utf8 collate utf8_bin null,
-	`sex` enum('secrecy', 'male', 'female') character set utf8 collate utf8_bin null,
-	`phone` char(11) character set utf8 collate utf8_bin not null,
-	`email` varchar(200) character set utf8 collate utf8_bin null,
-	`picture_circular_ url` varchar(100) character set utf8 collate utf8_bin null,
-	`picture_square_url` varchar(100) character set utf8 collate utf8_bin null,
+	`id_card` char(18) character set utf8mb4 collate utf8mb4_bin null,
+	`real_name` varchar(50) character set utf8mb4 collate utf8mb4_bin null,
+	`sex` enum('secrecy', 'male', 'female') character set utf8mb4 collate utf8mb4_bin null,
+	`phone` char(11) character set utf8mb4 collate utf8mb4_bin not null,
+	`email` varchar(200) character set utf8mb4 collate utf8mb4_bin null,
+	`picture_circular_ url` varchar(100) character set utf8mb4 collate utf8mb4_bin null,
+	`picture_square_url` varchar(100) character set utf8mb4 collate utf8mb4_bin null,
 	`add_time` timestamp default current_timestamp,
 	unique(`email`),
 	unique(`phone`),
@@ -221,8 +221,8 @@ create table if not exists `customer_profiles`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 
 
 /**
@@ -234,15 +234,15 @@ create table if not exists `customer_reviews`(
 	`customer_id` bigint unsigned not null,
 	`order_id` bigint unsigned not null,
 	`product_id` bigint unsigned not null,
-	`grade` enum('5', '4', '3', '2', '1') character set utf8 collate utf8_bin not null,
-	`description` varchar(500) character set utf8 collate utf8_bin not null,
+	`grade` enum('5', '4', '3', '2', '1') character set utf8mb4 collate utf8mb4_bin not null,
+	`description` varchar(500) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`order_id`,`product_id`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 
 
 /**
@@ -251,21 +251,21 @@ create table if not exists `customer_reviews`(
 drop table if exists `customers`;
 create table if not exists `customers`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(26) character set utf8 collate utf8_bin not null,
-	`wx_open_id` varchar(128) character set utf8 collate utf8_bin not null,
-	`nickname` varchar(50) character set utf8 collate utf8_bin null,
-	`pwd` char(41) character set utf8 collate utf8_bin not null,
+	`unique_id` char(26) character set utf8mb4 collate utf8mb4_bin not null,
+	`wx_open_id` varchar(128) character set utf8mb4 collate utf8mb4_bin not null,
+	`nickname` varchar(50) character set utf8mb4 collate utf8mb4_bin null,
+	`pwd` char(41) character set utf8mb4 collate utf8mb4_bin not null,
 	`balance` decimal(10, 2) unsigned default 0.00,
 	`point` bigint unsigned default 0,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('normal', 'locked') character set utf8 collate utf8_bin not null,
+	`status` enum('normal', 'locked') character set utf8mb4 collate utf8mb4_bin not null,
 	unique(`wx_open_id`),
 	unique(`unique_id`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 
 
 /**
@@ -275,14 +275,14 @@ drop table if exists `express_address_cities`;
 create table if not exists `express_address_cities`(
 	`id` bigint unsigned auto_increment not null,
 	`province_id` bigint unsigned not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`province_id`,`name`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 
 
 /**
@@ -292,14 +292,14 @@ drop table if exists `express_address_counties`;
 create table if not exists `express_address_counties`(
 	`id` bigint unsigned auto_increment not null,
 	`city_id` bigint unsigned not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`city_id`,`name`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 
 /**
@@ -309,14 +309,14 @@ drop table if exists `express_address_provinces`;
 create table if not exists `express_address_provinces`(
 	`id` bigint unsigned auto_increment not null,
 	`region_id` bigint unsigned not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`region_id`,`name`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 	
 /**
@@ -325,16 +325,16 @@ create table if not exists `express_address_provinces`(
 drop table if exists `express_address_regions`;
 create table if not exists `express_address_regions`(
 	`id` bigint unsigned auto_increment not null,
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 	
 /**
@@ -344,14 +344,14 @@ drop table if exists `express_address_towns`;
 create table if not exists `express_address_towns`(
 	`id` bigint unsigned auto_increment not null,
 	`county_id` bigint unsigned not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`county_id`,`name`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 /**
@@ -369,8 +369,8 @@ create table if not exists `express_carriage_global_params`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 
 	
 /**
@@ -389,8 +389,8 @@ create table if not exists `express_carriage_inner_template_details`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;			
+	default character set utf8mb4
+	default collate utf8mb4_bin;			
 	
 	
 /**
@@ -399,16 +399,16 @@ create table if not exists `express_carriage_inner_template_details`(
 drop table if exists `express_carriage_inner_templates`;
 create table if not exists `express_carriage_inner_templates`(
 	`id` bigint unsigned auto_increment not null,
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 /**
@@ -427,8 +427,8 @@ create table if not exists `express_carriage_outer_template_details`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 	
 /**
@@ -437,16 +437,16 @@ create table if not exists `express_carriage_outer_template_details`(
 drop table if exists `express_carriage_outer_templates`;
 create table if not exists `express_carriage_outer_templates`(
 	`id` bigint unsigned auto_increment not null,
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 		
 
 /**
@@ -455,16 +455,16 @@ create table if not exists `express_carriage_outer_templates`(
 drop table if exists `express_corporations`;
 create table if not exists `express_corporations`(
 	`id` bigint unsigned auto_increment not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
-	`query_api` varchar(100) character set utf8 collate utf8_bin null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
+	`query_api` varchar(100) character set utf8mb4 collate utf8mb4_bin null,
 	`place` int unsigned default 0,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;
+	default character set utf8mb4
+	default collate utf8mb4_bin;
 	
 
 /**
@@ -473,15 +473,15 @@ create table if not exists `express_corporations`(
 drop table if exists `express_default_params`;
 create table if not exists `express_default_params`(
 	`id` bigint unsigned auto_increment not null,
-	`carriage_mode` enum('global', 'template') character set utf8 collate utf8_bin not null,
+	`carriage_mode` enum('global', 'template') character set utf8mb4 collate utf8mb4_bin not null,
 	`inner_free_money` decimal(10, 2) unsigned default 0.00,
 	`inner_ceil_money` decimal(10, 2) unsigned default 0.00,
 	`add_time` timestamp default current_timestamp,
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 
 /**
@@ -492,9 +492,9 @@ create table if not exists `expresses`(
 	`id` bigint unsigned auto_increment not null,
 	`order_id` bigint unsigned not null,
 	`corporation_id` bigint unsigned not null, 
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
 	`carriage` decimal(10, 2) unsigned not null,
-	`address` varchar(200) character set utf8 collate utf8_bin not null,
+	`address` varchar(200) character set utf8mb4 collate utf8mb4_bin not null,
 	`receiver` varchar(50) not null,
 	`phone` varchar(20) not null,
 	`add_time` timestamp default current_timestamp,
@@ -502,8 +502,8 @@ create table if not exists `expresses`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 
 /**
@@ -516,8 +516,8 @@ create table if not exists `gift_card_default_params`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 	
 /**
@@ -526,19 +526,19 @@ create table if not exists `gift_card_default_params`(
 drop table if exists `gift_card_models`;
 create table if not exists `gift_card_models`(
 	`id` bigint unsigned auto_increment not null, 
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`charge_money` decimal(10, 2) unsigned not null,
 	`sale_price`decimal(10, 2) unsigned not null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('normal', 'deleted') character set utf8 collate utf8_bin not null,
+	`status` enum('normal', 'deleted') character set utf8mb4 collate utf8mb4_bin not null,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 /**
@@ -547,23 +547,23 @@ create table if not exists `gift_card_models`(
 drop table if exists `gift_cards`;
 create table if not exists `gift_cards`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(22) character set utf8 collate utf8_bin not null,
+	`unique_id` char(22) character set utf8mb4 collate utf8mb4_bin not null,
 	`model_id` bigint unsigned not null,
 	`customer_id` bigint unsigned not null,
-	`code` char(22) character set utf8 collate utf8_bin not null,
-	`transaction_id` varchar(32) character set utf8 collate utf8_bin null,
+	`code` char(22) character set utf8mb4 collate utf8mb4_bin not null,
+	`transaction_id` varchar(32) character set utf8mb4 collate utf8mb4_bin null,
 	`pay_time` bigint unsigned null,
 	`charge_time` bigint unsigned null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('unpaid', 'paid', 'charged') character set utf8 collate utf8_bin not null,
+	`status` enum('unpaid', 'paid', 'charged') character set utf8mb4 collate utf8mb4_bin not null,
 	unique(`transaction_id`),
 	unique(`code`),
 	unique(`unique_id`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 /**
@@ -576,8 +576,8 @@ create table if not exists `manager_default_params`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 
 /**
@@ -586,16 +586,16 @@ create table if not exists `manager_default_params`(
 drop table if exists `manager_permissions`;
 create table if not exists `manager_permissions`(
 	`id` bigint unsigned auto_increment not null,
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;
+	default character set utf8mb4
+	default collate utf8mb4_bin;
 	
 	
 /**
@@ -611,8 +611,8 @@ create table if not exists `manager_role_rel_permissions`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;
+	default character set utf8mb4
+	default collate utf8mb4_bin;
 
 	
 /**
@@ -621,16 +621,16 @@ create table if not exists `manager_role_rel_permissions`(
 drop table if exists `manager_roles`;
 create table if not exists `manager_roles`(
 	`id` bigint unsigned auto_increment not null,
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;
+	default character set utf8mb4
+	default collate utf8mb4_bin;
 	
 	
 /**
@@ -640,16 +640,16 @@ drop table if exists `managers`;
 create table if not exists `managers`(
 	`id` bigint unsigned auto_increment not null,
 	`role_id` bigint unsigned not null,
-	`name` varchar(20) character set utf8 collate utf8_bin not null,
-	`email` varchar(50) character set utf8 collate utf8_bin not null,
-	`pwd` char(41) character set utf8 collate utf8_bin not null,
+	`name` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`email` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
+	`pwd` char(41) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`email`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;
+	default character set utf8mb4
+	default collate utf8mb4_bin;
 	
 	
 /**
@@ -658,16 +658,16 @@ create table if not exists `managers`(
 drop table if exists `message_categories`;
 create table if not exists `message_categories`(
 	`id` bigint unsigned auto_increment not null,
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
 	unique(`code`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 
 /**
@@ -681,8 +681,8 @@ create table if not exists `message_default_params`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 
 
 /**
@@ -691,19 +691,19 @@ create table if not exists `message_default_params`(
 drop table if exists `messages`;
 create table if not exists `messages`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(16) character set utf8 collate utf8_bin not null,
+	`unique_id` char(16) character set utf8mb4 collate utf8mb4_bin not null,
 	`category_id` bigint unsigned not null,
 	`customer_id` bigint unsigned not null,
-	`title` varchar(100) character set utf8 collate utf8_bin not null,
-	`description` varchar(1000) character set utf8 collate utf8_bin not null,
+	`title` varchar(100) character set utf8mb4 collate utf8mb4_bin not null,
+	`description` varchar(1000) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('unread', 'read') character set utf8 collate utf8_bin not null,
+	`status` enum('unread', 'read') character set utf8mb4 collate utf8mb4_bin not null,
 	unique(`unique_id`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 
 /**
@@ -719,8 +719,8 @@ create table if not exists `order_complete_records`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 
 /**
@@ -733,8 +733,8 @@ create table if not exists `order_default_params`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 	
 /**
@@ -754,8 +754,8 @@ create table if not exists `order_details`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;			
+	default character set utf8mb4
+	default collate utf8mb4_bin;			
 	
 
 /**
@@ -772,8 +772,8 @@ create table if not exists `order_pay_records`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 	
 /**
@@ -782,7 +782,7 @@ create table if not exists `order_pay_records`(
 drop table if exists `orders`;
 create table if not exists `orders`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(19) character set utf8 collate utf8_bin not null,
+	`unique_id` char(19) character set utf8mb4 collate utf8mb4_bin not null,
 	`customer_id` bigint unsigned not null,
 	`deliver_address_id` bigint unsigned not null,
 	`total_tag_money` decimal(10, 2) unsigned not null,
@@ -790,14 +790,14 @@ create table if not exists `orders`(
 	`total_express_carriage_money` decimal(10, 2) unsigned not null,
 	`total_money` decimal(10, 2) unsigned not null,
 	`add_time` timestamp default current_timestamp,
-	`pay_method` enum('wechat', 'balance') character set utf8 collate utf8_bin null,
-	`status` enum('unpaid', 'paid', 'shipped', 'completed', 'closed') character set utf8 collate utf8_bin not null,
+	`pay_method` enum('wechat', 'balance') character set utf8mb4 collate utf8mb4_bin null,
+	`status` enum('unpaid', 'paid', 'shipped', 'completed', 'closed') character set utf8mb4 collate utf8mb4_bin not null,
 	unique(`unique_id`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 /**
@@ -806,15 +806,15 @@ create table if not exists `orders`(
 drop table if exists `product_categories`;
 create table if not exists `product_categories`(
 	`id` bigint unsigned auto_increment not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`position` int unsigned default 0,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 		
 			
 /**
@@ -824,14 +824,14 @@ drop table if exists `product_category_properties`;
 create table if not exists `product_category_properties`(
 	`id` bigint unsigned auto_increment not null,
 	`category_id` bigint unsigned not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`category_id`, `name`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 	
 /**
@@ -841,15 +841,15 @@ drop table if exists `product_children_categories`;
 create table if not exists `product_children_categories`(
 	`id` bigint unsigned auto_increment not null,
 	`parent_id` bigint unsigned not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`position` int unsigned default 0,
 	`add_time` timestamp default current_timestamp,
 	unique(`parent_id`, `name`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 /**
@@ -864,8 +864,8 @@ create table if not exists `product_default_params`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 /**
@@ -875,14 +875,14 @@ drop table if exists `product_details`;
 create table if not exists `product_details`(
 	`id` bigint unsigned auto_increment not null,
 	`product_id` bigint unsigned not null,
-	`description` varchar(20000) character set utf8 collate utf8_bin not null,
+	`description` varchar(20000) character set utf8mb4 collate utf8mb4_bin not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`product_id`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 	/**
@@ -898,8 +898,8 @@ create table if not exists `product_group_details`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 		
 	
 /**
@@ -908,8 +908,8 @@ create table if not exists `product_group_details`(
 drop table if exists `product_groups`;
 create table if not exists `product_groups`(
 	`id` bigint unsigned auto_increment not null,
-	`code` varchar(20) character set utf8 collate utf8_bin not null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin not null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`position` int unsigned default 0,
 	`add_time` timestamp default current_timestamp,
 	unique(`name`),
@@ -917,8 +917,8 @@ create table if not exists `product_groups`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;	
+	default character set utf8mb4
+	default collate utf8mb4_bin;	
 	
 
 /**
@@ -928,7 +928,7 @@ drop table if exists `product_picture_thumbnails`;
 create table if not exists `product_picture_thumbnails`(
 	`id` bigint unsigned auto_increment not null,
 	`product_id` bigint unsigned not null,
-	`url` varchar(100) character set utf8 collate utf8_bin not null,
+	`url` varchar(100) character set utf8mb4 collate utf8mb4_bin not null,
 	`position` int unsigned default 0,
 	`is_primary` boolean default false,
 	`add_time` timestamp default current_timestamp,
@@ -936,8 +936,8 @@ create table if not exists `product_picture_thumbnails`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 /**
@@ -947,7 +947,7 @@ drop table if exists `product_pictures`;
 create table if not exists `product_pictures`(
 	`id` bigint unsigned auto_increment not null,
 	`product_id` bigint unsigned not null,
-	`url` varchar(100) character set utf8 collate utf8_bin not null,
+	`url` varchar(100) character set utf8mb4 collate utf8mb4_bin not null,
 	`position` int unsigned default 0,
 	`is_primary` boolean default false,
 	`add_time` timestamp default current_timestamp,
@@ -955,8 +955,8 @@ create table if not exists `product_pictures`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 
 /**
@@ -967,15 +967,15 @@ create table if not exists `product_property_datas`(
 	`id` bigint unsigned auto_increment not null,
 	`product_id` bigint unsigned not null,
 	`property_id` bigint unsigned not null,
-	`value` varchar(50) character set utf8 collate utf8_bin not null,
+	`value` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`position` int unsigned default 0,
 	`add_time` timestamp default current_timestamp,
 	unique(`product_id`, `property_id`, `value`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 /**
@@ -991,8 +991,8 @@ create table if not exists `product_rel_express_carriage_templates`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 
 /**
@@ -1002,15 +1002,15 @@ drop table if exists `product_stocks`;
 create table if not exists `product_stocks`(
 	`id` bigint unsigned auto_increment not null,
 	`product_id` bigint unsigned not null,
-	`property_datas_str` varchar(200) character set utf8 collate utf8_bin not null,
+	`property_datas_str` varchar(200) character set utf8mb4 collate utf8mb4_bin not null,
 	`stock` int unsigned not null,
 	`add_time` timestamp default current_timestamp,
 	unique(`product_id`, `property_datas_str`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 /**
@@ -1019,24 +1019,24 @@ create table if not exists `product_stocks`(
 drop table if exists `products`;
 create table if not exists `products`(
 	`id` bigint unsigned auto_increment not null,
-	`unique_id` char(16) character set utf8 collate utf8_bin not null,
+	`unique_id` char(16) character set utf8mb4 collate utf8mb4_bin not null,
 	`category_id` bigint unsigned not null,
 	`children_category_id` bigint unsigned not null,
-	`code` varchar(20) character set utf8 collate utf8_bin null,
-	`name` varchar(50) character set utf8 collate utf8_bin not null,
+	`code` varchar(20) character set utf8mb4 collate utf8mb4_bin null,
+	`name` varchar(50) character set utf8mb4 collate utf8mb4_bin not null,
 	`tag_price` decimal(10, 2) unsigned not null,
 	`discount_price` decimal(10, 2) unsigned not null,
 	`position` int unsigned not null,
 	`add_time` timestamp default current_timestamp,
-	`status` enum('prepared', 'online', 'offline', 'deleted') character set utf8 collate utf8_bin not null,
+	`status` enum('prepared', 'online', 'offline', 'deleted') character set utf8mb4 collate utf8mb4_bin not null,
 	unique(`name`),
 	unique(`code`),
 	unique(`unique_id`),
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 
 /**
@@ -1049,8 +1049,8 @@ create table if not exists `system_default_params`(
 	primary key(`id`)
 )
 	engine innodb
-	default character set utf8
-	default collate utf8_bin;		
+	default character set utf8mb4
+	default collate utf8mb4_bin;		
 	
 	
 	
