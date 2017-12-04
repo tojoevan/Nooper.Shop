@@ -47,11 +47,7 @@ class GiftCard extends Mysql {
 	 */
 	public function get_normal_model_page(int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = ($page_num - 1) * $page_length;
-		$gcm_cols = ['gcm.id', 'gcm.code', 'gcm.name', 'gcm.recharge_money', 'gcm.sale_price', 'gcm.add_time'];
-		$func_cols = ['gift_card_num'=>'COUNT(`gc`.`id`)'];
-		$this->field(array_merge($gcm_cols, $func_cols))->table(['gcm'=>'gift_card_models']);
-		$this->join(['gc'=>'gift_cards', 'gcm.id'=>'gc.model_id'], 'left');
-		$this->where(['gcm.status'=>'normal'])->group(['gcm.id'])->order(['gcm.id'=>'desc']);
+		$this->_model_view()->where(['gcm.status'=>'normal'])->group(['gcm.id'])->order(['gcm.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
@@ -69,11 +65,7 @@ class GiftCard extends Mysql {
 	 */
 	public function get_deleted_model_page(int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = ($page_num - 1) * $page_length;
-		$gcm_cols = ['gcm.id', 'gcm.code', 'gcm.name', 'gcm.recharge_money', 'gcm.sale_price', 'gcm.add_time'];
-		$func_cols = ['gift_card_num'=>'COUNT(`gc`.`id`)'];
-		$this->field(array_merge($gcm_cols, $func_cols))->table(['gcm'=>'gift_card_models']);
-		$this->join(['gc'=>'gift_cards', 'gcm.id'=>'gc.model_id'], 'left');
-		$this->where(['gcm.status'=>'deleted'])->group(['gcm.id'])->order(['gcm.id'=>'desc']);
+		$this->_model_view()->where(['gcm.status'=>'deleted'])->group(['gcm.id'])->order(['gcm.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
@@ -82,11 +74,7 @@ class GiftCard extends Mysql {
 	 * public array get_model_record(integer $model_id)
 	 */
 	public function get_model_record(int $model_id): array {
-		$gcm_cols = ['gcm.id', 'gcm.code', 'gcm.name', 'gcm.recharge_money', 'gcm.sale_price', 'gcm.add_time'];
-		$func_cols = ['gift_card_num'=>'COUNT(`gc`.`id`)'];
-		$this->field(array_merge($gcm_cols, $func_cols))->table(['gcm'=>'gift_card_models']);
-		$this->join(['gc'=>'gift_cards', 'gcm.id'=>'gc.model_id'], 'left');
-		$ends = $this->where(['gcm.id'=>$model_id])->select();
+		$ends = $this->_model_view()->where(['gcm.id'=>$model_id])->select();
 		return $ends[0] ?? [];
 	}
 	
@@ -99,13 +87,16 @@ class GiftCard extends Mysql {
 	}
 	
 	/**
-	 * public boolean delete_model(integer $model_id)
+	 * public integer delete_model(integer $model_id)
 	 */
-	public function delete_model(int $model_id): bool {
+	public function delete_model(int $model_id): int {
 		$datas = $this->field(['gift_card_num'=>'COUNT(*)'])->table(['gift_cards'])->where(['id'=>$model_id])->select();
 		$this->table(['gift_card_models'])->where(['id'=>$model_id]);
-		$end = (isset($datas[0]) && $datas[0]['gift_card_num'] > 0) ? $this->modify(['status'=>'deleted']) : $this->delete();
-		return $end > 0 ? true : false;
+		if(isset($datas[0])){
+			if($datas[0]['gift_card_num'] > 0) return $this->modify(['status'=>'deleted']) > 0 ? 2 : -1;
+			else return $this->delete() > 0 ? 1 : -1;
+			return -1;
+		}
 	}
 	
 	/**
@@ -118,28 +109,27 @@ class GiftCard extends Mysql {
 	}
 	
 	/**
-	 * public integer add_model(array $datas)
+	 * public ?integer add_model(array $datas)
 	 * @$datas = [string $code, string $name, float $recharge_money, float $sale_price]
 	 */
-	public function add_model(array $datas): int {
-		$end = $this->table(['gift_card_models'])->add($datas);
-		return $end > 0 ? $this->get_last_id() : -1;
+	public function add_model(array $datas): ?int {
+		return $this->table(['gift_card_models'])->add($datas) > 0 ? $this->get_last_id() : -1;
 	}
 	
 	/**
 	 * public integer num(void)
 	 */
 	public function num(): int {
-		$ends = $this->field(['num'=>'COUNT(*)'])->table(['gift_cards'])->select();
-		return $ends[0]['num'] ?? -1;
+		$ends = $this->field(['gift_card_num'=>'COUNT(*)'])->table(['gift_cards'])->select();
+		return $ends[0]['gift_card_num'] ?? -1;
 	}
 	
 	/**
 	 * public integer get_unpaid_num(void)
 	 */
 	public function get_unpaid_num(): int {
-		$ends = $this->field(['num'=>'COUNT(*)'])->table(['gift_cards'])->where(['status'=>'unpaid'])->select();
-		return $ends[0]['num'] ?? -1;
+		$ends = $this->field(['gift_card_num'=>'COUNT(*)'])->table(['gift_cards'])->where(['status'=>'unpaid'])->select();
+		return $ends[0]['gift_card_num'] ?? -1;
 	}
 	
 	/**
@@ -147,12 +137,7 @@ class GiftCard extends Mysql {
 	 */
 	public function get_unpaid_page(int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = ($page_num - 1) * $page_length;
-		$gc_cols = ['gc.id', 'gc.unique_id', 'gc.code', 'gc.add_time'];
-		$gcm_cols = ['model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gcm.recharge_money', 'gcm.sale_price'];
-		$c_cols = ['customer_id'=>'c.id', 'customer_unique_id'=>'c.unique_id'];
-		$this->field(array_merge($gc_cols, $gcm_cols, $c_cols))->table(['gc'=>'gift_cards']);
-		$this->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id'])->join(['c'=>'customers', 'gc.customer_id'=>'c.id']);
-		$this->where(['gc.status'=>'unpaid'])->order(['gc.id'=>'desc']);
+		$this->_view()->where(['gc.status'=>'unpaid'])->order(['gc.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
@@ -161,8 +146,8 @@ class GiftCard extends Mysql {
 	 * public integer get_paid_num(void)
 	 */
 	public function get_paid_num(): int {
-		$ends = $this->field(['num'=>'COUNT(*)'])->table(['gift_cards'])->where(['status'=>'paid'])->select();
-		return $ends[0]['num'] ?? -1;
+		$ends = $this->field(['gift_card_num'=>'COUNT(*)'])->table(['gift_cards'])->where(['status'=>'paid'])->select();
+		return $ends[0]['gift_card_num'] ?? -1;
 	}
 	
 	/**
@@ -170,115 +155,114 @@ class GiftCard extends Mysql {
 	 */
 	public function get_paid_page(int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = ($page_num - 1) * $page_length;
-		$gc_cols = ['gc.id', 'gc.unique_id', 'gc.code', 'gc.transaction_id', 'gc.pay_time', 'gc.add_time'];
-		$gcm_cols = ['model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gcm.recharge_money', 'gcm.sale_price'];
-		$c_cols = ['customer_id'=>'c.id', 'customer_unique_id'=>'c.unique_id'];
-		$this->field(array_merge($gc_cols, $gcm_cols, $c_cols))->table(['gc'=>'gift_cards']);
-		$this->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id'])->join(['c'=>'customers', 'gc.customer_id'=>'c.id']);
-		$this->where(['gc.status'=>'paid'])->order(['gc.id'=>'desc']);
+		$this->_view()->where(['gc.status'=>'paid'])->order(['gc.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
 	
 	/**
-	 * public integer get_recharged_num(void)
+	 * public integer get_charged_num(void)
 	 */
-	public function get_recharged_num(): int {
-		$ends = $this->field(['num'=>'COUNT(*)'])->table(['gift_cards'])->where(['status'=>'recharged'])->select();
-		return $ends[0]['num'] ?? -1;
+	public function get_charged_num(): int {
+		$ends = $this->field(['gift_card_num'=>'COUNT(*)'])->table(['gift_cards'])->where(['status'=>'recharged'])->select();
+		return $ends[0]['gift_card_num'] ?? -1;
 	}
 	
 	/**
-	 * public array get_recharged_page(integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_charged_page(integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
-	public function get_recharged_page(int $page_num = 1, int $page_length = self::page_record_num): array {
+	public function get_charged_page(int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = ($page_num - 1) * $page_length;
-		$gc_cols = ['gc.id', 'gc.unique_id', 'gc.code', 'gc.transaction_id', 'gc.pay_time', 'gc.recharge_time', 'gc.add_time'];
-		$gcm_cols = ['model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gcm.recharge_money', 'gcm.sale_price'];
-		$c_cols = ['customer_id'=>'c.id', 'customer_unique_id'=>'c.unique_id'];
-		$this->field(array_merge($gc_cols, $gcm_cols, $c_cols))->table(['gc'=>'gift_cards']);
-		$this->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id'])->join(['c'=>'customers', 'gc.customer_id'=>'c.id']);
-		$this->where(['gc.status'=>'recharged'])->order(['gc.id'=>'desc']);
+		$this->_view()->where(['gc.status'=>'charged'])->order(['gc.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
 	
 	/**
-	 * public array record(integer $id)
+	 * public array record(integer $gift_card_id)
 	 */
-	public function record(int $id): array {
-		$gc_cols = ['gc.id', 'gc.unique_id', 'gc.code', 'gc.transaction_id', 'gc.pay_time', 'gc.recharge_time', 'gc.add_time', 'gc.status'];
-		$gcm_cols = ['model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gcm.recharge_money', 'gcm.sale_price'];
-		$c_cols = ['customer_id'=>'c.id', 'customer_unique_id'=>'c.unique_id'];
-		$this->field(array_merge($gc_cols, $gcm_cols, $c_cols))->table(['gc'=>'gift_cards']);
-		$this->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id'])->join(['c'=>'customers', 'gc.customer_id'=>'c.id']);
-		$ends = $this->where(['gc.id'=>$id])->select();
+	public function record(int $gift_card_id): array {
+		$ends = $this->_view()->where(['gc.id'=>$gift_card_id])->select();
 		return $ends[0] ?? [];
-	}
-	
-	/**
-	 * public boolean pay(integer $id, string $transaction_id, integer $pay_time)
-	 */
-	public function pay(int $id, string $transaction_id, int $pay_time): bool {
-		$datas = ['transaction_id'=>$transaction_id, 'pay_time'=>$pay_time, 'status'=>'paid'];
-		$end = $this->table(['gift_cards'])->where(['id'=>$id])->modify($datas);
-		return $end > 0 ? true : false;
-	}
-	
-	/**
-	 * public boolean recharge(integer $id)
-	 */
-	public function recharge(int $id): bool {
-		$this->field(['gc.customer_id', 'gcm.recharge_money'])->table(['gc'=>'gift_cards']);
-		$this->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
-		$datas = $this->where(['gc.id'=>$id])->select();
-		if(isset($datas[0])){
-			list('customer_id'=>$customer_id, 'recharge_money'=>$recharge_money) = $datas[0];
-			$this->begin();
-			$datas1 = ['recharge_time'=>get_now_timestamp(), 'status'=>'recharged'];
-			$datas2 = ['balance'=>['balance+' . $recharge_money]];
-			$end1 = $this->table(['gift_cards'])->where(['id'=>$id])->modify($datas1);
-			$end2 = $this->table(['customers'])->where(['id'=>$customer_id])->modify($datas2);
-			if($end1 > 0 && $end2 > 0){
-				$this->end();
-				return true;
-			}else{
-				$this->rollback();
-				return false;
-			}
-		}
-		return false;
 	}
 	
 	/**
 	 * public array find(string $gift_card_unique_id)
 	 */
 	public function find(string $gift_card_unique_id): array {
-		$this->field(['gc.id', 'model_id'=>'gcm.id', 'customer_id'=>'c.id', 'model_code'=>'gcm.code', 'gc.unique_id', 'gc.code', 'gc.wx_transaction_id', 'c.wx_open_id', 'gcm.recharge_money', 'gcm.sale_price', 'gc.add_time', 'gc.status']);
-		$this->table(['gc'=>'gift_cards'])->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
-		$this->join(['c'=>'customers', 'gc.customer_id'=>'c.id'])->where(['gc.unique_id'=>"'$gift_card_unique_id'"]);
-		return $this->select();
+		$ends = $this->_view()->where(['gc.unique_id'=>$gift_card_unique_id])->select();
+		return $ends[0] ?? [];
 	}
 	
 	/**
-	 * public integer remove(integer $id)
+	 * public boolean pay(integer $gift_card_id, string $transaction_id, integer $pay_time)
 	 */
-	public function remove(int $id): int {
-		$datas = $this->field(['status'])->table(['gift_cards'])->where(['id'=>$id])->select();
+	public function pay(int $gift_card_id, string $transaction_id, int $pay_time): bool {
+		$datas = ['transaction_id'=>$transaction_id, 'pay_time'=>$pay_time, 'status'=>'paid'];
+		$end = $this->table(['gift_cards'])->where(['id'=>$gift_card_id])->modify($datas);
+		return $end > 0 ? true : false;
+	}
+	
+	/**
+	 * public boolean charge(integer $gift_card_id)
+	 */
+	public function charge(int $gift_card_id): bool {
+		$this->field(['gc.customer_id', 'gcm.charge_money'])->table(['gc'=>'gift_cards']);
+		$this->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
+		$datas = $this->where(['gc.id'=>$id])->select();
+		if(isset($datas[0]) && $this->begin()){
+			list('customer_id'=>$customer_id, 'charge_money'=>$charge_money) = $datas[0];
+			$end1 = $this->table(['gift_cards'])->where(['id'=>$gift_card_id])->modify(['charge_time'=>get_now_timestamp(), 'status'=>'charged']);
+			$end2 = $this->table(['customers'])->where(['id'=>$customer_id])->modify(['balance'=>['balance+' . $charge_money]]);
+			if($end1 > 0 && $end2 > 0 && $this->end()) return true;
+			$this->rollback();
+			return false;
+		}
+		return false;
+	}
+	
+	/**
+	 * public integer remove(integer $gift_card_id)
+	 */
+	public function remove(int $gift_card_id): int {
+		$datas = $this->field(['status'])->table(['gift_cards'])->where(['id'=>$gift_card_id])->select();
 		if(isset($datas[0])){
-			if('unpaid' == $datas[0]['status']) return $this->table(['gift_cards'])->where(['id'=>$id])->delete();
-			return -2; // error for status!!
+			if('unpaid' == $datas[0]['status']) return $this->table(['gift_cards'])->where(['id'=>$gift_card_id])->delete();
+			return -2; // error for status, @@
 		}
 		return -1;
 	}
 	
 	/**
-	 * public integer create(array $datas)
+	 * public ?integer create(array $datas)
 	 * @$datas = [string $unique_id, integer $model_id, integer $customer_id, string $code]
 	 */
-	public function create(array $datas): int {
-		$end = $this->table(['gift_cards'])->add($datas);
-		return $end > 0 ? $this->get_last_id : -1;
+	public function create(array $datas): ?int {
+		return $this->table(['gift_cards'])->add($datas) > 0 ? $this->get_last_id() : -1;
+	}
+	
+	/**
+	 * protected GiftCard _model_view(void)
+	 */
+	protected function _model_view(): GiftCard {
+		$gcm_cols = ['gcm.id', 'gcm.code', 'gcm.name', 'gcm.charge_money', 'gcm.sale_price', 'gcm.add_time', 'gcm.status'];
+		$func_cols = ['gift_card_num'=>'COUNT(`gc`.`id`)'];
+		$this->field(array_merge($gcm_cols, $func_cols))->table(['gcm'=>'gift_card_models']);
+		$this->join(['gc'=>'gift_cards', 'gcm.id'=>'gc.model_id'], 'left');
+		return $this;
+	}
+	
+	/**
+	 * protected GiftCard _view(void)
+	 */
+	protected function _view(): GiftCard {
+		$gc_cols = ['gc.id', 'gc.unique_id', 'gc.code', 'gc.transaction_id', 'gc.pay_time', 'gc.charge_time', 'gc.add_time', 'gc.status'];
+		$gcm_cols = ['model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gcm.charge_money', 'gcm.sale_price'];
+		$c_cols = ['customer_id'=>'c.id', 'customer_unique_id'=>'c.unique_id'];
+		$this->field(array_merge($gc_cols, $gcm_cols, $c_cols))->table(['gc'=>'gift_cards']);
+		$this->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
+		$this->join(['c'=>'customers', 'gc.customer_id'=>'c.id']);
+		return $this;
 	}
 	
 	//

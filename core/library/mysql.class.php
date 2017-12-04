@@ -370,21 +370,21 @@ class Mysql {
 	/**
 	 * public ?string function get_last_error(void)
 	 */
-	public function get_last_error(): string {
+	public function get_last_error(): ?string {
 		return $this->error;
 	}
 	
 	/**
 	 * public ?string function get_last_sql(void)
 	 */
-	public function get_last_sql(): string {
+	public function get_last_sql(): ?string {
 		return $this->sql;
 	}
 	
 	/**
 	 * public ?integer function get_last_id(void)
 	 */
-	public function get_last_id(): int {
+	public function get_last_id(): ?int {
 		return $this->id;
 	}
 	

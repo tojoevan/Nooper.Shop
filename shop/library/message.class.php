@@ -94,108 +94,63 @@ class Message extends Mysql {
 	 * public integer num(void)
 	 */
 	public function num(): int {
-		$ends = $this->field(['message_num'=>'COUNT(*)'])->table(['messages'])->select();
-		return $ends[0]['message_num'] ?? -1;
+		return $this->get_num();
 	}
 	
 	/**
 	 * public integer get_week_num(void)
 	 */
 	public function get_week_num(): int {
-		$this->field(['message_num'=>'COUNT(*)'])->table(['messages']);
-		$ends = $this->where_cmd("datediff(current_timestamp(), `add_time`)<7")->select();
-		return $ends[0]['message_num'] ?? -1;
+		return $this->get_num('<7');
 	}
 	
 	/**
 	 * public array get_week_page(integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_week_page(int $page_num = 1, int $page_length = self::page_record_num): array {
-		$offset_num = $page_length * ($page_num - 1);
-		$m_cols = ['m.id', 'm.unique_id', 'm.title', 'm.add_time', 'm.status'];
-		$mc_cols = ['category_id'=>'mc.id', 'category_code'=>'mc.code'];
-		$c_cols = ['customer_id'=>'c.id', 'customer_unique_id'=>'c.unique_id'];
-		$this->field(array_merge($m_cols, $mc_cols, $c_cols))->table(['m'=>'messages']);
-		$this->join(['mc'=>'message_categories', 'm.category_id'=>'mc.id']);
-		$this->join(['c'=>'customer', 'm.customer_id'=>'c.id']);
-		$this->where_cmd("datediff(current_timestamp(), `m`.`add_time`)<7")->order(['m.id'=>'desc']);
-		$this->limit($page_length, $offset_num);
-		return $this->select();
+		return $this->get_page("<7", $page_num, $page_length);
 	}
 	
 	/**
 	 * public integer get_month_num(void)
 	 */
 	public function get_month_num(): int {
-		$this->field(['message_num'=>'COUNT(*)'])->table(['messages']);
-		$ends = $this->where_cmd("datediff(current_timestamp(), `add_time`)<30")->select();
-		return $ends[0]['message_num'] ?? -1;
+		return $this->_num('<30');
 	}
 	
 	/**
 	 * public array get_month_page(integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_month_page(int $page_num = 1, int $page_length = self::page_record_num): array {
-		$offset_num = $page_length * ($page_num - 1);
-		$m_cols = ['m.id', 'm.unique_id', 'm.title', 'm.add_time', 'm.status'];
-		$mc_cols = ['category_id'=>'mc.id', 'category_code'=>'mc.code'];
-		$c_cols = ['customer_id'=>'c.id', 'customer_unique_id'=>'c.unique_id'];
-		$this->field(array_merge($m_cols, $mc_cols, $c_cols))->table(['m'=>'messages']);
-		$this->join(['mc'=>'message_categories', 'm.category_id'=>'mc.id']);
-		$this->join(['c'=>'customer', 'm.customer_id'=>'c.id']);
-		$this->where_cmd("datediff(current_timestamp(), `m`.`add_time`)<7")->order(['m.id'=>'desc']);
-		$this->limit($page_length, $offset_num);
-		return $this->select();
+		return $this->_page("<30", $page_num, $page_length);
 	}
 	
 	/**
 	 * public integer get_quarter_num(void)
 	 */
 	public function get_quarter_num(): int {
-		$this->field(['message_num'=>'COUNT(*)'])->table(['messages']);
-		$ends = $this->where_cmd("datediff(current_timestamp(), `add_time`)<30")->select();
-		return $ends[0]['message_num'] ?? -1;
+		return $this->_num('<90');
 	}
 	
 	/**
 	 * public array get_quarter_page(integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_quarter_page(int $page_num = 1, int $page_length = self::page_record_num): array {
-		$offset_num = $page_length * ($page_num - 1);
-		$m_cols = ['m.id', 'm.unique_id', 'm.title', 'm.add_time', 'm.status'];
-		$mc_cols = ['category_id'=>'mc.id', 'category_code'=>'mc.code'];
-		$c_cols = ['customer_id'=>'c.id', 'customer_unique_id'=>'c.unique_id'];
-		$this->field(array_merge($m_cols, $mc_cols, $c_cols))->table(['m'=>'messages']);
-		$this->join(['mc'=>'message_categories', 'm.category_id'=>'mc.id']);
-		$this->join(['c'=>'customer', 'm.customer_id'=>'c.id']);
-		$this->where_cmd("datediff(current_timestamp(), `m`.`add_time`)<7")->order(['m.id'=>'desc']);
-		$this->limit($page_length, $offset_num);
-		return $this->select();
+		return $this->_page("<90", $page_num, $page_length);
 	}
 	
 	/**
 	 * public integer get_old_num(void)
 	 */
 	public function get_old_num(): int {
-		$this->field(['message_num'=>'COUNT(*)'])->table(['messages']);
-		$ends = $this->where_cmd("datediff(current_timestamp(), `add_time`)<30")->select();
-		return $ends[0]['message_num'] ?? -1;
+		return $this->_num('>=90');
 	}
 	
 	/**
-	 * public array get_quarter_page(integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_old_page(integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
-	public function get_quarter_page(int $page_num = 1, int $page_length = self::page_record_num): array {
-		$offset_num = $page_length * ($page_num - 1);
-		$m_cols = ['m.id', 'm.unique_id', 'm.title', 'm.add_time', 'm.status'];
-		$mc_cols = ['category_id'=>'mc.id', 'category_code'=>'mc.code'];
-		$c_cols = ['customer_id'=>'c.id', 'customer_unique_id'=>'c.unique_id'];
-		$this->field(array_merge($m_cols, $mc_cols, $c_cols))->table(['m'=>'messages']);
-		$this->join(['mc'=>'message_categories', 'm.category_id'=>'mc.id']);
-		$this->join(['c'=>'customer', 'm.customer_id'=>'c.id']);
-		$this->where_cmd("datediff(current_timestamp(), `m`.`add_time`)<7")->order(['m.id'=>'desc']);
-		$this->limit($page_length, $offset_num);
-		return $this->select();
+	public function get_old_page(int $page_num = 1, int $page_length = self::page_record_num): array {
+		return $this->_page(">=90", $page_num, $page_length);
 	}
 	
 	/**
@@ -259,6 +214,32 @@ class Message extends Mysql {
 		$datas = array_merge($datas, ['unique_id'=>$this->unique_id()]);
 		$end = $this->table(['messages'])->add($datas);
 		return $end > 0 ? $this->get_last_id() : -1;
+	}
+	
+	/**
+	 * protected integer get_num(?string $where = null)
+	 */
+	protected function get_num(?string $where = null): int {
+		$this->field(['message_num'=>'COUNT(*)'])->table(['messages']);
+		if(is_string($where)) $this->where_cmd("datediff(current_timestamp(), `add_time`)" . $where);
+		$ends = $this->select();
+		return $ends[0]['message_num'] ?? -1;
+	}
+	
+	/**
+	 * protected array get_page(string $where, integer $page_num, integer $page_length)
+	 */
+	protected function get_page(string $where, int $page_num, int $page_length): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$m_cols = ['m.id', 'm.unique_id', 'm.title', 'm.add_time', 'm.status'];
+		$mc_cols = ['category_id'=>'mc.id', 'category_code'=>'mc.code'];
+		$c_cols = ['customer_id'=>'c.id', 'customer_unique_id'=>'c.unique_id'];
+		$this->field(array_merge($m_cols, $mc_cols, $c_cols))->table(['m'=>'messages']);
+		$this->join(['mc'=>'message_categories', 'm.category_id'=>'mc.id']);
+		$this->join(['c'=>'customer', 'm.customer_id'=>'c.id']);
+		$this->where_cmd("datediff(current_timestamp(), `m`.`add_time`)" . $where)->order(['m.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
 	}
 	//
 }

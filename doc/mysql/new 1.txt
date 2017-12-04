@@ -1,0 +1,1 @@
+where datediff(current_timestamp(), `add_time`)<7
