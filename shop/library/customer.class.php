@@ -1,8 +1,10 @@
 <?php
+
 // declare(strict_types = 1);
 namespace NooperShop;
 
 use Nooper\Mysql;
+use Nooper\Product;
 
 class Customer extends Mysql {
 	
@@ -12,288 +14,195 @@ class Customer extends Mysql {
 	const page_record_num = 20;
 	
 	/**
-	 * public integer function num(void)
+	 * public string unique_id(void)
 	 */
-	public function num(): int {
-		$ends = $this->field(['customer_num'=>'count(*)'])->table(['customers'])->select();
-		return $ends[0]['customer_num'] ?? -1;
+	public function unique_id(): string {
+		$unique = new Unique();
+		do{
+			$unique_id = $unique->customer();
+			$datas = $this->field(['num'=>'COUNT(*)'])->table(['customers'])->where(['unique_id'=>$unique_id])->select();
+			if(isset($datas[0]) && $datas[0]['num'] > 0) continue;
+			break;
+		}while(true);
+		return $unique_id;
 	}
 	
 	/**
-	 * public array function page(integer $page_num = 1, integer $page_length = self::page_record_num)
-	 */
-	public function page(int $page_num = 1, int $page_length = self::page_record_num): array {
-		$offset_num = $page_length * ($page_num - 1);
-		$this->field(['c.id', 'c.unique_id', 'c.open_id', 'c.nickname', 'order_num'=>'-1', 'c.balance', 'c.point', 'c.add_time', 'c.status']);
-		$this->table(['c'=>'customers'])->order(['c.id'=>'desc']);
-		$this->limit($page_length, $offset_num);
-		$ends = $this->select();
-		$order_nums = $this->get_order_nums();
-		foreach($ends as &$data){
-			$id = $data['id'];
-			$data['order_num'] = $order_nums[$id] ?? 0;
-		}
-		return $ends;
-	}
-	
-	/**
-	 * public integer function get_normal_num(void)
-	 */
-	public function get_normal_num(): int {
-		$ends = $this->field(['customer_num'=>'count(*)'])->table(['customers'])->where(['status'=>"'normal'"])->select();
-		return $ends[0]['customer_num'] ?? -1;
-	}
-	
-	/**
-	 * public array function get_normal_page(integer $page_num = 1, integer $page_length = self::page_record_num)
-	 */
-	public function get_normal_page(int $page_num = 1, int $page_length = self::page_record_num): array {
-		$offset_num = $page_length * ($page_num - 1);
-		$this->field(['c.id', 'c.unique_id', 'c.open_id', 'c.nickname', 'order_num'=>'-1', 'c.balance', 'c.point', 'c.add_time', 'c.status']);
-		$this->table(['c'=>'customers'])->where(['c.status'=>"'normal'"])->order(['c.id'=>'desc']);
-		$this->limit($page_length, $offset_num);
-		$ends = $this->select();
-		$order_nums = $this->get_order_nums();
-		foreach($ends as &$data){
-			$id = $data['id'];
-			$data['order_num'] = $order_nums[$id] ?? 0;
-		}
-		return $ends;
-	}
-	
-	/**
-	 * public integer function get_locked_num(void)
-	 */
-	public function get_locked_num(): int {
-		$ends = $this->field(['customer_num'=>'count(*)'])->table(['customers'])->where(['status'=>"'locked'"])->select();
-		return $ends[0]['customer_num'] ?? -1;
-	}
-	
-	/**
-	 * public array function get_locked_page(integer $page_num = 1, integer $page_length = self::page_record_num)
-	 */
-	public function get_locked_page(int $page_num = 1, int $page_length = self::page_record_num): array {
-		$offset_num = $page_length * ($page_num - 1);
-		$this->field(['c.id', 'c.unique_id', 'c.open_id', 'c.nickname', 'order_num'=>'-1', 'c.balance', 'c.point', 'c.add_time', 'c.status']);
-		$this->table(['c'=>'customers'])->where(['c.status'=>"'locked'"])->order(['c.id'=>'desc']);
-		$this->limit($page_length, $offset_num);
-		$ends = $this->select();
-		$order_nums = $this->get_order_nums();
-		foreach($ends as &$data){
-			$id = $data['id'];
-			$data['order_num'] = $order_nums[$id] ?? 0;
-		}
-		return $ends;
-	}
-	
-	/**
-	 * public boolean function lock(integer $customer_id)
-	 */
-	public function lock(int $customer_id): bool {
-		$datas = ['status'=>'locked'];
-		$end = $this->table(['customers'])->where(['id'=>(string)$customer_id])->modify($datas);
-		return $end > 0 ? true : false;
-	}
-	
-	/**
-	 * public boolean function unlock(integer $customer_id)
-	 */
-	public function unlock(int $customer_id): bool {
-		$datas = ['status'=>'normal'];
-		$end = $this->table(['customers'])->where(['id'=>(string)$customer_id])->modify($datas);
-		return $end > 0 ? true : false;
-	}
-	
-	/**
-	 * public boolean function reset_password(integer $customer_id, string $pwd)
-	 */
-	public function reset_password(int $customer_id, string $new_pwd): bool {
-		$datas = ['pwd'=>$new_pwd];
-		$end = $this->table()->where()->modify($datas);
-	}
-	
-	/**
-	 * public boolean function message(array $datas)
-	 */
-	public function message(array $datas): bool {
-		$end = $this->table(['customer_messages'])->add($datas);
-		return $end > 0 ? true : false;
-	}
-	
-	/**
-	 * public integer function get_order_num(integer $customer_id)
+	 * public integer get_order_num(integer $customer_id)
 	 */
 	public function get_order_num(int $customer_id): int {
-		$ends = $this->field(['order_num'=>'count(*)'])->table(['orders'])->where(['customer_id'=>(string)$customer_id])->select();
+		$ends = $this->field(['order_num'=>'COUNT(*)'])->table(['orders'])->where(['customer_id'=>$customer_id])->select();
 		return $ends[0]['order_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_order_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = $page_length * ($page_num - 1);
-		$this->field(['o.id', 'o.unique_id', 'o.total_tag_money', 'o.total_discount_money', 'o.total_express_carriage_money', 'o.total_money', 'o.add_time', 'o.status']);
-		$this->table(['o'=>'orders'])->where_cmd('`customer_id`=' . $customer_id . " and `status`!='closed'")->order(['o.id'=>'desc']);
+		$this->_order_view()->where(['o.customer_id'=>$customer_id])->order(['o.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
 	
 	/**
-	 * public integer function get_unpaid_order_num(integer $customer_id)
+	 * public integer get_unpaid_order_num(integer $customer_id)
 	 */
 	public function get_unpaid_order_num(int $customer_id): int {
-		$ends = $this->field(['order_num'=>'count(*)'])->table(['orders'])->where(['customer_id'=>(string)$customer_id, 'status'=>"'unpaid'"])->select();
+		$ends = $this->field(['order_num'=>'COUNT(*)'])->table(['orders'])->where(['customer_id'=>$customer_id, 'status'=>'unpaid'])->select();
 		return $ends[0]['order_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_unpaid_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_unpaid_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_unpaid_order_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
-		// Empty!!
+		$offset_num = $page_length * ($page_num - 1);
+		$this->_order_view()->where(['o.customer_id'=>$customer_id, 'o.status'=>'unpaid'])->order(['o.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
 	}
 	
 	/**
-	 * public integer function get_paid_order_num(integer $customer_id)
+	 * public integer get_paid_order_num(integer $customer_id)
 	 */
 	public function get_paid_order_num(int $customer_id): int {
-		$ends = $this->field(['order_num'=>'count(*)'])->table(['orders'])->where(['customer_id'=>(string)$customer_id, 'status'=>"'paid'"])->select();
+		$ends = $this->field(['order_num'=>'COUNT(*)'])->table(['orders'])->where(['customer_id'=>$customer_id, 'status'=>'paid'])->select();
 		return $ends[0]['order_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_paid_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_paid_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_paid_order_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
-		//
+		$offset_num = $page_length * ($page_num - 1);
+		$this->_order_view()->where(['o.customer_id'=>$customer_id, 'o.status'=>'paid'])->order(['o.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
 	}
 	
 	/**
-	 * public integer function get_shipped_order_num(integer $customer_id)
+	 * public integer get_shipped_order_num(integer $customer_id)
 	 */
 	public function get_shipped_order_num(int $customer_id): int {
-		$ends = $this->field(['order_num'=>'count(*)'])->table(['orders'])->where(['customer_id'=>(string)$customer_id, 'status'=>"'shipped'"])->select();
+		$ends = $this->field(['order_num'=>'COUNT(*)'])->table(['orders'])->where(['customer_id'=>$customer_id, 'status'=>'shipped'])->select();
 		return $ends[0]['order_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_shipped_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_shipped_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_shipped_order_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
-		//
+		$offset_num = $page_length * ($page_num - 1);
+		$this->_order_view()->where(['o.customer_id'=>$customer_id, 'o.status'=>'shipped'])->order(['o.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
 	}
 	
 	/**
-	 * public integer function get_completed_order_num(integer $customer_id)
+	 * public integer get_completed_order_num(integer $customer_id)
 	 */
 	public function get_completed_order_num(int $customer_id): int {
-		$ends = $this->field(['order_num'=>'count(*)'])->table(['orders'])->where(['customer_id'=>(string)$customer_id, 'status'=>"'completed'"])->select();
+		$ends = $this->field(['order_num'=>'COUNT(*)'])->table(['orders'])->where(['customer_id'=>$customer_id, 'status'=>'completed'])->select();
 		return $ends[0]['order_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_completed_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_completed_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_completed_order_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
-		//
+		$offset_num = $page_length * ($page_num - 1);
+		$this->_order_view()->where(['o.customer_id'=>$customer_id, 'o.status'=>'completed'])->order(['o.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
 	}
 	
 	/**
-	 * public integer function get_closed_order_num(integer $customer_id)
+	 * public integer get_closed_order_num(integer $customer_id)
 	 */
 	public function get_closed_order_num(int $customer_id): int {
-		$ends = $this->field(['order_num'=>'count(*)'])->table(['orders'])->where(['customer_id'=>(string)$customer_id, 'status'=>"'closed'"])->select();
+		$ends = $this->field(['order_num'=>'COUNT(*)'])->table(['orders'])->where(['customer_id'=>$customer_id, 'status'=>'closed'])->select();
 		return $ends[0]['order_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_closed_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_closed_order_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_closed_order_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
-		//
+		$offset_num = $page_length * ($page_num - 1);
+		$this->_order_view()->where(['o.customer_id'=>$customer_id, 'o.status'=>'closed'])->order(['o.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		return $this->select();
 	}
 	
 	/**
-	 * public integer function get_gift_card_num(integer $customer_id)
+	 * public integer get_gift_card_num(integer $customer_id)
 	 */
 	public function get_gift_card_num(int $customer_id): int {
-		$this->field(['gift_card_num'=>'count(*)'])->table(['gift_cards']);
-		$ends = $this->where(['customer_id'=>(string)$customer_id])->select();
-		return $ends[0]['num'] ?? -1;
+		$ends = $this->field(['gift_card_num'=>'COUNT(*)'])->table(['gift_cards'])->where(['customer_id'=>$customer_id])->select();
+		return $ends[0]['gift_card_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_gift_card_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public arrayget_gift_card_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_gift_card_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = $page_length * ($page_num - 1);
-		$this->field(['gc.id', 'model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gc.unique_id', 'gc.code', 'gcm.recharge_money', 'gcm.sale_price', 'gc.add_time', 'gc.status']);
-		$this->table(['gc'=>'gift_cards'])->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
-		$this->where(['gc.customer_id'=>(string)$customer_id])->order(['gc.id'=>'desc']);
+		$this->_gift_card_view()->where(['gc.customer_id'=>$customer_id])->order(['gc.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
 	
 	/**
-	 * public integer function get_unpaid_gift_card_num(integer $customer_id)
+	 * public integer get_unpaid_gift_card_num(integer $customer_id)
 	 */
 	public function get_unpaid_gift_card_num(int $customer_id): int {
-		$this->field(['gift_card_num'=>'count(*)'])->table(['gift_cards']);
-		$ends = $this->where(['customer_id'=>(string)$customer_id, 'status'=>"'unpaid'"])->select();
+		$ends = $this->field(['gift_card_num'=>'COUNT(*)'])->table(['gift_cards'])->where(['customer_id'=>$customer_id, 'status'=>'unpaid'])->select();
 		return $ends[0]['gift_card_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_unpaid_gift_card_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_unpaid_gift_card_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_unpaid_gift_card_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = $page_length * ($page_num - 1);
-		$this->field(['gc.id', 'model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gc.unique_id', 'gc.transaction_id', 'gc.code', 'gcm.recharge_money', 'gcm.sale_price', 'gc.add_time', 'gc.status']);
-		$this->table(['gc'=>'gift_cards'])->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
-		$this->where(['gc.customer_id'=>(string)$customer_id, 'status'=>"'unpaid'"])->order(['gc.id'=>'desc']);
+		$this->_gift_card_view()->where(['gc.customer_id'=>$customer_id, 'gc.status'=>'unpaid'])->order(['gc.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
 	
 	/**
-	 * public integer function get_paid_gift_card_num(integer $customer_id)
+	 * public integer get_paid_gift_card_num(integer $customer_id)
 	 */
 	public function get_paid_gift_card_num(int $customer_id): int {
-		$this->field(['gift_card_num'=>'count(*)'])->table(['gift_cards']);
-		$ends = $this->where(['customer_id'=>(string)$customer_id, 'status'=>"'paid'"])->select();
+		$ends = $this->field(['gift_card_num'=>'COUNT(*)'])->table(['gift_cards'])->where(['customer_id'=>$customer_id, 'status'=>'paid'])->select();
 		return $ends[0]['gift_card_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_paid_gift_card_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_paid_gift_card_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_paid_gift_card_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = $page_length * ($page_num - 1);
-		$this->field(['gc.id', 'model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gc.unique_id', 'gc.transaction_id', 'gc.code', 'gcm.recharge_money', 'gcm.sale_price', 'gc.pay_time', 'gc.add_time', 'gc.status']);
-		$this->table(['gc'=>'gift_cards'])->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
-		$this->where(['gc.customer_id'=>(string)$customer_id, 'status'=>"'paid'"])->order(['gc.id'=>'desc']);
+		$this->_gift_card_view()->where(['gc.customer_id'=>$customer_id, 'gc.status'=>'paid'])->order(['gc.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
 	
 	/**
-	 * public integer function get_recharged_gift_card_num(integer $customer_id)
+	 * public integer get_recharged_gift_card_num(integer $customer_id)
 	 */
 	public function get_recharged_gift_card_num(int $customer_id): int {
-		$this->field(['gift_card_num'=>'count(*)'])->table(['gift_cards']);
-		$ends = $this->where(['customer_id'=>(string)$customer_id, 'status'=>"'recharged'"])->select();
+		$ends = $this->field(['gift_card_num'=>'COUNT(*)'])->table(['gift_cards'])->where(['customer_id'=>$customer_id, 'status'=>'recharged'])->select();
 		return $ends[0]['gift_card_num'] ?? -1;
 	}
 	
 	/**
-	 * public array function get_recharged_gift_card_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 * public array get_recharged_gift_card_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
 	 */
 	public function get_recharged_gift_card_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = $page_length * ($page_num - 1);
-		$this->field(['gc.id', 'model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gc.unique_id', 'gc.transaction_id', 'gc.code', 'gcm.recharge_money', 'gcm.sale_price', 'gc.pay_time', 'gc.recharge_time', 'gc.add_time', 'gc.status']);
-		$this->table(['gc'=>'gift_cards'])->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
-		$this->where(['gc.customer_id'=>(string)$customer_id, 'status'=>"'recharged'"])->order(['gc.id'=>'desc']);
+		$this->_gift_card_view()->where(['gc.customer_id'=>$customer_id, 'gc.status'=>'recharged'])->order(['gc.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
@@ -407,7 +316,7 @@ class Customer extends Mysql {
 	}
 	
 	/**
-	 * public 
+	 * public
 	 */
 	
 	/**
@@ -623,15 +532,260 @@ class Customer extends Mysql {
 	}
 	
 	/**
-	 * protected array function get_order_nums(void)
+	 * public integer get_cart_num(integer $customer_id)
+	 */
+	public function get_cart_num(int $customer_id): int {
+		$ends = $this->field(['cart_num'=>'COUNT(*)'])->table(['customer_carts'])->where(['customer_id'=>$customer_id])->select();
+		return $ends[0]['cart_num'] ?? -1;
+	}
+	
+	/**
+	 * public array get_cart_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 */
+	public function get_cart_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
+	}
+	
+	/**
+	 * public integer get_collection_num(integer $customer_id)
+	 */
+	public function get_favourite_num(int $customer_id): int {
+		$this->field(['favourite_num'=>'COUNT(*)'])->table(['customer_favourites']);
+		$ends = $this->where(['customer_id'=>$customer_id])->select();
+		return $ends[0]['favourite_num'] ?? -1;
+	}
+	
+	/**
+	 * public array get_favourite_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 */
+	public function get_favourite_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->_favourite_view()->where(['cf.customer_id'=>$customer_id])->order(['cf.id'=>'desc']);
+		$ends = $this->limit($page_length, $offset_num)->select();
+		return $this->enlarge_product_primary_pictures($ends);
+	}
+	
+	/**
+	 * public integer get_footmark_num(integer $customer_id)
+	 */
+	public function get_footmark_num(int $customer_id): int {
+		$this->field(['footmark_num'=>'COUNT(*)'])->table(['customer_footmarks']);
+		$ends = $this->where(['customer_id'=>$customer_id])->select();
+		return $ends[0]['footmark_num'] ?? -1;
+	}
+	
+	/**
+	 * public array get_footmark_page(integer $customer_id, integer $page_num = 1, integer $page_length = self::page_record_num)
+	 */
+	public function get_footmark_page(int $customer_id, int $page_num = 1, int $page_length = self::page_record_num): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->_footmark_view()->where(['cf.customer_id'=>$customer_id])->order(['cf.id'=>'desc']);
+		$ends = $this->limit($page_length, $offset_num)->select();
+		return $this->enlarge_product_primary_pictures($ends);
+	}
+	
+	/**
+	 * public integer num(void)
+	 */
+	public function num(): int {
+		$ends = $this->field(['customer_num'=>'COUNT(*)'])->table(['customers'])->select();
+		return $ends[0]['customer_num'] ?? -1;
+	}
+	
+	/**
+	 * public integer get_normal_num(void)
+	 */
+	public function get_normal_num(): int {
+		$ends = $this->field(['customer_num'=>'COUNT(*)'])->table(['customers'])->where(['status'=>'normal'])->select();
+		return $ends[0]['customer_num'] ?? -1;
+	}
+	
+	/**
+	 * public array get_normal_page(integer $page_num = 1, integer $page_length = self::page_record_num)
+	 */
+	public function get_normal_page(int $page_num = 1, int $page_length = self::page_record_num): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->_view()->where(['status'=>'normal'])->order(['c.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		$ends = $this->select();
+		return $ends;
+	}
+	
+	/**
+	 * public integer get_locked_num(void)
+	 */
+	public function get_locked_num(): int {
+		$ends = $this->field(['customer_num'=>'COUNT(*)'])->table(['customers'])->where(['status'=>'locked'])->select();
+		return $ends[0]['customer_num'] ?? -1;
+	}
+	
+	/**
+	 * public array get_locked_page(integer $page_num = 1, integer $page_length = self::page_record_num)
+	 */
+	public function get_locked_page(int $page_num = 1, int $page_length = self::page_record_num): array {
+		$offset_num = $page_length * ($page_num - 1);
+		$this->_view()->where(['status'=>'locked'])->order(['c.id'=>'desc']);
+		$this->limit($page_length, $offset_num);
+		$ends = $this->select();
+		return $ends;
+	}
+	
+	/**
+	 * public array record(integer $customer_id)
+	 */
+	public function record(int $customer_id): array {
+		$ends = $this->_view()->where(['id'=>$customer_id])->select();
+		return $ends[0] ?? [];
+	}
+	
+	/**
+	 * public array find(string $key)
+	 * $key = string unique_id or open_id
+	 */
+	public function find(string $key): array {
+		$ends = $this->_view()->where(['unique_id'=>$key, 'open_id'=>$key], 'eq', 'or')->select();
+		return $ends[0] ?? [];
+	}
+	
+	/**
+	 * public boolean lock(integer $customer_id)
+	 */
+	public function lock(int $customer_id): bool {
+		$end = $this->table(['customers'])->where(['id'=>$customer_id])->modify(['status'=>'locked']);
+		return $end > 0 ? true : false;
+	}
+	
+	/**
+	 * public boolean unlock(integer $customer_id)
+	 */
+	public function unlock(int $customer_id): bool {
+		$end = $this->table(['customers'])->where(['id'=>$customer_id])->modify(['status'=>'normal']);
+		return $end > 0 ? true : false;
+	}
+	
+	/**
+	 * public array login(string $phone, string $pwd)
+	 */
+	public function login(string $email, string $pwd): array {
+		$pwd = ["PASSWORD('" . $pwd . "')"];
+		$ends = $this->field(['id', 'unique_id', 'open_id', 'phone'])->table(['customers'])->where(['phone'=>$phone, 'pwd'=>$pwd])->select();
+		return $ends[0] ?? [];
+	}
+	
+	/**
+	 * public boolean password(integer $customer_id, string $pwd)
+	 */
+	public function password(int $customer_id, string $pwd): bool {
+		$pwd = ["PASSWORD('" . $pwd . "')"];
+		$end = $this->table(['customers'])->where(['id'=>$customer_id])->modify(['pwd'=>$pwd]);
+		return $end > 0 ? true : false;
+	}
+	
+	/**
+	 * public boolean edit(integer $customer_id, array $datas)
+	 * @$datas = [string $real_name, string $phone]
+	 */
+	public function edit(int $customer_id, array $datas): bool {
+		$end = $this->table(['customer'])->where(['id'=>$customer_id])->modify($datas);
+		return $end > 0 ? true : false;
+	}
+	
+	/**
+	 * public boolean register(integer $customer_id, string $phone, string $pwd)
+	 */
+	public function register(int $customer_id, string $phone, string $pwd): bool {
+		$datas = ['phone'=>$phone, 'pwd'=>$pwd];
+		$end = $this->tables(['customers'])->where(['id'=>$customer_id])->modify($datas);
+		return $end > 0 ? true : false;
+	}
+	
+	/**
+	 * public ?integer create(array $datas)
+	 * @datas = [string $open_id, string $nickname, string $sex, string $head_img_url]
+	 */
+	public function create(array $datas): ?int {
+		$datas = array_merge($datas, ['unique_id'=>$this->unique_id()]);
+		$end = $this->table(['customers'])->add($datas);
+		return $end > 0 ? $this->get_last_id() : -1;
+	}
+	
+	/**
+	 * protected array get_order_nums(void)
 	 */
 	protected function get_order_nums(): array {
 		$datas = $this->field(['customer_id', 'num'=>'count(*)'])->table(['orders'])->group(['customer_id'])->order(['customer_id'=>'asc'])->select();
 		foreach($datas as $data){
-			list('customer_id'=>$id, 'num'=>$num)=$data;
+			list('customer_id'=>$id, 'num'=>$num) = $data;
 			$ends[$id] = $num;
 		}
 		return $ends ?? [];
+	}
+	
+	/**
+	 * protected array enlarge_product_primary_pictures(void)
+	 */
+	protected function enlarge_product_primary_pictures(array $datas): array {
+		$product_primary_pictures = (new Product())->get_primary_pictures();
+		foreach($datas as &$data){
+			$product_id = $data['product_id'];
+			$data['product_primary_picture'] = $product_primary_pictures[$product_id] ?? null;
+		}
+		return $datas;
+	}
+	
+	/**
+	 * protected Customer _order_view(void)
+	 */
+	protected function _order_view(): Customer {
+		$o_cols = ['o.id', 'o.unique_id', 'o.total_tag_money', 'o.total_discount_money', 'o.total_express_carriage_money', 'o.total_money', 'o.add_time', 'o.status'];
+		$this->field(array_merge($o_cols))->table(['o'=>'orders']);
+		
+		$this->field(['gc.id', 'model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gc.unique_id', 'gc.transaction_id', 'gc.code', 'gcm.recharge_money', 'gcm.sale_price', 'gc.pay_time', 'gc.recharge_time', 'gc.add_time', 'gc.status']);
+		$this->table(['gc'=>'gift_cards'])->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
+		
+		return $this;
+	}
+	
+	/**
+	 * protected Customer _gift_view(void)
+	 */
+	protected function _gift_view(): Customer {
+		$this->field(['gc.id', 'model_id'=>'gcm.id', 'model_code'=>'gcm.code', 'gc.unique_id', 'gc.code', 'gcm.recharge_money', 'gcm.sale_price', 'gc.add_time', 'gc.status']);
+		$this->table(['gc'=>'gift_cards'])->join(['gcm'=>'gift_card_models', 'gc.model_id'=>'gcm.id']);
+		return $this;
+	}
+	
+	/**
+	 * protected Customer _favourite_view(void)
+	 */
+	protected function _collection_view(): Customer {
+		$cf_cols = ['cf.id', 'cf.add_time'];
+		$p_cols = ['product_id'=>'p.id', 'product_name'=>'p.name', 'product_tag_price'=>'p.tag_price', 'product_discount_price'=>'p.discount_price', 'product_status'=>'p.status'];
+		$define_cols = ['product_primary_picture'=>null];
+		$this->field(array_merge($cf_cols, $p_cols, $define_cols))->table(['cf'=>'customer_favourites']);
+		$this->join(['p'=>'products', 'cf.product_id'=>'p.id']);
+		return $this;
+	}
+	
+	/**
+	 * protected Customer _footmark_view(void)
+	 */
+	protected function _footmark_view(): Customer {
+		$cf_cols = ['cf.id', 'cf.add_time'];
+		$p_cols = ['product_id'=>'p.id', 'product_name'=>'p.name', 'product_tag_price'=>'p.tag_price', 'product_discount_price'=>'p.discount_price', 'product_status'=>'p.status'];
+		$define_cols = ['product_primary_picture'=>null];
+		$this->field(array_merge($cf_cols, $p_cols, $define_cols))->table(['cf'=>'customer_footmarks']);
+		$this->join(['p'=>'products', 'cf.product_id'=>'p.id']);
+		return $this;
+	}
+	
+	/**
+	 * protected Customer _view(void)
+	 */
+	protected function _view(): Customer {
+		$c_cols = ['c.id', 'c.unique_id', 'c.open_id', 'c.nickname', 'c.balance', 'c.point', 'c.add_time', 'c.status'];
+		$define_cols = ['order_num'=>'-1'];
+		$this->field(array_merge($c_cols, $define_cols))->table(['c'=>'customers']);
+		return $this;
 	}
 	
 	//

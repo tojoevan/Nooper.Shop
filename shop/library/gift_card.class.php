@@ -217,7 +217,6 @@ class GiftCard extends Mysql {
 			$end2 = $this->table(['customers'])->where(['id'=>$customer_id])->modify(['balance'=>['balance+' . $charge_money]]);
 			if($end1 > 0 && $end2 > 0 && $this->end()) return true;
 			$this->rollback();
-			return false;
 		}
 		return false;
 	}

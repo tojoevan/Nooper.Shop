@@ -32,12 +32,7 @@ class Manager extends Mysql {
 	 */
 	public function get_permission_page(int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = ($page_num - 1) * $page_length;
-		$mp_cols = ['mp.id', 'mp.code', 'mp.name', 'mp.add_time'];
-		$func_cols = ['role_num'=>'COUNT(DISTINCT `mrrp`.`role_id`)', 'manager_num'=>'COUNT(`m`.`id`)'];
-		$this->field(array_merge($mp_cols, $func_cols))->table(['mp'=>'manager_permissions']);
-		$this->join(['mrrp'=>'manager_role_rel_permissions', 'mp.id'=>'mrrp.permission_id'], 'left');
-		$this->join(['m'=>'managers', 'mrrp.role_id'=>'m.role_id'], 'left');
-		$this->group(['mp.id'])->order(['mp.id'=>'asc']);
+		$this->_permission_view()->group(['mp.id'])->order(['mp.id'=>'asc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
@@ -46,12 +41,7 @@ class Manager extends Mysql {
 	 * public array get_permission_record(integer $permission_id)
 	 */
 	public function get_permission_record(int $permission_id): array {
-		$mp_cols = ['mp.id', 'mp.code', 'mp.name', 'mp.add_time'];
-		$func_cols = ['role_num'=>'COUNT(DISTINCT `mrrp`.`role_id`)', 'manager_num'=>'COUNT(`m`.`id`)'];
-		$this->field(array_merge($mp_cols, $func_cols))->table(['mp'=>'manager_permissions']);
-		$this->join(['mrrp'=>'manager_role_rel_permissions', 'mp.id'=>'mrrp.permission_id'], 'left');
-		$this->join(['m'=>'managers', 'mrrp.role_id'=>'m.role_id'], 'left');
-		$ends = $this->where(['mp.id'=>$permission_id])->select();
+		$ends = $this->_permission_view()->where(['mp.id'=>$permission_id])->select();
 		return $ends[0] ?? [];
 	}
 	
@@ -75,11 +65,7 @@ class Manager extends Mysql {
 	 */
 	public function get_role_page(int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = ($page_num - 1) * $page_length;
-		$mr_cols = ['mr.id', 'mr.code', 'mr.name', 'mr.add_time'];
-		$func_cols = ['manager_num'=>'COUNT(`m`.`id`)'];
-		$this->field(array_merge($mr_cols, $func_cols))->table(['mr'=>'manager_roles']);
-		$this->join(['m'=>'managers', 'mr.id'=>'m.role_id'], 'left');
-		$this->group(['mr.id'])->order(['mr.id'=>'asc']);
+		$this->_role_view()->group(['mr.id'])->order(['mr.id'=>'asc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
@@ -88,21 +74,17 @@ class Manager extends Mysql {
 	 * public array get_role_record(integer $role_id)
 	 */
 	public function get_role_record(int $role_id): array {
-		$mr_cols = ['mr.id', 'mr.code', 'mr.name', 'mr.add_time'];
-		$func_cols = ['manager_num'=>'COUNT(`m`.`id`)'];
-		$define_cols = ['permission'=>null];
-		$this->field(array_merge($mr_cols, $func_cols, $define_cols))->table(['mr'=>'manager_roles']);
-		$this->join(['m'=>'managers', 'mr.id'=>'m.role_id'], 'left');
-		$datas = $this->where(['mr.id'=>$role_id])->select();
-		$ends = $datas[0] ?? [];
-		if($ends) $ends['permission'] = $this->get_role_permissions($role_id);
-		return $ends;
+		$ends = $this->_role_view()->where(['mr.id'=>$role_id])->select();
+		foreach($ends as &$end){
+			$end['permission'] = $this->get_role_permissions($end['id']);
+		}
+		return $ends[0] ?? [];
 	}
 	
 	/**
-	 * public array get_role_permissions(integer $role_id)
+	 * public array get_role_permission(integer $role_id)
 	 */
-	public function get_role_permissions(int $role_id): array {
+	public function get_role_permission(int $role_id): array {
 		$this->field(['mp.id', 'mp.code', 'mp.name'])->table(['mp'=>'manager_permissions']);
 		$this->join(['mrrp'=>'manager_role_rel_permissions', 'mp.id'=>'mrrp.permission_id']);
 		$this->where(['mrrp.role_id'=>$role_id])->order(['mp.id'=>'asc']);
@@ -110,29 +92,26 @@ class Manager extends Mysql {
 	}
 	
 	/**
-	 * public boolean set_role_permissions(integer $role_id, array $permissions)
+	 * public boolean set_role_permission(integer $role_id, array $permissions)
 	 * @$permissions = [integer $permission,...]
 	 */
-	public function set_role_permissions(int $role_id, array $permissions): bool {
+	public function set_role_permission(int $role_id, array $permissions): bool {
 		if(in_array(1, $permissions, true)) $permissions = [1]; // 1=all_permissions, @@
-		$this->begin();
-		$end1 = $this->table(['manager_role_rel_permissions'])->where(['role_id'=>$role_id])->delete();
-		$end2 = true;
-		foreach($permissions as $permission){
-			$datas = ['role_id'=>$role_id, 'permission_id'=>$permission];
-			$end_permission = $this->table(['manager_role_rel_permissions'])->add($datas);
-			if($end_permission < 0){
-				$end2 = false;
-				break;
+		if($this->begin()){
+			$end1 = $this->table(['manager_role_rel_permissions'])->where(['role_id'=>$role_id])->delete();
+			$end2 = true;
+			foreach($permissions as $permission){
+				$datas = ['role_id'=>$role_id, 'permission_id'=>$permission];
+				$end_permission = $this->table(['manager_role_rel_permissions'])->add($datas);
+				if($end_permission < 0){
+					$end2 = false;
+					break;
+				}
 			}
-		}
-		if($end1 > 0 && $end2){
-			$this->end();
-			return true;
-		}else{
+			if($end1 > 0 && $end2 && $this->end()) return true;
 			$this->rollback();
-			return false;
 		}
+		return false;
 	}
 	
 	/**
@@ -155,12 +134,11 @@ class Manager extends Mysql {
 	}
 	
 	/**
-	 * public integer add_role(array $datas)
+	 * public ?integer add_role(array $datas)
 	 * @$datas = [string $code, string $name]
 	 */
-	public function add_role(array $datas): bool {
-		$end = $this->table(['manager_roles'])->add($datas);
-		return $end > 0 ? $this->get_last_id() : -1;
+	public function add_role(array $datas): ?int {
+		return $this->table(['manager_roles'])->add($datas) > 0 ? $this->get_last_id() : -1;
 	}
 	
 	/**
@@ -176,10 +154,7 @@ class Manager extends Mysql {
 	 */
 	public function page(int $page_num = 1, int $page_length = self::page_record_num): array {
 		$offset_num = ($page_num - 1) * $page_length;
-		$m_cols = ['m.id', 'm.name', 'm.email', 'm.add_time'];
-		$mr_cols = ['role_id'=>'mr.id', 'role_code'=>'mr.code'];
-		$this->field(array_merge($m_cols, $mr_cols))->table(['m'=>'managers']);
-		$this->join(['mr'=>'manager_roles', 'm.role_id'=>'mr.id'])->order(['m.id'=>'desc']);
+		$this->_view()->order(['m.id'=>'desc']);
 		$this->limit($page_length, $offset_num);
 		return $this->select();
 	}
@@ -188,15 +163,11 @@ class Manager extends Mysql {
 	 * public array record(integer $manager_id)
 	 */
 	public function record(int $manager_id): array {
-		$m_cols = ['m.id', 'm.name', 'm.email', 'm.add_time'];
-		$mr_cols = ['role_id'=>'mr.id', 'role_code'=>'mr.code'];
-		$define_cols = ['permission'=>null];
-		$this->field(array_merge($m_cols, $mr_cols, $define_cols))->table(['m'=>'managers']);
-		$this->join(['mr'=>'manager_roles', 'm.role_id'=>'mr.id']);
-		$datas = $this->where(['m.id'=>$manager_id])->select();
-		$ends = $datas[0] ?? [];
-		if($ends) $ends['permission'] = $this->get_role_permissions($ends['role_id']);
-		return $ends;
+		$ends = $this->where(['m.id'=>$manager_id])->select();
+		foreach($ends as &$end){
+			$end['permission'] = $this->get_role_permissions($end['role_id']);
+		}
+		return $ends[0] ?? [];
 	}
 	
 	/**
@@ -235,22 +206,56 @@ class Manager extends Mysql {
 	}
 	
 	/**
-	 * public integer create(array $datas)
+	 * public ?integer create(array $datas)
 	 * @$datas = [integer $role_id, string $name, string $email, string $pwd]
 	 */
-	public function create(array $datas): int {
+	public function create(array $datas): ?int {
 		if(isset($datas['role_id']) && 1 == $datas['role_id']) return -2; // error for system_admin, @@
 		elseif(isset($datas['pwd'])) $datas['pwd'] = ["PASSWORD('" . $datas['pwd'] . "')"];
-		$end = $this->table(['managers'])->add($datas);
-		return $end > 0 ? $this->get_last_id() : $end;
+		return $this->table(['managers'])->add($datas) > 0 ? $this->get_last_id() : -1;
 	}
 	
 	/**
-	 * protected string create_default_password(void)
+	 * public string create_default_password(void)
 	 */
-	protected function create_default_password(): string {
+	public function create_default_password(): string {
 		$unique = new Unique();
 		return $unique->password();
+	}
+	
+	/**
+	 * protected Manager _permission_view(void)
+	 */
+	protected function _permission_view(): Manager {
+		$mp_cols = ['mp.id', 'mp.code', 'mp.name', 'mp.add_time'];
+		$func_cols = ['role_num'=>'COUNT(DISTINCT `mrrp`.`role_id`)', 'manager_num'=>'COUNT(`m`.`id`)'];
+		$this->field(array_merge($mp_cols, $func_cols))->table(['mp'=>'manager_permissions']);
+		$this->join(['mrrp'=>'manager_role_rel_permissions', 'mp.id'=>'mrrp.permission_id'], 'left');
+		$this->join(['m'=>'managers', 'mrrp.role_id'=>'m.role_id'], 'left');
+		return $this;
+	}
+	
+	/**
+	 * protected Manager _role_view(void)
+	 */
+	protected function _role_view(): Manager {
+		$mr_cols = ['mr.id', 'mr.code', 'mr.name', 'mr.add_time'];
+		$func_cols = ['manager_num'=>'COUNT(`m`.`id`)'];
+		$define_cols = ['permission'=>null];
+		$this->field(array_merge($mr_cols, $func_cols, $define_cols))->table(['mr'=>'manager_roles']);
+		$this->join(['m'=>'managers', 'mr.id'=>'m.role_id'], 'left');
+		return $this;
+	}
+	
+	/**
+	 * protected Manager _view(void)
+	 */
+	protected function _view(): Manager {
+		$m_cols = ['m.id', 'm.name', 'm.email', 'm.add_time'];
+		$mr_cols = ['role_id'=>'mr.id', 'role_code'=>'mr.code'];
+		$define_cols = ['permission'=>null];
+		$this->field(array_merge($m_cols, $mr_cols, $define_cols))->table(['m'=>'managers']);
+		$this->join(['mr'=>'manager_roles', 'm.role_id'=>'mr.id']);
 	}
 	//
 }

@@ -6,6 +6,20 @@ namespace NooperShop;
 class Unique {
 	
 	/**
+	 * public string customer(void)
+	 */
+	public function customer(): string {
+		return $this->get_unique_id([3, 4, 3]); // length=12, @@
+	}
+	
+	/**
+	 * public string product(void)
+	 */
+	public function product(): string {
+		return $this->get_unique_id([4, 5, 3]); // length=14, @@
+	}
+	
+	/**
 	 * public string gift_card(void)
 	 */
 	public function gift_card(): string {
